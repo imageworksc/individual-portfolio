@@ -4,8 +4,11 @@
    they would the site. No script runs on this page. */
 
 .o4-stage { padding: 8px 24px 0; }
+/* a faint line around the frame, with the shadow pulled back so the line is
+   what edges it rather than the glow */
 .o4-stage .ip-browser {
-  box-shadow: inset 0 0 0 1px rgba(20,60,102,.06), 0 24px 60px rgba(9,40,80,.12);
+  border: 1px solid rgba(20,60,102,.16);
+  box-shadow: 0 12px 32px rgba(9,40,80,.08);
   animation: iwRise .7s var(--ease-out) both; animation-delay: .2s;
 }
 /* the sheet's bottom fade, so the frame ends the way the grid does */
