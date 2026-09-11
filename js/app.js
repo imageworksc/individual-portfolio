@@ -12,9 +12,11 @@
      BOOT
 
    Each part looks for what it needs and stands down if the page has none of
-   it, so the same file serves every option. Wrapped in an IIFE rather than a
-   module so the pages open over file://. */
-(function () {
+   it, so the same file serves every option. Modern syntax throughout — const
+   and let, arrow functions, template literals, optional chaining — which
+   every browser that draws the rest of the page already runs. Wrapped in an
+   IIFE rather than a module only so the pages open over file://. */
+(() => {
   "use strict";
 
   /* ===== TITLE =====
@@ -26,174 +28,172 @@
      pixels, which is what keeps the count right under the large-screen zoom
      (a client rect would come back scaled and the line height would not).
      Runs again when the web font lands and when the window is resized. */
-  function fitTitles() {
-    const els = Array.from(document.querySelectorAll("[data-lines]"));
-    els.forEach(function (el) {
-      const max = parseInt(el.getAttribute("data-lines"), 10) || 2;
-      el.style.fontSize = "";
-      el.style.maxWidth = "";
-      const base = parseFloat(getComputedStyle(el).fontSize);
-      const floor = base * 0.5;
-      function lines() {
-        return Math.round(el.offsetHeight / parseFloat(getComputedStyle(el).lineHeight));
-      }
-      if (lines() <= max) return;
-      el.style.maxWidth = "var(--wrap)";
-      let size = base;
-      while (lines() > max && size > floor) {
-        size -= 1;
-        el.style.fontSize = size + "px";
-      }
-    });
-  }
+  const fitTitle = (el) => {
+    const max = Number(el.dataset.lines) || 2;
+    el.style.fontSize = "";
+    el.style.maxWidth = "";
+    const base = parseFloat(getComputedStyle(el).fontSize);
+    const floor = base * 0.5;
+    const lines = () => Math.round(el.offsetHeight / parseFloat(getComputedStyle(el).lineHeight));
 
-  function watchTitles() {
-    if (!document.querySelector("[data-lines]")) return;
-    fitTitles();
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitTitles);
+    if (lines() <= max) return;
+    el.style.maxWidth = "var(--wrap)";
+    let size = base;
+    while (lines() > max && size > floor) {
+      size -= 1;
+      el.style.fontSize = `${size}px`;
+    }
+  };
+
+  const watchTitles = () => {
+    const titles = [...document.querySelectorAll("[data-lines]")];
+    if (!titles.length) return;
+    const fitAll = () => titles.forEach(fitTitle);
+    fitAll();
+    document.fonts?.ready.then(fitAll);
     let timer = null;
-    window.addEventListener("resize", function () {
+    window.addEventListener("resize", () => {
       clearTimeout(timer);
-      timer = setTimeout(fitTitles, 120);
+      timer = setTimeout(fitAll, 120);
     }, { passive: true });
-  }
+  };
 
   /* ===== REVEAL =====
      Anything marked .rv is hidden by the stylesheet until it is marked .in,
      which happens once, the first time it comes into view. Without an
      observer everything is simply shown. */
-  function reveal() {
-    const els = Array.from(document.querySelectorAll(".rv"));
+  const reveal = () => {
+    const els = [...document.querySelectorAll(".rv")];
     if (!els.length) return;
     if (!("IntersectionObserver" in window)) {
-      els.forEach(function (el) { el.classList.add("in"); });
+      for (const el of els) el.classList.add("in");
       return;
     }
-    const io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("in");
-          io.unobserve(entry.target);
-        }
-      });
+    const io = new IntersectionObserver((entries) => {
+      for (const { isIntersecting, target } of entries) {
+        if (!isIntersecting) continue;
+        target.classList.add("in");
+        io.unobserve(target);
+      }
     }, { rootMargin: "0px 0px -10% 0px", threshold: 0.08 });
-    els.forEach(function (el) { io.observe(el); });
-  }
+    for (const el of els) io.observe(el);
+  };
 
   /* ===== LIGHTBOX =====
      One <dialog>, built once for the page and filled on each open from the
      figure that was clicked: its image, its alt text, its caption. The page
      is marked is-locked while it is open so the document behind does not
      scroll. Escape closes it natively; so does the backdrop and the button. */
-  function lightbox() {
-    const triggers = Array.from(document.querySelectorAll("[data-zoom]"));
+  const lightbox = () => {
+    const triggers = [...document.querySelectorAll("[data-zoom]")];
     if (!triggers.length) return;
 
     const dlg = document.createElement("dialog");
     dlg.className = "ip-lightbox";
     dlg.setAttribute("aria-label", "Enlarged screenshot");
-    dlg.innerHTML =
-      '<div class="ip-lightbox__body">' +
-        '<div class="ip-lightbox__scroll"><img alt=""></div>' +
-        '<div class="ip-lightbox__cap"></div>' +
-        '<button type="button" class="ip-lightbox__close" aria-label="Close">' +
-          '<svg class="ic" aria-hidden="true"><use href="#i-close"/></svg>' +
-        '</button>' +
-      '</div>';
+    dlg.innerHTML = `
+      <div class="ip-lightbox__body">
+        <div class="ip-lightbox__scroll"><img alt=""></div>
+        <div class="ip-lightbox__cap"></div>
+        <button type="button" class="ip-lightbox__close" aria-label="Close">
+          <svg class="ic" aria-hidden="true"><use href="#i-close"/></svg>
+        </button>
+      </div>`;
     document.body.appendChild(dlg);
 
     const img = dlg.querySelector("img");
     const cap = dlg.querySelector(".ip-lightbox__cap");
     const scroll = dlg.querySelector(".ip-lightbox__scroll");
+    const lock = (on) => document.documentElement.classList.toggle("is-locked", on);
 
-    function open(src, alt, caption) {
+    const open = (src, alt, caption) => {
       img.src = src;
-      img.alt = alt || "";
-      cap.textContent = caption || "";
+      img.alt = alt ?? "";
+      cap.textContent = caption;
       scroll.scrollTop = 0;
       if (typeof dlg.showModal === "function") dlg.showModal(); else dlg.setAttribute("open", "");
-      document.documentElement.classList.add("is-locked");
-    }
-    function close() {
+      lock(true);
+    };
+    const close = () => {
       if (dlg.open) dlg.close(); else dlg.removeAttribute("open");
-      document.documentElement.classList.remove("is-locked");
-    }
+      lock(false);
+    };
     // the caption's index and its text are separate nodes; join them with a dash
-    function captionOf(trigger) {
-      const fig = trigger.closest("figure");
-      const fc = fig && fig.querySelector("figcaption");
+    const captionOf = (trigger) => {
+      const fc = trigger.closest("figure")?.querySelector("figcaption");
       if (!fc) return "";
-      return Array.from(fc.childNodes)
-        .map(function (n) { return n.textContent.trim(); })
+      return [...fc.childNodes]
+        .map((n) => n.textContent.trim())
         .filter(Boolean)
         .join(" — ");
-    }
+    };
 
-    triggers.forEach(function (trigger) {
-      trigger.addEventListener("click", function () {
+    for (const trigger of triggers) {
+      trigger.addEventListener("click", () => {
         const inner = trigger.querySelector("img");
-        open(trigger.getAttribute("data-zoom") || (inner && inner.src), inner && inner.alt, captionOf(trigger));
+        open(trigger.dataset.zoom || inner?.src, inner?.alt, captionOf(trigger));
       });
-    });
+    }
     dlg.querySelector(".ip-lightbox__close").addEventListener("click", close);
     // a click on the backdrop lands on the dialog itself, not on its content
-    dlg.addEventListener("click", function (e) {
-      if (e.target === dlg || e.target.classList.contains("ip-lightbox__body")) close();
+    dlg.addEventListener("click", ({ target }) => {
+      if (target === dlg || target.classList.contains("ip-lightbox__body")) close();
     });
     // Escape closes the dialog natively; the lock still has to be lifted
-    dlg.addEventListener("close", function () { document.documentElement.classList.remove("is-locked"); });
-  }
+    dlg.addEventListener("close", () => lock(false));
+  };
 
   /* ===== SCROLLSPY =====
      The last section whose top has passed the upper third of the viewport
      is the one being read; above the first, the first; at the very bottom,
      the last, however short it is. One measurement per frame. */
-  function scrollspy() {
+  const scrollspy = () => {
     const nav = document.querySelector("[data-spy]");
     if (!nav) return;
-    const links = Array.from(nav.querySelectorAll("a[href^='#']"));
-    const targets = links.map(function (a) { return document.querySelector(a.getAttribute("href")); }).filter(Boolean);
+    const links = [...nav.querySelectorAll("a[href^='#']")];
+    const targets = links.map((a) => document.querySelector(a.getAttribute("href"))).filter(Boolean);
     if (!targets.length) return;
 
     let current = null;
-    function mark(id) {
+    const mark = (id) => {
       if (id === current) return;
       current = id;
-      links.forEach(function (a) {
-        const on = a.getAttribute("href") === "#" + id;
+      for (const a of links) {
+        const on = a.getAttribute("href") === `#${id}`;
         a.classList.toggle("is-on", on);
         if (on) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current");
-      });
-    }
+      }
+    };
 
     let ticking = false;
-    function update() {
+    const update = () => {
       ticking = false;
       const line = window.innerHeight * 0.35;
       let active = targets[0];
-      for (let i = 0; i < targets.length; i++) {
-        if (targets[i].getBoundingClientRect().top <= line) active = targets[i];
+      for (const t of targets) {
+        if (t.getBoundingClientRect().top <= line) active = t;
       }
-      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) active = targets[targets.length - 1];
+      const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+      if (atBottom) active = targets.at(-1);
       mark(active.id);
-    }
-    function onScroll() {
+    };
+    const onScroll = () => {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(update);
-    }
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll, { passive: true });
     update();
-  }
+  };
 
   /* ===== BOOT ===== */
-  function boot() {
+  const boot = () => {
     watchTitles();
     reveal();
     lightbox();
     scrollspy();
-  }
+  };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();
 })();

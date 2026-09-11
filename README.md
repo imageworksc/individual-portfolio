@@ -53,7 +53,8 @@ No build step. Open any HTML file directly, or serve the folder.
   with a table of contents and is divided into `/* ===== SECTION ===== */`
   blocks in page order. Colours that belong to a client project (the swatch
   strips) live in that option's sheet, not in the shared tokens.
-- **JavaScript** is one file, an IIFE with four parts (title, reveal,
+- **JavaScript** is one file in modern syntax — `const`/`let`, arrow
+  functions, template literals, optional chaining — an IIFE with four parts (title, reveal,
   lightbox, scrollspy). It marks state with classes and attributes and lets
   the stylesheet decide what they mean; the one value it writes directly is a
   measurement, the headline size when two lines will not fit.
