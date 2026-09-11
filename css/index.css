@@ -1,8 +1,9 @@
-/* Index — the three options side by side
+/* Index — the four options side by side
    A chooser, set the way the grid page is set: headline over the wash, then
-   three frames. Each frame is one option, and the whole card is the link. */
+   four frames, two by two. Each frame is one option, and the whole card is the link. */
 
-.ix-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); align-items: stretch; }
+/* four options: two by two, so each frame keeps enough width to read */
+.ix-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); align-items: stretch; }
 .ix-card {
   position: relative; display: flex; flex-direction: column; border-radius: var(--r-card); overflow: hidden;
   background: #fff; box-shadow: var(--shadow-card);

@@ -1,6 +1,6 @@
 # Individual portfolio page — ImageWorks Creative
 
-Three layout options for the project page that sits behind every card in the
+Four layout options for the project page that sits behind every card in the
 [ImageWorks Creative portfolio](https://imageworksc.github.io/portfolio-iwc/),
 set in the portfolio's own type, colour and motion.
 
@@ -8,10 +8,11 @@ Live: **https://imageworksc.github.io/individual-portfolio/**
 
 | Page | Option | Project shown |
 |---|---|---|
-| [`index.html`](index.html) | The chooser — all three side by side | — |
+| [`index.html`](index.html) | The chooser — all four side by side | — |
 | [`option-1.html`](option-1.html) | **Visual** — images only, text kept to a minimum: headline and chips, hero in a frame, six sections whole, three phones, the photography, "More work" cards | Casey Margenau Fine Homes & Estates |
 | [`option-2.html`](option-2.html) | **Editorial split** — breadcrumb, split hero, long-scroll frame, sticky section nav with scroll tracking | Atlantic Sun Control |
 | [`option-3.html`](option-3.html) | **Showcase** — device stage, brief, facts in a row, five numbered feature rows, photography band | Casey Margenau Fine Homes & Estates |
+| [`option-4.html`](option-4.html) | **Simple** — category chips, the headline, and one full-page screenshot in a browser frame; no script, no copy | Casey Margenau Fine Homes & Estates |
 
 Every option opens with the portfolio's page wash, ends on its closing band,
 links back to the grid, and leads on to the next project.
@@ -23,6 +24,7 @@ index.html            the chooser
 option-1.html         Option 1 — visual, images only
 option-2.html         Option 2 — editorial split
 option-3.html         Option 3 — showcase
+option-4.html         Option 4 — simple: chips, headline, one full-page screenshot
 css/styles.css        shared: tokens, base, button, wash, chips, card, frames,
                       meta, stats, prose, gallery + lightbox, swatches,
                       next-project band, CTA, motion, responsive
@@ -34,7 +36,7 @@ assets/asc/           Atlantic Sun Control: hero, section and mobile captures
                       (both folders hold a few spare captures the pages do not
                       use yet — swap them in when adjusting an option)
 assets/works/         two portfolio images for the "More work" row
-assets/options/       thumbnails of the three options, for the chooser
+assets/options/       thumbnails of the four options, for the chooser
 DESIGN.md             the design contract — every token, primitive and motion value
 ```
 

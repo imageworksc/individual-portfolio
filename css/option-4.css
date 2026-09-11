@@ -1,0 +1,15 @@
+/* Option 4 — Simple
+   The lane, the name, and one screenshot of the whole site. Nothing else:
+   the frame carries the page top to bottom and the visitor scrolls it as
+   they would the site. No script runs on this page. */
+
+.o4-stage { padding: 8px 24px 0; }
+.o4-stage .ip-browser {
+  box-shadow: inset 0 0 0 1px rgba(20,60,102,.06), 0 24px 60px rgba(9,40,80,.12);
+  animation: iwRise .7s var(--ease-out) both; animation-delay: .2s;
+}
+/* the sheet's bottom fade, so the frame ends the way the grid does */
+.o4-stage + .iw-cta { margin-top: var(--section); }
+
+@media (max-width: 720px) { .o4-stage { padding: 8px 16px 0; } }
+@media (prefers-reduced-motion: reduce) { .o4-stage .ip-browser { animation: none; } }
