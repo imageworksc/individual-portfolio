@@ -263,9 +263,10 @@ a.ip-chip--on:hover { background: #1a5089; color: #fff; }
 }
 .ip-phone__screen { position: absolute; inset: 10px; border-radius: 26px; overflow: hidden; background: var(--card-bg); }
 .ip-phone__screen img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+/* the notch is sized from the phone, so it stays a notch at 140px and at 300 */
 .ip-phone::before {
-  content: ''; position: absolute; top: 18px; left: 50%; transform: translateX(-50%);
-  width: 84px; height: 22px; border-radius: 12px; background: var(--navy-deep); z-index: 2;
+  content: ''; position: absolute; top: 2.8%; left: 50%; transform: translateX(-50%);
+  width: 28%; height: 3.4%; border-radius: 999px; background: var(--navy-deep); z-index: 2;
 }
 
 .ip-scroller { position: relative; height: 560px; overflow: hidden; background: var(--card-bg); }
@@ -342,11 +343,14 @@ a.ip-chip--on:hover { background: #1a5089; color: #fff; }
 .ip-shot figcaption i { font-style: normal; font-weight: 800; color: var(--blue); letter-spacing: .04em; }
 @media (prefers-reduced-motion: reduce) { .ip-shot__frame:hover { transform: none; } }
 
-.ip-lightbox { border: 0; padding: 0; background: transparent; max-width: none; max-height: none; width: 100vw; height: 100dvh; }
+/* Sized from the viewport by inset rather than by vw/vh: the large-screen
+   zoom below multiplies viewport units, and a 100vw box would run to twice
+   the screen. inset: 0 on a fixed box is the viewport whatever the zoom. */
+.ip-lightbox { position: fixed; inset: 0; margin: 0; border: 0; padding: 0; background: transparent; width: auto; height: auto; max-width: none; max-height: none; }
 .ip-lightbox::backdrop { background: rgba(15,46,79,.92); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
 .ip-lightbox__body { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 24px; }
-.ip-lightbox__scroll { max-width: 92vw; max-height: 88dvh; overflow: auto; border-radius: var(--r-card); background: var(--card-bg); box-shadow: 0 20px 60px rgba(0,0,0,.35); }
-.ip-lightbox__scroll img { width: min(92vw, 1400px); height: auto; }
+.ip-lightbox__scroll { width: min(92%, 1400px); max-height: 88%; overflow: auto; border-radius: var(--r-card); background: var(--card-bg); box-shadow: 0 20px 60px rgba(0,0,0,.35); }
+.ip-lightbox__scroll img { width: 100%; height: auto; }
 .ip-lightbox__close {
   position: absolute; top: 18px; right: 18px; width: 44px; height: 44px; border: 0; border-radius: var(--r);
   background: rgba(255,255,255,.95); color: var(--navy); cursor: pointer; display: grid; place-items: center;
@@ -402,7 +406,19 @@ a.ip-chip--on:hover { background: #1a5089; color: #fff; }
   .rv { opacity: 1; transform: none; transition: none; }
 }
 
-/* ===== RESPONSIVE ===== */
+/* ===== RESPONSIVE =====
+   Large screens first. The composition is set in pixels for a screen around
+   1440 wide, as the grid page is. Past 2200px it would sit as a strip down the
+   middle of the display with the wash stopping well short of the edges, so the
+   whole page is zoomed up in steps instead of every value being re-set: the
+   proportions hold, the photography stays in its frames, and a 4K display at
+   100% ends up seeing what a 1920 display sees at 200%. Media queries still
+   read the real viewport, so nothing below these rules changes. */
+@media (min-width: 2200px) { html { zoom: 1.25; } }
+@media (min-width: 2800px) { html { zoom: 1.6; } }
+@media (min-width: 3600px) { html { zoom: 2; } }
+@media (min-width: 4800px) { html { zoom: 2.6; } }
+
 @media (max-width: 1100px) {
   .iw-grid { grid-template-columns: repeat(2, minmax(0, 368px)); }
   .ip-brand { grid-template-columns: 1fr; }
@@ -418,8 +434,8 @@ a.ip-chip--on:hover { background: #1a5089; color: #fff; }
   .ip-actions .iw-btn { flex: 1 1 100%; }
   .ip-scroller { height: 440px; }
   .ip-scroller:hover img { transform: translateY(calc(-100% + 440px)); }
-  .ip-crumbs span[aria-current] { display: none; }
-  .ip-crumbs .sep:last-of-type { display: none; }
+  /* the current page drops out of the trail, and the slash before it with it */
+  .ip-crumbs span[aria-current], .ip-crumbs .sep:has(+ [aria-current]) { display: none; }
 }
 @media (max-width: 420px) {
   .ip-chip { height: 28px; padding: 0 10px; font-size: 12.5px; }

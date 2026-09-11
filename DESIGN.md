@@ -62,7 +62,7 @@ page chrome.
 | `.ip-chip` | inline-flex, height 30px, padding 0 12px, radius 2px, frosted white ring, 13px 600 muted | `--on`: navy fill, white text; hover (links only): navy text on `rgba(20,60,102,.07)` |
 | `.iw-card` | 8px radius, `--card-bg`, image cover, navy `.82` panel with blur on hover | hover: lift 6px, image greyscale, panel scales .86→1, title and CTA rise with 60/100 ms delays |
 | `.ip-browser` | 8px radius frame, 34px chrome bar with three dots and a URL pill, card shadow | none (a container) |
-| `.ip-phone` | 390:844 aspect, 34px outer radius, 10px navy-deep bezel, 26px inner radius | none |
+| `.ip-phone` | 390:844 aspect, 34px outer radius, 10px navy-deep bezel, 26px inner radius, notch sized as 28% × 3.4% of the phone | none |
 | `.ip-scroller` | fixed-height frame over a full-page capture | fine pointer: hover translates the image to its end over 9s linear and back over 1.2s; coarse pointer: native vertical scroll |
 | `.ip-meta` | definition list, 12px 700 uppercase `.08em` labels in `--muted-2`, 15.5px 600 values, hairline rows | — |
 | `.ip-stat` | tile on `--card-bg`, 8px radius, number `clamp(28px, 3vw, 36px)` 800 blue -.5px, label 14px 600 muted | — |
@@ -86,6 +86,12 @@ page chrome.
 
 ## 6. Responsive
 
+- `≥2200px`: the whole page is zoomed up in steps (`html { zoom }` — 1.25 at 2200,
+  1.6 at 2800, 2 at 3600, 2.6 at 4800) so a 4K or 5K display sees the composition
+  at the proportions it was drawn at rather than as a 1160px strip. Media queries
+  still read the real viewport. Because Chrome multiplies `vw`/`vh` under zoom,
+  nothing full-screen may be sized in viewport units: the lightbox is a fixed box
+  with `inset: 0` and percentage children; every `clamp(…vw…)` is capped in px.
 - `≤1100px`: 3-up grids become 2-up; the option-2 sidebar drops below the hero and
   stops sticking; alternating feature rows stack.
 - `≤720px`: everything single column; chips lose their icons; hero buttons stack

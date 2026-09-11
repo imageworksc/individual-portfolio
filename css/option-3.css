@@ -11,7 +11,6 @@
   position: absolute; right: 0; bottom: 0; width: clamp(150px, 17vw, 240px);
   box-shadow: 0 24px 60px rgba(9,40,80,.28), inset 0 0 0 1px rgba(255,255,255,.08);
 }
-.o3-stage .ip-phone::before { width: 56px; height: 16px; top: 14px; }
 
 /* ---- brief: a narrow measure, then the facts in a row ---- */
 .o3-brief { text-align: center; }
