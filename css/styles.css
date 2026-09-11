@@ -359,6 +359,22 @@ a.ip-chip--on:hover { background: #1a5089; color: #fff; }
 .ip-lightbox__close:hover { color: var(--green); }
 .ip-lightbox__cap { position: absolute; left: 24px; bottom: 18px; color: #fff; font-size: var(--step-sm); font-weight: 600; opacity: .9; }
 
+/* ===== PHOTOS =====
+   The project's photography: one wide frame and two beside it, on fixed rows
+   so the three read as one block. The caption is a chip in the corner — the
+   same frosted navy the card link uses — so the photograph keeps the room. */
+.ip-photos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 300px; gap: var(--gap); }
+.ip-photos figure { position: relative; border-radius: var(--r-card); overflow: hidden; box-shadow: var(--shadow-card); background: var(--card-bg); }
+.ip-photos figure:first-child { grid-column: span 2; grid-row: span 2; }
+.ip-photos img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2,.7,.3,1); }
+.ip-photos figure:hover img { transform: scale(1.03); }
+.ip-photos figcaption {
+  position: absolute; left: 16px; bottom: 16px; display: inline-flex; align-items: center; height: 30px; padding: 0 12px;
+  border-radius: var(--r); background: rgba(20,60,102,.82); color: #fff; font-size: 12.5px; font-weight: 700; letter-spacing: .2px;
+  -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px);
+}
+@media (prefers-reduced-motion: reduce) { .ip-photos figure:hover img { transform: none; } }
+
 /* ===== SWATCHES ===== */
 .ip-brand { display: grid; grid-template-columns: 1.3fr 1fr; gap: var(--gap); align-items: start; }
 .ip-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 14px; }
@@ -423,6 +439,7 @@ a.ip-chip--on:hover { background: #1a5089; color: #fff; }
   .iw-grid { grid-template-columns: repeat(2, minmax(0, 368px)); }
   .ip-brand { grid-template-columns: 1fr; }
   .ip-nextproj .iw-wrap { grid-template-columns: 1fr; }
+  .ip-photos { grid-auto-rows: 240px; }
 }
 @media (max-width: 720px) {
   .iw-grid { grid-template-columns: minmax(0, 368px); }
@@ -434,6 +451,8 @@ a.ip-chip--on:hover { background: #1a5089; color: #fff; }
   .ip-actions .iw-btn { flex: 1 1 100%; }
   .ip-scroller { height: 440px; }
   .ip-scroller:hover img { transform: translateY(calc(-100% + 440px)); }
+  .ip-photos { grid-template-columns: 1fr; grid-auto-rows: 220px; }
+  .ip-photos figure:first-child { grid-column: auto; grid-row: auto; }
   /* the current page drops out of the trail, and the slash before it with it */
   .ip-crumbs span[aria-current], .ip-crumbs .sep:has(+ [aria-current]) { display: none; }
 }

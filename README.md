@@ -9,7 +9,7 @@ Live: **https://imageworksc.github.io/individual-portfolio/**
 | Page | Option | Project shown |
 |---|---|---|
 | [`index.html`](index.html) | The chooser — all three side by side | — |
-| [`option-1.html`](option-1.html) | **Classic case study** — centred hero, browser frame, meta column beside the story, gallery, phones, palette, "More work" cards | Casey Margenau Fine Homes & Estates |
+| [`option-1.html`](option-1.html) | **Visual** — images only, text kept to a minimum: headline and chips, hero in a frame, six sections whole, three phones, the photography, "More work" cards | Casey Margenau Fine Homes & Estates |
 | [`option-2.html`](option-2.html) | **Editorial split** — breadcrumb, split hero, long-scroll frame, sticky section nav with scroll tracking | Atlantic Sun Control |
 | [`option-3.html`](option-3.html) | **Showcase** — device stage, brief, facts in a row, five numbered feature rows, photography band | Casey Margenau Fine Homes & Estates |
 
@@ -20,7 +20,7 @@ links back to the grid, and leads on to the next project.
 
 ```
 index.html            the chooser
-option-1.html         Option 1 — classic case study
+option-1.html         Option 1 — visual, images only
 option-2.html         Option 2 — editorial split
 option-3.html         Option 3 — showcase
 css/styles.css        shared: tokens, base, button, wash, chips, card, frames,
