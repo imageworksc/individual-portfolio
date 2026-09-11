@@ -8,10 +8,22 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=7">
-  <link rel="stylesheet" href="css/index.css?v=7">
+  <link rel="stylesheet" href="css/styles.css?v=8">
+  <link rel="stylesheet" href="css/index.css?v=8">
 </head>
 <body>
+
+  <!-- ===== ICONS =====
+       Every mark on the page, drawn once on a 24px grid. Each use sets its
+       own size and stroke through the .ic class in css/styles.css. -->
+  <svg class="ip-sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-arrow-l" viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6"/></symbol>
+    <symbol id="i-arrow-d" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></symbol>
+    <symbol id="i-arrow-cta" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+    <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  </svg>
 
   <!-- ===== PAGE WASH ===== -->
   <div class="page-wash" aria-hidden="true">
@@ -23,15 +35,15 @@
   <!-- ===== TOP ROW ===== -->
   <nav class="ip-top" aria-label="Portfolio navigation">
     <div class="iw-wrap">
-      <a class="ip-back" href="https://imageworksc.github.io/portfolio-iwc/"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Back to portfolio</a>
-      <a class="ip-fwd" href="https://github.com/imageworksc/individual-portfolio">Repository<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="ip-back" href="https://imageworksc.github.io/portfolio-iwc/"><svg class="ic" aria-hidden="true"><use href="#i-arrow-l"/></svg>Back to portfolio</a>
+      <a class="ip-fwd" href="https://github.com/imageworksc/individual-portfolio">Repository<svg class="ic" aria-hidden="true"><use href="#i-arrow-r"/></svg></a>
     </div>
   </nav>
 
   <!-- ===== HERO ===== -->
   <section class="iw-hero">
     <div class="inner iwh-in">
-      <h1>Individual portfolio page</h1>
+      <h1 class="ip-title">Individual portfolio page</h1>
       <p>Four options for the page behind every card in the portfolio — same type, colour and motion as the grid, each with a different way of telling the project's story. Open each one, then pick a lane.</p>
     </div>
   </section>
@@ -52,7 +64,7 @@
             <h2>Visual</h2>
             <p>Images only, text kept to the least that still names things: the headline and its chips, one label per block, a two-word caption under each shot.</p>
             <ul><li>Hero in a frame, six sections whole</li><li>Three phones, the photography</li><li>"More work" cards, no case-study copy</li></ul>
-            <span class="ip-link">Open option 1<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            <span class="ip-link">Open option 1<svg class="ic" aria-hidden="true"><use href="#i-arrow-r"/></svg></span>
           </div>
           <a class="ip-cover" href="option-1.html" aria-label="Open option 1, visual"></a>
         </article>
@@ -68,7 +80,7 @@
             <h2>Editorial split</h2>
             <p>Left-ranged, the way the branding page is. Copy and frame share the hero, a full-page capture scrolls under the pointer, and a sticky column names the sections as you read.</p>
             <ul><li>Breadcrumb, split hero, long-scroll frame</li><li>Sticky section nav with scroll tracking</li><li>Palette and type inside the story</li></ul>
-            <span class="ip-link">Open option 2<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            <span class="ip-link">Open option 2<svg class="ic" aria-hidden="true"><use href="#i-arrow-r"/></svg></span>
           </div>
           <a class="ip-cover" href="option-2.html" aria-label="Open option 2, editorial split"></a>
         </article>
@@ -84,7 +96,7 @@
             <h2>Showcase</h2>
             <p>The work leads. A desktop frame and a phone share the stage under the headline, then the story is told one section at a time in alternating rows, each with a numbered eyebrow.</p>
             <ul><li>Device stage, brief, facts in a row</li><li>Five numbered feature rows</li><li>Photography band, palette and type</li></ul>
-            <span class="ip-link">Open option 3<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            <span class="ip-link">Open option 3<svg class="ic" aria-hidden="true"><use href="#i-arrow-r"/></svg></span>
           </div>
           <a class="ip-cover" href="option-3.html" aria-label="Open option 3, showcase"></a>
         </article>
@@ -100,7 +112,7 @@
             <h2>Simple</h2>
             <p>The lane, the name, and one screenshot of the whole site in a frame. Nothing else — the visitor scrolls the page as they would the site.</p>
             <ul><li>Category chips and the headline</li><li>One full-page capture, top to bottom</li><li>No copy, no gallery</li></ul>
-            <span class="ip-link">Open option 4<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            <span class="ip-link">Open option 4<svg class="ic" aria-hidden="true"><use href="#i-arrow-r"/></svg></span>
           </div>
           <a class="ip-cover" href="option-4.html" aria-label="Open option 4, simple"></a>
         </article>
@@ -115,10 +127,10 @@
     <div class="inner">
       <h2>Have a project in mind?</h2>
       <p>Whether you need a brand or a website that moves, our senior team handles it start to finish — all under one roof.</p>
-      <a href="https://imageworksc.github.io/portfolio-iwc/#contact" class="iw-btn iw-btn--primary cta-btn">Get started today<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+      <a href="https://imageworksc.github.io/portfolio-iwc/#contact" class="iw-btn iw-btn--primary cta-btn">Get started today<svg class="ic" aria-hidden="true"><use href="#i-arrow-cta"/></svg></a>
     </div>
   </section>
 
-  <script src="js/app.js?v=7"></script>
+  <script src="js/app.js?v=8"></script>
 </body>
 </html>

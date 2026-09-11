@@ -42,6 +42,22 @@ DESIGN.md             the design contract — every token, primitive and motion 
 
 No build step. Open any HTML file directly, or serve the folder.
 
+## How the code is organised
+
+- **HTML** carries structure only: no `style=` attributes, no inline
+  scripts. Every icon is a `<symbol>` in a small sprite at the top of the body
+  and is placed with `<svg class="ic"><use href="#i-…">`; its size and stroke
+  come from `.ic` in the stylesheet. Each block opens with a `<!-- ===== -->`
+  comment naming it.
+- **CSS** is one shared sheet plus one small sheet per page. Each file opens
+  with a table of contents and is divided into `/* ===== SECTION ===== */`
+  blocks in page order. Colours that belong to a client project (the swatch
+  strips) live in that option's sheet, not in the shared tokens.
+- **JavaScript** is one file, an IIFE with four parts (title, reveal,
+  lightbox, scrollspy). It marks state with classes and attributes and lets
+  the stylesheet decide what they mean; the one value it writes directly is a
+  measurement, the headline size when two lines will not fit.
+
 ## Design
 
 `DESIGN.md` is the contract. Tokens, type scale, primitives, motion and

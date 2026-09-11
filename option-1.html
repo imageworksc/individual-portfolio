@@ -8,10 +8,22 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=7">
-  <link rel="stylesheet" href="css/option-1.css?v=7">
+  <link rel="stylesheet" href="css/styles.css?v=8">
+  <link rel="stylesheet" href="css/option-1.css?v=8">
 </head>
 <body>
+
+  <!-- ===== ICONS =====
+       Every mark on the page, drawn once on a 24px grid. Each use sets its
+       own size and stroke through the .ic class in css/styles.css. -->
+  <svg class="ip-sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-arrow-l" viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6"/></symbol>
+    <symbol id="i-arrow-d" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></symbol>
+    <symbol id="i-arrow-cta" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+    <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  </svg>
 
   <!-- ===== PAGE WASH ===== -->
   <div class="page-wash" aria-hidden="true">
@@ -23,8 +35,8 @@
   <!-- ===== TOP ROW ===== -->
   <nav class="ip-top" aria-label="Portfolio navigation">
     <div class="iw-wrap">
-      <a class="ip-back" href="https://imageworksc.github.io/portfolio-iwc/"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Back to portfolio</a>
-      <a class="ip-fwd" href="option-2.html">Next project<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="ip-back" href="https://imageworksc.github.io/portfolio-iwc/"><svg class="ic" aria-hidden="true"><use href="#i-arrow-l"/></svg>Back to portfolio</a>
+      <a class="ip-fwd" href="option-2.html">Next project<svg class="ic" aria-hidden="true"><use href="#i-arrow-r"/></svg></a>
     </div>
   </nav>
 
@@ -32,13 +44,13 @@
   <section class="iw-hero">
     <div class="inner iwh-in">
       <div class="ip-chips">
-        <a class="ip-chip ip-chip--on" href="https://imageworksc.github.io/portfolio-iwc/"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4" width="19" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>Web</a>
+        <a class="ip-chip ip-chip--on" href="https://imageworksc.github.io/portfolio-iwc/"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-monitor"/></svg>Web</a>
         <span class="ip-chip">Website design</span>
         <span class="ip-chip">UX/UI</span>
         <span class="ip-chip">Luxury real estate</span>
         <span class="ip-chip">2026</span>
       </div>
-      <h1 data-lines="2">Casey Margenau Fine Homes &amp; Estates</h1>
+      <h1 class="ip-title" data-lines="2">Casey Margenau Fine Homes &amp; Estates</h1>
     </div>
   </section>
 
@@ -116,15 +128,15 @@
       <div class="iw-grid">
         <div class="iw-card rv">
           <div class="img"><img src="assets/asc/hero.jpg" alt="" loading="lazy"></div>
-          <div class="iw-panel"><div class="iw-panel-title">Atlantic Sun Control</div><a class="iw-panel-cta" href="option-2.html">View project<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+          <div class="iw-panel"><div class="iw-panel-title">Atlantic Sun Control</div><a class="iw-panel-cta" href="option-2.html">View project<svg class="ic" aria-hidden="true"><use href="#i-arrow-r"/></svg></a></div>
         </div>
         <div class="iw-card rv rv-d1">
           <div class="img"><img src="assets/works/foley-mechanical.jpg" alt="" loading="lazy"></div>
-          <div class="iw-panel"><div class="iw-panel-title">Foley Mechanical</div><a class="iw-panel-cta" href="https://imageworksc.github.io/portfolio-iwc/">View project<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+          <div class="iw-panel"><div class="iw-panel-title">Foley Mechanical</div><a class="iw-panel-cta" href="https://imageworksc.github.io/portfolio-iwc/">View project<svg class="ic" aria-hidden="true"><use href="#i-arrow-r"/></svg></a></div>
         </div>
         <div class="iw-card rv rv-d2">
           <div class="img"><img src="assets/works/usa-nuclear.webp" alt="" loading="lazy"></div>
-          <div class="iw-panel"><div class="iw-panel-title">USA Nuclear</div><a class="iw-panel-cta" href="https://imageworksc.github.io/portfolio-iwc/">View project<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+          <div class="iw-panel"><div class="iw-panel-title">USA Nuclear</div><a class="iw-panel-cta" href="https://imageworksc.github.io/portfolio-iwc/">View project<svg class="ic" aria-hidden="true"><use href="#i-arrow-r"/></svg></a></div>
         </div>
       </div>
     </div>
@@ -135,10 +147,10 @@
     <div class="inner">
       <h2>Have a project in mind?</h2>
       <p>Whether you need a brand or a website that moves, our senior team handles it start to finish — all under one roof.</p>
-      <a href="https://imageworksc.github.io/portfolio-iwc/#contact" class="iw-btn iw-btn--primary cta-btn">Get started today<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+      <a href="https://imageworksc.github.io/portfolio-iwc/#contact" class="iw-btn iw-btn--primary cta-btn">Get started today<svg class="ic" aria-hidden="true"><use href="#i-arrow-cta"/></svg></a>
     </div>
   </section>
 
-  <script src="js/app.js?v=7"></script>
+  <script src="js/app.js?v=8"></script>
 </body>
 </html>

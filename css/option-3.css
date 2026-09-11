@@ -1,9 +1,16 @@
 /* Option 3 — Showcase
    The work leads. A desktop frame and a phone share the stage under the
    headline; the story is told one section at a time in alternating rows, each
-   with a numbered eyebrow; the photography gets a band of its own. */
+   with a numbered eyebrow; the photography gets a band of its own (the shared
+   .ip-photos grid, in css/styles.css).
 
-/* ---- stage: desktop frame with the phone standing in front of it ---- */
+     STAGE       desktop frame with the phone standing in front of it
+     BRIEF       a narrow measure, then the facts in a row
+     ROWS        the alternating feature rows
+     PALETTE     Casey Margenau's colours, for the swatches
+     RESPONSIVE  where the rows stack and the phone goes */
+
+/* ===== STAGE ===== */
 .o3-stage { position: relative; padding: 12px 24px 0; }
 .o3-stage .iw-wrap { position: relative; padding-right: clamp(0px, 8vw, 120px); padding-bottom: clamp(24px, 4vw, 56px); }
 .o3-stage .ip-browser { box-shadow: inset 0 0 0 1px rgba(20,60,102,.06), 0 24px 60px rgba(9,40,80,.12); }
@@ -12,12 +19,12 @@
   box-shadow: 0 24px 60px rgba(9,40,80,.28), inset 0 0 0 1px rgba(255,255,255,.08);
 }
 
-/* ---- brief: a narrow measure, then the facts in a row ---- */
+/* ===== BRIEF ===== */
 .o3-brief { text-align: center; }
 .o3-brief .ip-prose { margin: 0 auto; max-width: var(--measure); }
 .o3-brief .ip-meta { margin-top: clamp(40px, 5vw, 64px); text-align: left; }
 
-/* ---- feature rows ---- */
+/* ===== ROWS ===== */
 .o3-rows { display: grid; gap: clamp(56px, 8vw, 120px); }
 .o3-row { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(28px, 5vw, 72px); align-items: center; }
 .o3-row:nth-child(even) .o3-row__media { order: 2; }
@@ -30,8 +37,17 @@
 .o3-row__copy li { position: relative; padding-left: 22px; font-size: 15px; font-weight: 600; color: var(--navy); }
 .o3-row__copy li::before { content: ''; position: absolute; left: 0; top: .7em; width: 10px; height: 2px; background: var(--green); }
 
-/* the photography band is the shared .ip-photos grid, in css/styles.css */
+/* ===== PALETTE =====
+   The client's colours, read from the build. They are the project's, not
+   the portfolio's, so they live here and not in the tokens. */
+.o3-sw-navy { background: #091734; }
+.o3-sw-navy-2 { background: #13254a; }
+.o3-sw-crimson { background: #af2026; }
+.o3-sw-slate { background: #68738f; }
+.o3-sw-slate-light { background: #dfe2ea; }
+.o3-sw-cream { background: #f2f2f2; }
 
+/* ===== RESPONSIVE ===== */
 @media (max-width: 1100px) {
   .o3-row { grid-template-columns: 1fr; }
   .o3-row:nth-child(even) .o3-row__media { order: 0; }

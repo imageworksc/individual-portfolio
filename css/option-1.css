@@ -2,26 +2,35 @@
    Images only, text kept to the least that still names things: the headline
    and its chips, one label per block, a two-word caption under each shot.
    Centred like the grid page: the headline sits over the wash, a browser frame
-   carries the hero, and the rest is the work in frames. */
+   carries the hero, and the rest is the work in frames.
 
-/* the big frame under the hero, with the wash still running behind it */
+     STAGE       the big frame under the hero
+     LABEL       a block's only text
+     GALLERY     the sections at their own height
+     PHONES      three in a row
+     RESPONSIVE  where the row gives */
+
+/* ===== STAGE ===== */
 .o1-stage { padding: 8px 24px 0; }
 .o1-stage .ip-browser { box-shadow: inset 0 0 0 1px rgba(20,60,102,.06), 0 24px 60px rgba(9,40,80,.12); }
 
-/* a block's only text: one small label, centred, with a count beside it */
+/* ===== LABEL =====
+   One small label, centred, with a count beside it. */
 .o1-label { display: flex; justify-content: center; align-items: baseline; gap: 12px; margin-bottom: clamp(20px, 3vw, 32px); }
 .o1-label .ip-eyebrow { margin: 0; }
 .o1-label small { font-size: 13px; font-weight: 600; letter-spacing: .04em; color: var(--muted-2); }
 
-/* the sections at their own height, so each one shows whole */
+/* ===== GALLERY =====
+   The sections at their own height, so each one shows whole. */
 .o1-gallery { align-items: start; }
 .o1-gallery figcaption { justify-content: center; }
 
-/* phones in a row */
+/* ===== PHONES ===== */
 .o1-phones { display: grid; grid-template-columns: repeat(3, minmax(0, 300px)); gap: var(--gap); justify-content: center; }
 .o1-phones figcaption { text-align: center; padding: 14px 0 0; font-size: var(--step-sm); font-weight: 600; color: var(--muted); }
 .o1-phones .ip-phone { margin: 0 auto; }
 
+/* ===== RESPONSIVE ===== */
 @media (max-width: 720px) {
   .o1-stage { padding: 8px 16px 0; }
   .o1-phones { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }

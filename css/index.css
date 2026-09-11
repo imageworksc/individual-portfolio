@@ -1,9 +1,17 @@
 /* Index — the four options side by side
    A chooser, set the way the grid page is set: headline over the wash, then
-   four frames, two by two. Each frame is one option, and the whole card is the link. */
+   four frames, two by two. Each frame is one option, and the whole card is
+   the link.
 
-/* four options: two by two, so each frame keeps enough width to read */
+     GRID        two by two, so each frame keeps enough width to read
+     CARD        frame, tag, body, and the link that covers it all
+     NOTE        the line under the grid
+     RESPONSIVE  one column under 1100 */
+
+/* ===== GRID ===== */
 .ix-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); align-items: stretch; }
+
+/* ===== CARD ===== */
 .ix-card {
   position: relative; display: flex; flex-direction: column; border-radius: var(--r-card); overflow: hidden;
   background: #fff; box-shadow: var(--shadow-card);
@@ -12,6 +20,8 @@
 .ix-card:hover, .ix-card:focus-within { transform: translateY(-6px); box-shadow: var(--shadow-card-hover); }
 .ix-card .ip-browser { border-radius: 0; box-shadow: none; }
 .ix-card .ip-browser img { aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
+/* the project's name, under the frame's chrome bar so the address stays readable */
+.ix-card__tag { position: absolute; top: 46px; left: 12px; z-index: 3; }
 .ix-card__body { display: flex; flex-direction: column; flex: 1; padding: 22px 24px 24px; border-top: 1px solid var(--line); }
 .ix-card__body .ip-eyebrow { margin-bottom: 8px; }
 .ix-card__body h2 { font-weight: 800; font-size: 22px; line-height: 1.2; letter-spacing: -.4px; color: var(--navy); }
@@ -20,10 +30,12 @@
 .ix-card__body li { position: relative; padding-left: 20px; font-size: 14px; font-weight: 600; color: var(--muted); }
 .ix-card__body li::before { content: ''; position: absolute; left: 0; top: .7em; width: 10px; height: 2px; background: var(--green); }
 .ix-card__body .ip-link { margin-top: auto; padding-top: 22px; }
+/* the link covers the card, so the whole surface is the target */
 .ix-card a.ip-cover { position: absolute; inset: 0; z-index: 2; }
-/* under the frame's chrome bar, so the address stays readable */
-.ix-card__tag { position: absolute; top: 46px; left: 12px; z-index: 3; }
+
+/* ===== NOTE ===== */
 .ix-note { margin-top: clamp(28px, 4vw, 44px); text-align: center; font-size: var(--step-sm); font-weight: 600; color: var(--muted-2); }
-.ix-note a { font-weight: 700; }
-@media (prefers-reduced-motion: reduce) { .ix-card:hover, .ix-card:focus-within { transform: none; } }
+
+/* ===== RESPONSIVE ===== */
 @media (max-width: 1100px) { .ix-grid { grid-template-columns: 1fr; max-width: 560px; margin: 0 auto; } }
+@media (prefers-reduced-motion: reduce) { .ix-card:hover, .ix-card:focus-within { transform: none; } }

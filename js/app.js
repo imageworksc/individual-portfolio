@@ -1,25 +1,31 @@
 /* ImageWorks Creative — Individual portfolio page
-   Three small behaviours shared by every option. Nothing here writes a style;
-   it only marks state, and css/styles.css decides what the marks mean.
+   Four small behaviours shared by every option. Nothing here writes a style;
+   it only marks state, and css/styles.css decides what the marks mean. The
+   one exception is a measurement: the headline's size when two lines will
+   not fit, which depends on the rendered text and so cannot be known ahead
+   of time (see TITLE).
 
      TITLE      the headline is held to two lines, whatever its length
      REVEAL     sections come up as they enter the viewport
      LIGHTBOX   a gallery figure opens full size in a <dialog>
      SCROLLSPY  the sticky sidebar (option 2) tracks the section in view
+     BOOT
 
-   Wrapped in an IIFE rather than a module so index.html opens over file://. */
+   Each part looks for what it needs and stands down if the page has none of
+   it, so the same file serves every option. Wrapped in an IIFE rather than a
+   module so the pages open over file://. */
 (function () {
   "use strict";
 
-  /* ---------- title ----------
+  /* ===== TITLE =====
      The stylesheet gives the headline a measure that breaks a long name into
      two lines. Where two will not fit, two things give, in this order: first
      the measure — the name may run to the content width, never the screen —
-     and only then the size, a pixel at a time, down to half. The line count is the layout
-     height over the line height; both are read in layout pixels, which is
-     what keeps the count right under the large-screen zoom (a client rect
-     would come back scaled and the line height would not). Runs again when
-     the web font lands and when the window is resized. */
+     and only then the size, a pixel at a time, down to half. The line count
+     is the layout height over the line height; both are read in layout
+     pixels, which is what keeps the count right under the large-screen zoom
+     (a client rect would come back scaled and the line height would not).
+     Runs again when the web font lands and when the window is resized. */
   function fitTitles() {
     const els = Array.from(document.querySelectorAll("[data-lines]"));
     els.forEach(function (el) {
@@ -40,30 +46,45 @@
       }
     });
   }
+
   function watchTitles() {
     if (!document.querySelector("[data-lines]")) return;
     fitTitles();
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitTitles);
-    let t = null;
+    let timer = null;
     window.addEventListener("resize", function () {
-      clearTimeout(t); t = setTimeout(fitTitles, 120);
+      clearTimeout(timer);
+      timer = setTimeout(fitTitles, 120);
     }, { passive: true });
   }
 
-  /* ---------- reveal ---------- */
+  /* ===== REVEAL =====
+     Anything marked .rv is hidden by the stylesheet until it is marked .in,
+     which happens once, the first time it comes into view. Without an
+     observer everything is simply shown. */
   function reveal() {
     const els = Array.from(document.querySelectorAll(".rv"));
     if (!els.length) return;
-    if (!("IntersectionObserver" in window)) { els.forEach(function (e) { e.classList.add("in"); }); return; }
+    if (!("IntersectionObserver" in window)) {
+      els.forEach(function (el) { el.classList.add("in"); });
+      return;
+    }
     const io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in");
+          io.unobserve(entry.target);
+        }
       });
     }, { rootMargin: "0px 0px -10% 0px", threshold: 0.08 });
-    els.forEach(function (e) { io.observe(e); });
+    els.forEach(function (el) { io.observe(el); });
   }
 
-  /* ---------- lightbox ---------- */
+  /* ===== LIGHTBOX =====
+     One <dialog>, built once for the page and filled on each open from the
+     figure that was clicked: its image, its alt text, its caption. The page
+     is marked is-locked while it is open so the document behind does not
+     scroll. Escape closes it natively; so does the backdrop and the button. */
   function lightbox() {
     const triggers = Array.from(document.querySelectorAll("[data-zoom]"));
     if (!triggers.length) return;
@@ -76,7 +97,7 @@
         '<div class="ip-lightbox__scroll"><img alt=""></div>' +
         '<div class="ip-lightbox__cap"></div>' +
         '<button type="button" class="ip-lightbox__close" aria-label="Close">' +
-          '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>' +
+          '<svg class="ic" aria-hidden="true"><use href="#i-close"/></svg>' +
         '</button>' +
       '</div>';
     document.body.appendChild(dlg);
@@ -86,35 +107,47 @@
     const scroll = dlg.querySelector(".ip-lightbox__scroll");
 
     function open(src, alt, caption) {
-      img.src = src; img.alt = alt || "";
+      img.src = src;
+      img.alt = alt || "";
       cap.textContent = caption || "";
       scroll.scrollTop = 0;
       if (typeof dlg.showModal === "function") dlg.showModal(); else dlg.setAttribute("open", "");
-      document.documentElement.style.overflow = "hidden";
+      document.documentElement.classList.add("is-locked");
     }
     function close() {
       if (dlg.open) dlg.close(); else dlg.removeAttribute("open");
-      document.documentElement.style.overflow = "";
+      document.documentElement.classList.remove("is-locked");
+    }
+    // the caption's index and its text are separate nodes; join them with a dash
+    function captionOf(trigger) {
+      const fig = trigger.closest("figure");
+      const fc = fig && fig.querySelector("figcaption");
+      if (!fc) return "";
+      return Array.from(fc.childNodes)
+        .map(function (n) { return n.textContent.trim(); })
+        .filter(Boolean)
+        .join(" — ");
     }
 
-    triggers.forEach(function (t) {
-      t.addEventListener("click", function () {
-        const src = t.getAttribute("data-zoom") || (t.querySelector("img") || {}).src;
-        const alt = (t.querySelector("img") || {}).alt;
-        const fig = t.closest("figure");
-        const fc = fig && fig.querySelector("figcaption");
-        // the caption's index and its text are separate nodes; join them with a dash
-        const caption = fc ? Array.from(fc.childNodes).map(function (n) { return n.textContent.trim(); }).filter(Boolean).join(" — ") : "";
-        open(src, alt, caption);
+    triggers.forEach(function (trigger) {
+      trigger.addEventListener("click", function () {
+        const inner = trigger.querySelector("img");
+        open(trigger.getAttribute("data-zoom") || (inner && inner.src), inner && inner.alt, captionOf(trigger));
       });
     });
     dlg.querySelector(".ip-lightbox__close").addEventListener("click", close);
     // a click on the backdrop lands on the dialog itself, not on its content
-    dlg.addEventListener("click", function (e) { if (e.target === dlg || e.target.classList.contains("ip-lightbox__body")) close(); });
-    dlg.addEventListener("close", function () { document.documentElement.style.overflow = ""; });
+    dlg.addEventListener("click", function (e) {
+      if (e.target === dlg || e.target.classList.contains("ip-lightbox__body")) close();
+    });
+    // Escape closes the dialog natively; the lock still has to be lifted
+    dlg.addEventListener("close", function () { document.documentElement.classList.remove("is-locked"); });
   }
 
-  /* ---------- scrollspy ---------- */
+  /* ===== SCROLLSPY =====
+     The last section whose top has passed the upper third of the viewport
+     is the one being read; above the first, the first; at the very bottom,
+     the last, however short it is. One measurement per frame. */
   function scrollspy() {
     const nav = document.querySelector("[data-spy]");
     if (!nav) return;
@@ -132,9 +165,7 @@
         if (on) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current");
       });
     }
-    // The last section whose top has passed the upper third of the viewport is
-    // the one being read; above the first, the first. Read on scroll, one
-    // measurement per frame.
+
     let ticking = false;
     function update() {
       ticking = false;
@@ -143,18 +174,26 @@
       for (let i = 0; i < targets.length; i++) {
         if (targets[i].getBoundingClientRect().top <= line) active = targets[i];
       }
-      // at the very bottom the last section is what's on screen, however short
       if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) active = targets[targets.length - 1];
       mark(active.id);
     }
-    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    }
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll, { passive: true });
     update();
   }
 
-  /* ---------- boot ---------- */
-  function boot() { watchTitles(); reveal(); lightbox(); scrollspy(); }
+  /* ===== BOOT ===== */
+  function boot() {
+    watchTitles();
+    reveal();
+    lightbox();
+    scrollspy();
+  }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();
 })();

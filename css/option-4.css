@@ -1,18 +1,23 @@
 /* Option 4 — Simple
    The lane, the name, and one screenshot of the whole site. Nothing else:
    the frame carries the page top to bottom and the visitor scrolls it as
-   they would the site. */
+   they would the site.
 
+     STAGE       the one frame, and the line around it
+     RESPONSIVE  the gutter on a phone */
+
+/* ===== STAGE =====
+   A faint line around the frame, with the shadow pulled back so the line is
+   what edges it rather than the glow. The frame rises as the hero does. */
 .o4-stage { padding: 8px 24px 0; }
-/* a faint line around the frame, with the shadow pulled back so the line is
-   what edges it rather than the glow */
 .o4-stage .ip-browser {
   border: 1px solid rgba(20,60,102,.16);
   box-shadow: 0 12px 32px rgba(9,40,80,.08);
   animation: iwRise .7s var(--ease-out) both; animation-delay: .2s;
 }
-/* the sheet's bottom fade, so the frame ends the way the grid does */
+/* room under the frame before the closing band */
 .o4-stage + .iw-cta { margin-top: var(--section); }
 
+/* ===== RESPONSIVE ===== */
 @media (max-width: 720px) { .o4-stage { padding: 8px 16px 0; } }
 @media (prefers-reduced-motion: reduce) { .o4-stage .ip-browser { animation: none; } }

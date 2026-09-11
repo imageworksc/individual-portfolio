@@ -1,27 +1,32 @@
 /* Option 2 — Editorial split
    Left-ranged, the way the branding page is. The hero splits copy and frame,
    a full-page capture scrolls under the pointer, and the case study runs
-   beside a sticky column that names its sections and holds the facts. */
+   beside a sticky column that names its sections and holds the facts.
 
-/* ---- hero: copy left, frame right, frame bleeding past the measure ---- */
-/* clipped on the right, where the frame runs past the measure; the bottom
-   padding is there so the clip does not cut the frame's shadow */
+     HERO        copy left, frame right, the frame bleeding past the measure
+     LONG        the full-page capture
+     BODY        the sticky column and the story beside it
+     PALETTE     Atlantic Sun Control's colours, for the swatches
+     RESPONSIVE  where the split gives */
+
+/* ===== HERO =====
+   Clipped on the right, where the frame runs past the measure; the bottom
+   padding is there so the clip does not cut the frame's shadow. */
 .o2-hero { position: relative; padding: clamp(28px, 4vw, 48px) 24px 64px; overflow: hidden; }
 .o2-hero .iw-wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(28px, 4vw, 56px); align-items: center; }
 .o2-hero .iwh-in { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
 .o2-hero .ip-chips { justify-content: flex-start; }
-.o2-hero h1 { max-width: 24ch; font-weight: 800; font-size: var(--step-3); line-height: 1.12; letter-spacing: -.8px; color: var(--blue); text-wrap: balance; }
 .o2-hero .ip-lead { margin-top: 16px; }
 .o2-hero .ip-actions { justify-content: flex-start; }
 .o2-hero__frame { position: relative; }
 .o2-hero__frame .ip-browser { width: 118%; max-width: none; box-shadow: inset 0 0 0 1px rgba(20,60,102,.06), 0 24px 60px rgba(9,40,80,.14); }
 .o2-hero__frame .ip-browser img { aspect-ratio: 16 / 10; height: auto; object-fit: cover; object-position: top; }
 
-/* ---- the long capture ---- */
+/* ===== LONG ===== */
 .o2-long { padding: 0 24px; }
 .o2-long .ip-browser { box-shadow: var(--shadow-card); }
 
-/* ---- body: sticky column + story ---- */
+/* ===== BODY ===== */
 .o2-body .iw-wrap { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
 .o2-side { position: sticky; top: 28px; }
 .o2-nav { display: grid; gap: 2px; margin: 0 0 28px; padding: 0; list-style: none; }
@@ -47,6 +52,17 @@
 .o2-phones__row .ip-phone { max-width: 100%; }
 .o2-phones .ip-prose { padding-top: 8px; }
 
+/* ===== PALETTE =====
+   The client's colours, read from the build. They are the project's, not
+   the portfolio's, so they live here and not in the tokens. */
+.o2-sw-orange { background: #e8540a; }
+.o2-sw-orange-light { background: #ff6b1a; }
+.o2-sw-charcoal { background: #1c1f27; }
+.o2-sw-slate { background: #4a4f5c; }
+.o2-sw-stone { background: #efece6; }
+.o2-sw-peach { background: #fdf1ea; }
+
+/* ===== RESPONSIVE ===== */
 @media (max-width: 1100px) {
   .o2-hero .iw-wrap { grid-template-columns: 1fr; }
   .o2-hero__frame .ip-browser { width: 100%; }
@@ -58,11 +74,6 @@
   .o2-side .ip-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--gap); }
   .o2-side .ip-meta > div:nth-last-child(2) { border-bottom: 1px solid var(--line); }
   .o2-story .ip-brand .ip-swatches { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-@media (max-width: 420px) {
-  /* restated here: this sheet loads after the shared one and would otherwise
-     hold the headline at the desktop size on a narrow phone */
-  .o2-hero h1 { font-size: clamp(24px, 8.4vw, 32px); }
 }
 @media (max-width: 720px) {
   .o2-hero, .o2-long { padding-left: 16px; padding-right: 16px; }

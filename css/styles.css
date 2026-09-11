@@ -1,11 +1,14 @@
 /* ImageWorks Creative — Individual portfolio page
-   Shared sheet for the three options. The first half is carried over from the
-   portfolio grid (portfolio-iwc/css/styles.css) so a project page opens, moves
-   and closes exactly as the grid does; the second half adds what a single
-   project needs and the grid never did — frames, meta, stats, a lightbox.
+   Shared sheet for the four options and the chooser. The first half is
+   carried over from the portfolio grid (portfolio-iwc/css/styles.css) so a
+   project page opens, moves and closes exactly as the grid does; the second
+   half adds what a single project needs and the grid never did — frames,
+   meta, stats, a lightbox. Each option's own sheet (css/option-N.css) holds
+   only what that option lays out differently, and the project's colours.
 
      TOKENS        brand colour and the type scale, as the portfolio sets them
      BASE          reset, document ground, body type
+     ICONS         the sprite symbols, sized and stroked from here
      BUTTON        the one shared control, plus the three fills it comes in
      PAGE WASH     the coloured ground behind the top of the document
      TOP ROW       back to the portfolio / on to the next project
@@ -75,11 +78,27 @@ a:hover { color: var(--green); }
 img { max-width: 100%; display: block; }
 h1, h2, h3, p, figure, dl, dd { margin: 0; }
 :focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+/* marked by app.js while the lightbox is open, so the page behind holds still */
+html.is-locked { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 .iw-wrap { width: 100%; max-width: var(--wrap); margin: 0 auto; }
 .ip-measure { max-width: var(--measure); }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ===== ICONS =====
+   Every mark on the page is a <symbol> in the sprite at the top of the body,
+   drawn on a 24px grid with no colour or weight of its own. The <svg> that
+   uses it sets both from here, so one drawing serves the chip at 14px and 2
+   and the closing button at 18px and 2.6. */
+/* the sprite takes no room and is never painted on its own; display: none
+   would do the same but has kept some browsers from resolving the symbols */
+.ip-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.ic { width: 18px; height: 18px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.ic--sm { width: 14px; height: 14px; stroke-width: 2; }
+.iw-btn .ic { stroke-width: 2.4; }
+.cta-btn .ic { stroke-width: 2.6; }
+.ip-lightbox__close .ic { width: 20px; height: 20px; stroke-width: 2.4; }
 
 /* ===== BUTTON ===== */
 .iw-btn {
@@ -92,7 +111,6 @@ h1, h2, h3, p, figure, dl, dd { margin: 0; }
               border-color .25s ease, box-shadow .25s ease, color .25s ease,
               filter .25s ease;
 }
-.iw-btn svg { flex-shrink: 0; }
 .iw-btn:hover { filter: brightness(1.04); transform: translateY(-3px); box-shadow: 0 4px 12px rgba(20,40,80,.18); }
 .iw-btn:active { transform: translateY(-1px); }
 .iw-btn--primary { background: var(--green); border-color: var(--green); color: #fff; box-shadow: 0 1px 2px rgba(20,40,80,.14); }
@@ -151,15 +169,15 @@ h1, h2, h3, p, figure, dl, dd { margin: 0; }
   font-size: var(--step-sm); font-weight: 700; letter-spacing: .2px; color: var(--navy);
   transition: color .25s ease;
 }
-.ip-top a svg { transition: transform .3s cubic-bezier(.2,.7,.3,1); }
+.ip-top a .ic { transition: transform .3s cubic-bezier(.2,.7,.3,1); }
 .ip-top a:hover { color: var(--green); }
-.ip-top a.ip-back:hover svg { transform: translateX(-3px); }
-.ip-top a.ip-fwd:hover svg { transform: translateX(3px); }
+.ip-top a.ip-back:hover .ic { transform: translateX(-3px); }
+.ip-top a.ip-fwd:hover .ic { transform: translateX(3px); }
 .ip-crumbs { display: inline-flex; align-items: center; gap: 10px; font-size: var(--step-sm); font-weight: 600; color: var(--muted-2); }
 .ip-crumbs a { font-weight: 700; }
 .ip-crumbs span[aria-current] { color: var(--muted); font-weight: 600; }
 .ip-crumbs .sep { color: rgba(20,60,102,.28); }
-@media (prefers-reduced-motion: reduce) { .ip-top a svg { transition: none; } .ip-top a:hover svg { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .ip-top a .ic { transition: none; } .ip-top a:hover .ic { transform: none; } }
 
 /* ===== HERO ===== */
 .iw-hero { position: relative; }
@@ -167,11 +185,12 @@ h1, h2, h3, p, figure, dl, dd { margin: 0; }
   position: relative; z-index: 2; padding: clamp(40px, 6vw, 72px) 24px 32px;
   display: flex; flex-direction: column; align-items: center; text-align: center;
 }
-/* Held to two lines. The measure is short enough that a long name breaks in
-   two balanced halves rather than running the width, and short enough that a
-   short one still sits on one line. app.js takes the size down where even
-   two lines will not fit — a narrow phone, a very long name. */
-.iw-hero h1 { max-width: 24ch; font-weight: 800; font-size: var(--step-3); line-height: 1.12; letter-spacing: -.8px; color: var(--blue); text-wrap: balance; }
+/* The page headline, wherever the hero puts it. Held to two lines: the
+   measure is short enough that a long name breaks in two balanced halves
+   rather than running the width, and long enough that a short one still sits
+   on one line. app.js takes the size down where even two lines will not fit
+   — a narrow phone, a very long name. */
+.ip-title { max-width: 24ch; font-weight: 800; font-size: var(--step-3); line-height: 1.12; letter-spacing: -.8px; color: var(--blue); text-wrap: balance; }
 .iw-hero p { margin: 16px 0 0; max-width: var(--measure); font-weight: 400; font-size: var(--step-1); line-height: 1.75; color: var(--muted); text-wrap: balance; }
 .ip-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; justify-content: center; }
 
@@ -188,7 +207,6 @@ h1, h2, h3, p, figure, dl, dd { margin: 0; }
   font-size: 13px; font-weight: 600; color: var(--muted); white-space: nowrap;
   transition: color .25s ease, background-color .25s ease;
 }
-.ip-chip svg { flex-shrink: 0; }
 a.ip-chip:hover { color: var(--navy); background: rgba(20,60,102,.07); }
 .ip-chip--on { background: var(--navy); color: #fff; box-shadow: 0 1px 3px rgba(20,60,102,.28); }
 a.ip-chip--on:hover { background: #1a5089; color: #fff; }
@@ -326,9 +344,9 @@ a.ip-chip--on:hover { background: #1a5089; color: #fff; }
 .ip-prose li::before { content: ''; position: absolute; left: 0; top: .62em; width: 12px; height: 2px; background: var(--green); }
 .ip-prose li b { color: var(--navy); font-weight: 700; }
 .ip-link { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: var(--step-sm); letter-spacing: .2px; color: var(--navy); }
-.ip-link svg { transition: transform .3s cubic-bezier(.2,.7,.3,1); }
+.ip-link .ic { transition: transform .3s cubic-bezier(.2,.7,.3,1); }
 .ip-link:hover { color: var(--green); }
-.ip-link:hover svg { transform: translateX(3px); }
+.ip-link:hover .ic { transform: translateX(3px); }
 
 /* ===== SHOTS (gallery figures + lightbox) ===== */
 .ip-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); }
@@ -379,11 +397,17 @@ a.ip-chip--on:hover { background: #1a5089; color: #fff; }
 }
 @media (prefers-reduced-motion: reduce) { .ip-photos figure:hover img { transform: none; } }
 
-/* ===== SWATCHES ===== */
+/* ===== SWATCHES =====
+   The project's palette and its type. Each swatch's colour is a class in
+   the option's own sheet (it is that project's colour, not the portfolio's);
+   a swatch too pale to hold an edge on white takes is-light. The type card
+   shows the project's face only in the specimen and the weights row — the
+   name and the note under it stay in the portfolio's own face. */
 .ip-brand { display: grid; grid-template-columns: 1.3fr 1fr; gap: var(--gap); align-items: start; }
 .ip-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 14px; }
 .ip-swatch { border-radius: var(--r-card); overflow: hidden; background: #fff; box-shadow: var(--shadow-card); }
 .ip-swatch i { display: block; height: 72px; }
+.ip-swatch i.is-light { box-shadow: inset 0 0 0 1px rgba(20,60,102,.08); }
 .ip-swatch b { display: block; padding: 10px 12px 2px; font-size: 13px; font-weight: 700; color: var(--navy); }
 .ip-swatch span { display: block; padding: 0 12px 10px; font-size: 12px; font-weight: 600; letter-spacing: .04em; color: var(--muted-2); text-transform: uppercase; }
 .ip-type { border-radius: var(--r-card); background: #fff; box-shadow: var(--shadow-card); padding: 24px 26px; }
@@ -392,6 +416,11 @@ a.ip-chip--on:hover { background: #1a5089; color: #fff; }
 .ip-type__meta { margin-top: 4px; font-size: var(--step-sm); font-weight: 600; color: var(--muted); }
 .ip-type__weights { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 14px 22px; font-size: 22px; color: var(--ink); }
 .ip-type__weights small { display: block; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .08em; color: var(--muted-2); }
+/* the faces the specimens come in, and the weights a specimen can show */
+.ip-type--inter .ip-type__aa, .ip-type--inter .ip-type__weights { font-family: 'Inter', system-ui, sans-serif; }
+.ip-type--jost .ip-type__aa, .ip-type--jost .ip-type__weights { font-family: 'Jost', system-ui, sans-serif; }
+.fw-200 { font-weight: 200; } .fw-300 { font-weight: 300; } .fw-400 { font-weight: 400; }
+.fw-500 { font-weight: 500; } .fw-600 { font-weight: 600; } .fw-700 { font-weight: 700; }
 
 /* ===== NEXT PROJECT ===== */
 .ip-nextproj { background: var(--card-bg); }
@@ -462,7 +491,7 @@ a.ip-chip--on:hover { background: #1a5089; color: #fff; }
 }
 @media (max-width: 420px) {
   /* the headline scales with the screen so a long name still makes two lines */
-  .iw-hero h1, .o2-hero h1 { font-size: clamp(24px, 8.4vw, 32px); }
+  .ip-title { font-size: clamp(24px, 8.4vw, 32px); }
   .ip-chip { height: 28px; padding: 0 10px; font-size: 12.5px; }
   .iw-btn { height: 48px; padding: 0 20px; font-size: 15px; }
   .ip-stats { grid-template-columns: 1fr; }
