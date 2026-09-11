@@ -12,7 +12,7 @@ Live: **https://imageworksc.github.io/individual-portfolio/**
 | [`option-1.html`](option-1.html) | **Visual** — images only, text kept to a minimum: headline and chips, hero in a frame, six sections whole, three phones, the photography, "More work" cards | Casey Margenau Fine Homes & Estates |
 | [`option-2.html`](option-2.html) | **Editorial split** — breadcrumb, split hero, long-scroll frame, sticky section nav with scroll tracking | Atlantic Sun Control |
 | [`option-3.html`](option-3.html) | **Showcase** — device stage, brief, facts in a row, five numbered feature rows, photography band | Casey Margenau Fine Homes & Estates |
-| [`option-4.html`](option-4.html) | **Simple** — category chips, the headline, and one full-page screenshot in a browser frame; no script, no copy | Casey Margenau Fine Homes & Estates |
+| [`option-4.html`](option-4.html) | **Simple** — category chips, the headline, and one full-page screenshot in a browser frame; no copy | Casey Margenau Fine Homes & Estates |
 
 Every option opens with the portfolio's page wash, ends on its closing band,
 links back to the grid, and leads on to the next project.

@@ -167,7 +167,11 @@ h1, h2, h3, p, figure, dl, dd { margin: 0; }
   position: relative; z-index: 2; padding: clamp(40px, 6vw, 72px) 24px 32px;
   display: flex; flex-direction: column; align-items: center; text-align: center;
 }
-.iw-hero h1 { font-weight: 800; font-size: var(--step-3); line-height: 1.12; letter-spacing: -.8px; color: var(--blue); text-wrap: balance; }
+/* Held to two lines. The measure is short enough that a long name breaks in
+   two balanced halves rather than running the width, and short enough that a
+   short one still sits on one line. app.js takes the size down where even
+   two lines will not fit — a narrow phone, a very long name. */
+.iw-hero h1 { max-width: 24ch; font-weight: 800; font-size: var(--step-3); line-height: 1.12; letter-spacing: -.8px; color: var(--blue); text-wrap: balance; }
 .iw-hero p { margin: 16px 0 0; max-width: var(--measure); font-weight: 400; font-size: var(--step-1); line-height: 1.75; color: var(--muted); text-wrap: balance; }
 .ip-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; justify-content: center; }
 
@@ -457,6 +461,8 @@ a.ip-chip--on:hover { background: #1a5089; color: #fff; }
   .ip-crumbs span[aria-current], .ip-crumbs .sep:has(+ [aria-current]) { display: none; }
 }
 @media (max-width: 420px) {
+  /* the headline scales with the screen so a long name still makes two lines */
+  .iw-hero h1, .o2-hero h1 { font-size: clamp(24px, 8.4vw, 32px); }
   .ip-chip { height: 28px; padding: 0 10px; font-size: 12.5px; }
   .iw-btn { height: 48px; padding: 0 20px; font-size: 15px; }
   .ip-stats { grid-template-columns: 1fr; }

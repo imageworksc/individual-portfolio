@@ -10,7 +10,7 @@
 .o2-hero .iw-wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(28px, 4vw, 56px); align-items: center; }
 .o2-hero .iwh-in { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
 .o2-hero .ip-chips { justify-content: flex-start; }
-.o2-hero h1 { font-weight: 800; font-size: var(--step-3); line-height: 1.12; letter-spacing: -.8px; color: var(--blue); text-wrap: balance; }
+.o2-hero h1 { max-width: 24ch; font-weight: 800; font-size: var(--step-3); line-height: 1.12; letter-spacing: -.8px; color: var(--blue); text-wrap: balance; }
 .o2-hero .ip-lead { margin-top: 16px; }
 .o2-hero .ip-actions { justify-content: flex-start; }
 .o2-hero__frame { position: relative; }
@@ -58,6 +58,11 @@
   .o2-side .ip-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--gap); }
   .o2-side .ip-meta > div:nth-last-child(2) { border-bottom: 1px solid var(--line); }
   .o2-story .ip-brand .ip-swatches { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 420px) {
+  /* restated here: this sheet loads after the shared one and would otherwise
+     hold the headline at the desktop size on a narrow phone */
+  .o2-hero h1 { font-size: clamp(24px, 8.4vw, 32px); }
 }
 @media (max-width: 720px) {
   .o2-hero, .o2-long { padding-left: 16px; padding-right: 16px; }

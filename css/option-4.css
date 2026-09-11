@@ -1,7 +1,7 @@
 /* Option 4 — Simple
    The lane, the name, and one screenshot of the whole site. Nothing else:
    the frame carries the page top to bottom and the visitor scrolls it as
-   they would the site. No script runs on this page. */
+   they would the site. */
 
 .o4-stage { padding: 8px 24px 0; }
 /* a faint line around the frame, with the shadow pulled back so the line is
