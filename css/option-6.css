@@ -1,23 +1,92 @@
-/* Option 6 — Web and print
-   For a project that went past the screen. Each page gets a frame that
-   scrolls under the pointer, straight under the hero, and the print pieces
-   get the photography band. Centred like option 1, with the same
-   one-label-per-block restraint.
+/* Option 6 — Print
+   For work that lives on paper. The brochure stands under the headline in
+   one wide photograph; then the page drops into the brochure's own cobalt,
+   and each piece gets a row of its own, large, with a crimson rule over its
+   name. The palette closes the story on white.
 
+     STAGE       the standing brochure, wide
+     DEEP        the cobalt band, its head and its type
+     ROWS        image and copy, alternating
      LABEL       a block's only text
-     PAGES       two scrolling frames side by side
-     RESPONSIVE  where the pair stacks */
+     PALETTE     the client's colours, for the swatches
+     RESPONSIVE  where the rows stack */
+
+/* ===== STAGE =====
+   The photograph is square; cropped to 3:2 around the brochure, which sits
+   in its middle third, so the desk and the window frame it. */
+.o6-stage { position: relative; z-index: 2; padding: 8px 24px 0; }
+.o6-hero {
+  aspect-ratio: 3 / 2; border-radius: var(--r-card); overflow: hidden; background: var(--card-bg);
+  box-shadow: 0 30px 70px rgba(18,17,59,.28);
+  animation: iwRise .7s var(--ease-out) both; animation-delay: .2s;
+}
+.o6-hero img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 58%; }
+
+/* ===== DEEP =====
+   The band starts behind the lower part of the stage photograph, so the
+   photograph sits half on the wash and half on the cobalt. */
+.o6-deep {
+  position: relative; overflow: hidden; color: #fff;
+  margin-top: calc(-1 * clamp(120px, 16vw, 240px));
+  padding-top: calc(clamp(120px, 16vw, 240px) + var(--section));
+  background:
+    radial-gradient(60% 50% at 90% 20%, rgba(166,47,63,.38), rgba(166,47,63,0) 70%),
+    radial-gradient(50% 40% at 0% 90%, rgba(166,47,63,.22), rgba(166,47,63,0) 70%),
+    linear-gradient(160deg, #233576 0%, #12113B 78%);
+}
+/* the same 1px dot grid the closing band uses */
+.o6-deep::before { content: ''; position: absolute; inset: 0; pointer-events: none; background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px); background-size: 24px 24px; }
+.o6-deep .iw-wrap { position: relative; }
+.o6-head { text-align: center; margin-bottom: clamp(40px, 6vw, 80px); }
+.o6-eyebrow {
+  display: inline-flex; align-items: center; gap: 12px; margin-bottom: 14px;
+  font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: rgba(226,238,252,.82);
+}
+.o6-eyebrow::before { content: ''; width: 28px; height: 3px; border-radius: 2px; background: #C8384C; }
+.o6-head .o6-eyebrow::after { content: ''; width: 28px; height: 3px; border-radius: 2px; background: #C8384C; }
+.o6-eyebrow b { font-weight: 800; color: #fff; }
+.o6-h2 { font-weight: 800; font-size: clamp(32px, 4.6vw, 56px); line-height: 1.08; letter-spacing: -1px; color: #fff; text-wrap: balance; }
+.o6-h3 { font-weight: 800; font-size: clamp(26px, 2.8vw, 36px); line-height: 1.15; letter-spacing: -.5px; color: #fff; text-wrap: balance; }
+.o6-row__copy p { margin-top: 16px; max-width: 46ch; font-size: var(--step-1); line-height: 1.75; color: rgba(226,238,252,.82); }
+
+/* ===== ROWS ===== */
+.o6-rows { display: grid; gap: clamp(56px, 8vw, 112px); }
+.o6-row { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(28px, 5vw, 72px); align-items: center; }
+.o6-row:nth-child(even) { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+.o6-row:nth-child(even) .o6-row__media { order: 2; }
+.o6-row__media .ip-shot__frame { aspect-ratio: 5 / 4; background: #12113B; box-shadow: 0 30px 70px rgba(0,0,0,.35); }
+.o6-row__media .ip-shot__frame img { height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2,.7,.3,1); }
+.o6-row__media .ip-shot__frame:hover { box-shadow: 0 36px 80px rgba(0,0,0,.42); }
+.o6-row__media .ip-shot__frame:hover img { transform: scale(1.04); }
+@media (prefers-reduced-motion: reduce) { .o6-row__media .ip-shot__frame:hover img { transform: none; } }
 
 /* ===== LABEL =====
-   One small label, centred, with a count beside it. */
-.o6-label { display: flex; justify-content: center; align-items: baseline; gap: 12px; margin-bottom: clamp(20px, 3vw, 32px); }
+   One small label, centred, with a note beside it. */
+.o6-label { display: flex; justify-content: center; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; margin-bottom: clamp(20px, 3vw, 32px); }
 .o6-label .ip-eyebrow { margin: 0; }
 .o6-label small { font-size: 13px; font-weight: 600; letter-spacing: .04em; color: var(--muted-2); }
 
-/* ===== PAGES ===== */
-.o6-pages { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); }
-.o6-pages .ip-browser { box-shadow: inset 0 0 0 1px rgba(20,60,102,.06), 0 12px 32px rgba(9,40,80,.08); }
-.o6-pages figcaption { text-align: center; padding: 14px 0 0; font-size: var(--step-sm); font-weight: 600; color: var(--muted); }
+/* ===== PALETTE =====
+   Read from the logo files and the press mockups. They are the project's
+   colours, not the portfolio's, so they live here and not in the tokens. */
+.o6-swatches { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.o6-swatches .ip-swatch i { height: 120px; }
+.o6-sw-crimson { background: #a62f3f; }
+.o6-sw-card { background: #9c1937; }
+.o6-sw-cobalt { background: #233576; }
+.o6-sw-midnight { background: #12113b; }
+.o6-sw-slate { background: #6a7784; }
+.o6-sw-ink { background: #221f20; }
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 720px) { .o6-pages { grid-template-columns: 1fr; } }
+@media (max-width: 1100px) {
+  .o6-row, .o6-row:nth-child(even) { grid-template-columns: 1fr; }
+  .o6-row:nth-child(even) .o6-row__media { order: 0; }
+  .o6-swatches { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 720px) {
+  .o6-stage { padding: 8px 16px 0; }
+  .o6-hero { aspect-ratio: 4 / 3; }
+  .o6-swatches { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (prefers-reduced-motion: reduce) { .o6-hero { animation: none; } }
