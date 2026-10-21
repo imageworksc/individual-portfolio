@@ -1,11 +1,11 @@
 /* Option 6 — Print
    For work that lives on paper. The brochure stands under the headline in
-   one wide photograph; then the page drops into the brochure's own cobalt,
-   and each piece gets a row of its own, large, with a crimson rule over its
-   name. The palette closes the story on white.
+   one wide photograph; then the page drops into the portfolio's own blue,
+   the closing band's gradient, and each piece gets a row of its own, large,
+   with a crimson rule over its name. The palette closes the story on white.
 
      STAGE       the standing brochure, wide
-     DEEP        the cobalt band, its head and its type
+     DEEP        the blue band, its head and its type
      ROWS        image and copy, alternating
      LABEL       a block's only text
      PALETTE     the client's colours, for the swatches
@@ -17,22 +17,19 @@
 .o6-stage { position: relative; z-index: 2; padding: 8px 24px 0; }
 .o6-hero {
   aspect-ratio: 3 / 2; border-radius: var(--r-card); overflow: hidden; background: var(--card-bg);
-  box-shadow: 0 30px 70px rgba(18,17,59,.28);
+  box-shadow: 0 30px 70px rgba(9,40,80,.28);
   animation: iwRise .7s var(--ease-out) both; animation-delay: .2s;
 }
 .o6-hero img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 58%; }
 
 /* ===== DEEP =====
    The band starts behind the lower part of the stage photograph, so the
-   photograph sits half on the wash and half on the cobalt. */
+   photograph sits half on the wash and half on the blue. */
 .o6-deep {
   position: relative; overflow: hidden; color: #fff;
   margin-top: calc(-1 * clamp(120px, 16vw, 240px));
   padding-top: calc(clamp(120px, 16vw, 240px) + var(--section));
-  background:
-    radial-gradient(60% 50% at 90% 20%, rgba(166,47,63,.38), rgba(166,47,63,0) 70%),
-    radial-gradient(50% 40% at 0% 90%, rgba(166,47,63,.22), rgba(166,47,63,0) 70%),
-    linear-gradient(160deg, #233576 0%, #12113B 78%);
+  background: var(--cta-band);
 }
 /* the same 1px dot grid the closing band uses */
 .o6-deep::before { content: ''; position: absolute; inset: 0; pointer-events: none; background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px); background-size: 24px 24px; }
@@ -54,7 +51,7 @@
 .o6-row { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(28px, 5vw, 72px); align-items: center; }
 .o6-row:nth-child(even) { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
 .o6-row:nth-child(even) .o6-row__media { order: 2; }
-.o6-row__media .ip-shot__frame { aspect-ratio: 5 / 4; background: #12113B; box-shadow: 0 30px 70px rgba(0,0,0,.35); }
+.o6-row__media .ip-shot__frame { aspect-ratio: 5 / 4; background: var(--navy-deep); box-shadow: 0 30px 70px rgba(0,0,0,.35); }
 .o6-row__media .ip-shot__frame img { height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2,.7,.3,1); }
 .o6-row__media .ip-shot__frame:hover { box-shadow: 0 36px 80px rgba(0,0,0,.42); }
 .o6-row__media .ip-shot__frame:hover img { transform: scale(1.04); }
