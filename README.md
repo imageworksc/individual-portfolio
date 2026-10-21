@@ -14,7 +14,7 @@ Live: **https://imageworksc.github.io/individual-portfolio/**
 | [`option-3.html`](option-3.html) | **Showcase** — device stage, brief, facts in a row, five numbered feature rows, photography band | Casey Margenau Fine Homes & Estates |
 | [`option-4.html`](option-4.html) | **Simple** — category chips, the headline, and one full-page screenshot in a browser frame; no copy | Casey Margenau Fine Homes & Estates |
 | [`option-5.html`](option-5.html) | **Simple, two pages** — chips, headline, project label, and two full-page screenshots side by side | Center for Vascular Medicine |
-| [`option-6.html`](option-6.html) | **Web and print** — banner strip, two long-scroll frames, the brochure and business cards, next-project band | Center for Vascular Medicine |
+| [`option-6.html`](option-6.html) | **Web and print** — two long-scroll frames, the brochure and business cards, next-project band | Center for Vascular Medicine |
 
 Every option opens with the portfolio's page wash, ends on its closing band,
 links back to the grid, and leads on to the next project.
@@ -39,7 +39,7 @@ assets/casey/         Casey Margenau: hero, section and mobile captures, photogr
 assets/asc/           Atlantic Sun Control: hero, section and mobile captures
                       (both folders hold a few spare captures the pages do not
                       use yet — swap them in when adjusting an option)
-assets/cvm/           Center for Vascular Medicine: banner, two full-page captures,
+assets/cvm/           Center for Vascular Medicine: two full-page captures,
                       brochure and business-card mockups
 assets/works/         two portfolio images for the "More work" row
 assets/options/       thumbnails of the six options, for the chooser
