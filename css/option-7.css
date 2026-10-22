@@ -69,7 +69,6 @@
 }
 /* the section's eyebrow sits between two crimson rules; a row's stands alone */
 .o7-head .o7-eyebrow::before, .o7-head .o7-eyebrow::after { content: ''; width: 28px; height: 3px; border-radius: 2px; background: #d8393a; }
-.o7-eyebrow b { font-weight: 800; color: #fff; }
 .o7-h2 { font-weight: 800; font-size: clamp(32px, 4.6vw, 56px); line-height: 1.08; letter-spacing: -1px; color: #fff; text-wrap: balance; }
 .o7-h3 { font-weight: 800; font-size: clamp(26px, 2.8vw, 36px); line-height: 1.15; letter-spacing: -.5px; color: #fff; text-wrap: balance; }
 .o7-row__copy p { margin-top: 16px; max-width: 46ch; font-size: var(--step-1); line-height: 1.75; color: rgba(226,238,252,.82); }

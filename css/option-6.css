@@ -2,7 +2,7 @@
    For work that lives on paper. The brochure stands under the headline in
    one wide photograph; then the page drops into the portfolio's own blue,
    the closing band's gradient, and each piece gets a row of its own, large,
-   numbered. The palette closes the story on white.
+   under its name. The palette closes the story on white.
 
      STAGE       the standing brochure, wide
      DEEP        the blue band, its head and its type
@@ -41,7 +41,6 @@
 }
 /* the section's eyebrow sits between two crimson rules; a row's stands alone */
 .o6-head .o6-eyebrow::before, .o6-head .o6-eyebrow::after { content: ''; width: 28px; height: 3px; border-radius: 2px; background: #C8384C; }
-.o6-eyebrow b { font-weight: 800; color: #fff; }
 .o6-h2 { font-weight: 800; font-size: clamp(32px, 4.6vw, 56px); line-height: 1.08; letter-spacing: -1px; color: #fff; text-wrap: balance; }
 .o6-h3 { font-weight: 800; font-size: clamp(26px, 2.8vw, 36px); line-height: 1.15; letter-spacing: -.5px; color: #fff; text-wrap: balance; }
 .o6-row__copy p { margin-top: 16px; max-width: 46ch; font-size: var(--step-1); line-height: 1.75; color: rgba(226,238,252,.82); }
