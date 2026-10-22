@@ -22,7 +22,7 @@
      SHOTS         gallery figures, and the lightbox they open
      SWATCHES      palette and type specimen
      NEXT PROJECT  the band that leads on
-     CAROUSEL      more work from the same lane, a row that scrolls
+     WORK          more work from the same lane, in moving columns
      CTA           the closing band
      MOTION        entrance and reveal
      RESPONSIVE    where something has to give */
@@ -433,32 +433,46 @@ a.ip-chip--on:hover { background: #1a5089; color: #fff; }
 .ip-nextproj .ip-link { margin-top: 22px; }
 @media (prefers-reduced-motion: reduce) { .ip-nextproj:hover .ip-browser { transform: none; } }
 
-/* ===== CAROUSEL =====
-   More work from the same lane, as the grid's own cards in a row that
-   scrolls sideways. It snaps a card at a time; the arrows (app.js) step it
-   by one card and grey out at either end. The track keeps room above and
-   below so a lifted card and its shadow are not clipped. */
-.ip-carousel__head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 8px; }
-.ip-carousel__head .ip-eyebrow { margin: 0; }
-.ip-carousel__nav { display: flex; gap: 8px; }
-.ip-carousel__btn {
-  display: grid; place-items: center; width: 44px; height: 44px; padding: 0;
-  border: 1.5px solid rgba(20,60,102,.22); border-radius: var(--r);
-  background: rgba(255,255,255,.66); color: var(--navy); cursor: pointer;
-  transition: transform .25s var(--ease), border-color .25s ease, color .25s ease, opacity .25s ease;
+/* ===== WORK SCROLLER =====
+   More work from the same lane, moving the way the ImageWorks home page
+   moves its work: three columns of the grid's own cards, tilted, each
+   drifting endlessly — the outer two upward, the middle one down. Every
+   column holds its cards twice over, so moving it by half lands on an
+   identical frame and the loop has no seam. A column stops while the
+   pointer or the keyboard is in it, so a card can be read and opened.
+   Copy on the left, the columns on the right; the stage fades out at all
+   four edges rather than cutting the cards off. */
+.ip-work { --work-gap: 22px; overflow: hidden; }
+.ip-work__in { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
+.ip-work__copy .ip-h2 { margin-bottom: 28px; }
+.ip-work__stage {
+  position: relative; height: 620px;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 14%, #000 86%, transparent 100%), linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(180deg, transparent 0, #000 14%, #000 86%, transparent 100%), linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+  mask-composite: intersect;
 }
-.ip-carousel__btn:hover { border-color: var(--navy); color: var(--navy); transform: translateY(-3px); }
-.ip-carousel__btn:disabled { opacity: .35; cursor: default; transform: none; border-color: rgba(20,60,102,.22); }
-.ip-carousel__track {
-  display: flex; gap: var(--gap); margin: 0; padding: 16px 0 32px; list-style: none;
-  overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
-  scrollbar-width: none; -webkit-overflow-scrolling: touch;
+.ip-work__cols {
+  position: absolute; top: -30%; bottom: -30%; left: -6%; right: -14%;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--work-gap);
+  transform: rotate(14deg);
 }
-.ip-carousel__track::-webkit-scrollbar { display: none; }
-.ip-carousel__track > .iw-card { flex: 0 0 368px; scroll-snap-align: start; }
+.ip-work__col { position: relative; overflow: hidden; }
+.ip-work__track, .ip-work__echo { display: grid; gap: var(--work-gap); }
+.ip-work__track { animation: ipWorkUp 70s linear infinite; }
+.ip-work__col:nth-child(2) .ip-work__track { animation-name: ipWorkDown; animation-duration: 80s; }
+.ip-work__col:nth-child(3) .ip-work__track { animation-duration: 90s; }
+.ip-work__col:hover .ip-work__track, .ip-work__col:focus-within .ip-work__track { animation-play-state: paused; }
+/* the grid's card, sized by its column instead of fixed */
+.ip-work .iw-card { max-width: none; height: auto; aspect-ratio: 368 / 274.5; }
+.ip-work .iw-card .img > img { transition: filter .25s ease, transform .5s ease; }
+.ip-work .iw-card:hover .img > img { transform: scale(1.05); }
+/* half the track is one set of cards plus the gap that follows it */
+@keyframes ipWorkUp { from { transform: translateY(0); } to { transform: translateY(calc(-50% - var(--work-gap) / 2)); } }
+@keyframes ipWorkDown { from { transform: translateY(calc(-50% - var(--work-gap) / 2)); } to { transform: translateY(0); } }
 @media (prefers-reduced-motion: reduce) {
-  .ip-carousel__track { scroll-behavior: auto; }
-  .ip-carousel__btn:hover { transform: none; }
+  .ip-work__track { animation: none !important; }
+  .ip-work .iw-card:hover .img > img { transform: none; }
 }
 
 /* ===== CTA (from the grid, with less room above and below) ===== */
@@ -515,9 +529,12 @@ a.ip-chip--on:hover { background: #1a5089; color: #fff; }
   .ip-scroller:hover img { transform: translateY(calc(-100% + 440px)); }
   .ip-photos { grid-template-columns: 1fr; grid-auto-rows: 220px; }
   .ip-photos figure:first-child { grid-column: auto; grid-row: auto; }
-  /* a card and a sliver of the next, so the row reads as one that scrolls */
-  .ip-carousel__track > .iw-card { flex-basis: 84%; }
-  .ip-carousel__track { gap: 16px; }
+  /* the copy over the columns; two columns, less tilt, a shorter stage */
+  .ip-work__in { grid-template-columns: 1fr; }
+  .ip-work__stage { height: 440px; }
+  .ip-work { --work-gap: 14px; }
+  .ip-work__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); left: -10%; right: -10%; transform: rotate(8deg); }
+  .ip-work__col:nth-child(3) { display: none; }
   /* the current page drops out of the trail, and the slash before it with it */
   .ip-crumbs span[aria-current], .ip-crumbs .sep:has(+ [aria-current]) { display: none; }
 }

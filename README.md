@@ -14,7 +14,7 @@ Live: **https://imageworksc.github.io/individual-portfolio/**
 | [`option-3.html`](option-3.html) | **Showcase** — device stage, brief, facts in a row, five numbered feature rows, photography band | Casey Margenau Fine Homes & Estates |
 | [`option-4.html`](option-4.html) | **Simple** — category chips, the headline, and one full-page screenshot in a browser frame; no copy | Casey Margenau Fine Homes & Estates |
 | [`option-6.html`](option-6.html) | **Print** — a wide stage photograph of the brochure, a blue band with one large row per piece, the client palette, next-project band | Center for Vascular Medicine |
-| [`option-7.html`](option-7.html) | **Brand** — titles only: the logo on white and navy, four logo versions, business cards and envelopes on a blue band, palette and Montserrat specimen in one block, a carousel of the portfolio's branding cards | Spring Cove |
+| [`option-7.html`](option-7.html) | **Brand** — titles only: the logo on white and navy, four logo versions, business cards and envelopes on a blue band, palette and Montserrat specimen in one block, the portfolio's branding cards in tilted, drifting columns as on the ImageWorks home page | Spring Cove |
 
 Every option opens with the portfolio's page wash, ends on its closing band,
 links back to the grid, and leads on to the next project.
@@ -34,8 +34,7 @@ css/styles.css        shared: tokens, base, button, wash, chips, card, frames,
                       next-project band, CTA, motion, responsive
 css/option-N.css      what each option lays out differently
 css/index.css         the chooser's cards
-js/app.js             reveal on scroll, the lightbox, the sticky nav's scrollspy,
-                      the carousel arrows
+js/app.js             reveal on scroll, the lightbox, the sticky nav's scrollspy
 assets/casey/         Casey Margenau: hero, section and mobile captures, photography
 assets/asc/           Atlantic Sun Control: hero, section and mobile captures
                       (both folders hold a few spare captures the pages do not
@@ -45,7 +44,7 @@ assets/cvm/           Center for Vascular Medicine: brochure and
 assets/springcove/    Spring Cove: logo versions, business-card and envelope
                       mockups, the card strip
 assets/works/         portfolio images for the "More work" row and the branding
-                      carousel (the same files the portfolio grid shows)
+                      columns (the same files the portfolio grid shows)
 assets/options/       thumbnails of the six options, for the chooser
 DESIGN.md             the design contract — every token, primitive and motion value
 ```
@@ -64,8 +63,8 @@ No build step. Open any HTML file directly, or serve the folder.
   blocks in page order. Colours that belong to a client project (the swatch
   strips) live in that option's sheet, not in the shared tokens.
 - **JavaScript** is one file in modern syntax — `const`/`let`, arrow
-  functions, template literals, optional chaining — an IIFE with five parts (title, reveal,
-  lightbox, scrollspy, carousel). It marks state with classes and attributes and lets
+  functions, template literals, optional chaining — an IIFE with four parts (title, reveal,
+  lightbox, scrollspy). It marks state with classes and attributes and lets
   the stylesheet decide what they mean; the one value it writes directly is a
   measurement, the headline size when two lines will not fit.
 
