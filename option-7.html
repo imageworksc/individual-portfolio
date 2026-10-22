@@ -7,9 +7,9 @@
   <meta name="description" content="A brand identity for Spring Cove, a marina and boatyard in Solomons, Maryland: the pennant logo, its palette and type, business cards and envelopes — by ImageWorks Creative.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Montserrat:wght@400..700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css?v=8">
-  <link rel="stylesheet" href="css/option-7.css?v=2">
+  <link rel="stylesheet" href="css/option-7.css?v=3">
 </head>
 <body>
 
@@ -67,10 +67,21 @@
     </div>
   </div>
 
+  <!-- ===== TICKER: the name, running =====
+       Two identical halves; the track moves by one half and starts over. -->
+  <div class="o7-ticker" aria-hidden="true">
+    <div class="o7-ticker__track">
+      <span>Spring Cove</span><svg class="o7-ticker__pin"><use href="#i-pennant"/></svg><span class="is-outline">Solomons, MD</span><svg class="o7-ticker__pin"><use href="#i-pennant"/></svg>
+      <span>Spring Cove</span><svg class="o7-ticker__pin"><use href="#i-pennant"/></svg><span class="is-outline">Solomons, MD</span><svg class="o7-ticker__pin"><use href="#i-pennant"/></svg>
+      <span>Spring Cove</span><svg class="o7-ticker__pin"><use href="#i-pennant"/></svg><span class="is-outline">Solomons, MD</span><svg class="o7-ticker__pin"><use href="#i-pennant"/></svg>
+      <span>Spring Cove</span><svg class="o7-ticker__pin"><use href="#i-pennant"/></svg><span class="is-outline">Solomons, MD</span><svg class="o7-ticker__pin"><use href="#i-pennant"/></svg>
+    </div>
+  </div>
+
   <!-- ===== LOGO: four versions ===== -->
   <section class="ip-section">
     <div class="iw-wrap">
-      <div class="o7-label rv"><span class="ip-eyebrow">Logo</span><small>4 versions</small></div>
+      <h2 class="o7-title rv">Logo</h2>
       <div class="o7-logos">
         <figure class="rv"><div class="o7-logo o7-logo--white"><img src="assets/springcove/logo-color.webp" width="1000" height="850" alt="Full-colour logo on white." loading="lazy"></div><figcaption>Full colour</figcaption></figure>
         <figure class="rv rv-d1"><div class="o7-logo o7-logo--mist"><img src="assets/springcove/logo-mono.webp" width="1000" height="850" alt="One-colour black logo on a pale grey ground." loading="lazy"></div><figcaption>One colour</figcaption></figure>
@@ -80,54 +91,41 @@
     </div>
   </section>
 
-  <!-- ===== STATIONERY: one row per piece, on the portfolio's blue ===== -->
+  <!-- ===== STATIONERY: two pieces side by side, then the cards running ===== -->
   <section class="ip-section o7-deep">
     <div class="iw-wrap">
-      <div class="o7-head rv">
-        <span class="o7-eyebrow">Stationery</span>
-        <h2 class="o7-h2">The brand, on paper</h2>
+      <h2 class="o7-title o7-title--light rv">Stationery</h2>
+      <div class="o7-pair">
+        <figure class="ip-shot o7-tile o7-tile--cards rv">
+          <button type="button" class="ip-shot__frame" data-zoom="assets/springcove/business-cards@2x.jpg" aria-label="Open the business cards full size"><img src="assets/springcove/business-cards.jpg" srcset="assets/springcove/business-cards.jpg 1600w, assets/springcove/business-cards@2x.jpg 2600w" sizes="(min-width: 4800px) 1308px, (min-width: 3600px) 1006px, (min-width: 2800px) 805px, (min-width: 2200px) 629px, (min-width: 1208px) 503px, (min-width: 721px) calc(44vw - 34px), calc(100vw - 32px)" width="1600" height="1600" alt="Both sides of the Spring Cove business card: the logo on a white disc over navy with a crimson and a cerulean arc, and the owner's name, address, marina and boatyard numbers in white on navy beside the pennant." loading="lazy"></button>
+          <figcaption>Business cards</figcaption>
+        </figure>
+        <figure class="ip-shot o7-tile o7-tile--envelopes rv rv-d1">
+          <button type="button" class="ip-shot__frame" data-zoom="assets/springcove/envelopes@2x.jpg" aria-label="Open the envelopes full size"><img src="assets/springcove/envelopes.jpg" srcset="assets/springcove/envelopes.jpg 2400w, assets/springcove/envelopes@2x.jpg 3600w" sizes="(min-width: 4800px) 1963px, (min-width: 3600px) 1510px, (min-width: 2800px) 1208px, (min-width: 2200px) 944px, (min-width: 1208px) 755px, (min-width: 721px) calc(67vw - 51px), calc(120vw - 38px)" width="2400" height="1600" alt="Two #10 envelopes on a blush ground: the front with the logo and return address over a navy and cerulean sweep, the back with a solid navy flap." loading="lazy"></button>
+          <figcaption>Envelopes</figcaption>
+        </figure>
       </div>
+    </div>
 
-      <div class="o7-rows">
-        <div class="o7-row">
-          <figure class="ip-shot o7-row__media rv">
-            <button type="button" class="ip-shot__frame" data-zoom="assets/springcove/business-cards@2x.jpg" aria-label="Open the business cards full size"><img src="assets/springcove/business-cards.jpg" srcset="assets/springcove/business-cards.jpg 1600w, assets/springcove/business-cards@2x.jpg 2600w" sizes="(min-width: 4800px) 1651px, (min-width: 3600px) 1270px, (min-width: 2800px) 1016px, (min-width: 2200px) 794px, (min-width: 1101px) 635px, (min-width: 721px) calc(100vw - 48px), calc(100vw - 32px)" width="1600" height="1600" alt="Both sides of the Spring Cove business card: the logo on a white disc over navy with a crimson and a cerulean arc, and the owner's name, address, marina and boatyard numbers in white on navy beside the pennant." loading="lazy"></button>
-            <figcaption class="sr-only">Business cards</figcaption>
-          </figure>
-          <div class="o7-row__copy rv rv-d1">
-            <span class="o7-eyebrow">Business cards</span>
-            <h3 class="o7-h3">A white disc on navy, edged in the flag's colours</h3>
-            <p>The full mark on the front; on the back the pennant alone, cut by the curve, with the marina and the boatyard each given their own line.</p>
-          </div>
-        </div>
-
-        <div class="o7-row">
-          <figure class="ip-shot o7-row__media rv">
-            <button type="button" class="ip-shot__frame" data-zoom="assets/springcove/envelopes@2x.jpg" aria-label="Open the envelopes full size"><img src="assets/springcove/envelopes.jpg" srcset="assets/springcove/envelopes.jpg 2400w, assets/springcove/envelopes@2x.jpg 3600w" sizes="(min-width: 4800px) 1651px, (min-width: 3600px) 1270px, (min-width: 2800px) 1016px, (min-width: 2200px) 794px, (min-width: 1101px) 635px, (min-width: 721px) calc(100vw - 48px), calc(100vw - 32px)" width="2400" height="1600" alt="Two #10 envelopes on a blush ground: the front with the logo and return address over a navy and cerulean sweep, the back with a solid navy flap." loading="lazy"></button>
-            <figcaption class="sr-only">Envelopes</figcaption>
-          </figure>
-          <div class="o7-row__copy rv rv-d1">
-            <span class="o7-eyebrow">Envelopes</span>
-            <h3 class="o7-h3">The same curve, carried to the mail</h3>
-            <p>The card's sweep returns in the corner of the envelope, the logo and return address sit top left, and the flap is solid navy.</p>
-          </div>
-        </div>
+    <!-- the run of cards, moving; the second pair repeats the first -->
+    <div class="o7-reel" aria-label="A run of Spring Cove business cards fanned out and stacked" role="img">
+      <div class="o7-reel__track">
+        <img src="assets/springcove/cards-strip.jpg" width="1920" height="407" alt="" loading="lazy">
+        <img src="assets/springcove/cards-strip.jpg" width="1920" height="407" alt="" loading="lazy">
+        <img src="assets/springcove/cards-strip.jpg" width="1920" height="407" alt="" loading="lazy">
+        <img src="assets/springcove/cards-strip.jpg" width="1920" height="407" alt="" loading="lazy">
       </div>
-
-      <figure class="o7-strip rv">
-        <img src="assets/springcove/cards-strip.jpg" width="1920" height="407" alt="A run of Spring Cove business cards fanned out and stacked, fronts and backs mixed." loading="lazy">
-      </figure>
     </div>
   </section>
 
   <!-- ===== PALETTE ===== -->
   <section class="ip-section">
     <div class="iw-wrap">
-      <div class="o7-label rv"><span class="ip-eyebrow">Palette</span><small>From the brand guidelines</small></div>
+      <h2 class="o7-title rv">Palette</h2>
       <div class="o7-colors">
-        <div class="o7-color o7-color--navy rv"><b>Navy</b><span>#0B143F</span><small>RGB 11 · 20 · 63</small><small>CMYK 100 · 95 · 40 · 51</small></div>
-        <div class="o7-color o7-color--cerulean rv rv-d1"><b>Cerulean</b><span>#3588C4</span><small>RGB 53 · 136 · 196</small><small>CMYK 77 · 37 · 2 · 0</small></div>
-        <div class="o7-color o7-color--crimson rv rv-d2"><b>Crimson</b><span>#C42021</span><small>RGB 196 · 32 · 33</small><small>CMYK 16 · 100 · 100 · 6</small></div>
+        <div class="o7-color o7-color--navy rv"><b>Navy</b><span>#0B143F</span></div>
+        <div class="o7-color o7-color--cerulean rv rv-d1"><b>Cerulean</b><span>#3588C4</span></div>
+        <div class="o7-color o7-color--crimson rv rv-d2"><b>Crimson</b><span>#C42021</span></div>
       </div>
     </div>
   </section>
@@ -135,17 +133,16 @@
   <!-- ===== TYPE ===== -->
   <section class="ip-section ip-section--band">
     <div class="iw-wrap">
-      <div class="o7-label rv"><span class="ip-eyebrow">Type</span><small>One family, four weights</small></div>
+      <h2 class="o7-title rv">Type</h2>
       <div class="o7-type rv">
-        <div class="o7-type__aa">Aa</div>
+        <div class="o7-type__aa" aria-hidden="true">Aa</div>
         <div class="o7-type__body">
           <div class="o7-type__name">Montserrat</div>
-          <p class="o7-type__set">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz<br>0123456789</p>
           <div class="o7-type__weights">
-            <span class="fw-700">Bold<small>700 — the logo</small></span>
-            <span class="fw-600">SemiBold<small>600</small></span>
-            <span class="fw-500">Medium<small>500</small></span>
-            <span class="fw-400">Regular<small>400</small></span>
+            <span class="fw-700">Bold</span>
+            <span class="fw-600">SemiBold</span>
+            <span class="fw-500">Medium</span>
+            <span class="fw-400">Regular</span>
           </div>
         </div>
       </div>
@@ -158,7 +155,6 @@
       <div class="rv">
         <span class="ip-eyebrow">Next project</span>
         <h2 class="ip-h2">Casey Margenau Fine Homes &amp; Estates</h2>
-        <p class="ip-lead">A luxury real estate homepage for Northern Virginia's top-producing team.</p>
         <a class="ip-link" href="option-1.html">View project<svg class="ic" aria-hidden="true"><use href="#i-arrow-r"/></svg></a>
       </div>
       <div class="ip-browser rv rv-d1">
