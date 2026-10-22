@@ -461,8 +461,8 @@ a.ip-chip--on:hover { background: #1a5089; color: #fff; }
   .ip-carousel__btn:hover { transform: none; }
 }
 
-/* ===== CTA (verbatim from the grid) ===== */
-.iw-cta { position: relative; overflow: hidden; padding: clamp(72px, 8vw, 112px) 16px; background: var(--cta-band); color: #fff; text-align: center; }
+/* ===== CTA (from the grid, with less room above and below) ===== */
+.iw-cta { position: relative; overflow: hidden; padding: clamp(48px, 5vw, 72px) 16px; background: var(--cta-band); color: #fff; text-align: center; }
 .iw-cta::before { content: ''; position: absolute; inset: 0; pointer-events: none; background-image: radial-gradient(rgba(255,255,255,.07) 1px, transparent 1px); background-size: 24px 24px; }
 .iw-cta .inner { position: relative; z-index: 2; }
 .iw-cta h2 { margin: 0; font-weight: 800; font-size: var(--step-2); line-height: 1.15; letter-spacing: -.5px; color: #fff; }

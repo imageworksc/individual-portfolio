@@ -70,7 +70,7 @@ page chrome.
 | `.ip-shot` | figure in a card frame, image at natural aspect, caption 14px 600 muted with an index | hover: lift 6px (it opens the lightbox); focus-visible: green ring |
 | `.ip-lightbox` | `<dialog>` with a `rgba(15,46,79,.92)` backdrop, image at max 92vw × 88vh | opens on click/Enter, closes on Escape, backdrop click, or the close button |
 | `.ip-nextproj` | band on `--card-bg`, 2-col: eyebrow + title + lead + arrow link / browser frame | hover on the whole band lifts the frame 6px |
-| `.iw-cta` | ported band: gradient, 1px white dots at .07 every 24px, white h2, pale-blue lead, 58px green button | button as `.iw-btn` |
+| `.iw-cta` | ported band: gradient, 1px white dots at .07 every 24px, white h2, pale-blue lead, 58px green button; padding `clamp(48px, 5vw, 72px)` top and bottom, tighter than the grid's | button as `.iw-btn` |
 
 ## 5. Motion
 
