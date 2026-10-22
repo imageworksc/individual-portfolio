@@ -1,5 +1,5 @@
 /* ImageWorks Creative — Individual portfolio page
-   Four small behaviours shared by every option. Nothing here writes a style;
+   Five small behaviours shared by every option. Nothing here writes a style;
    it only marks state, and css/styles.css decides what the marks mean. The
    one exception is a measurement: the headline's size when two lines will
    not fit, which depends on the rendered text and so cannot be known ahead
@@ -9,6 +9,7 @@
      REVEAL     sections come up as they enter the viewport
      LIGHTBOX   a gallery figure opens full size in a <dialog>
      SCROLLSPY  the sticky sidebar (option 2) tracks the section in view
+     CAROUSEL   the arrows step a row of cards along
      BOOT
 
    Each part looks for what it needs and stands down if the page has none of
@@ -187,12 +188,51 @@
     update();
   };
 
+  /* ===== CAROUSEL =====
+     The track scrolls by itself — touch, trackpad, arrow keys once it has
+     focus. The buttons step it by one card and its gap, and are disabled at
+     either end. Their state is read from the scroll position, one
+     measurement per frame. */
+  const carousels = () => {
+    for (const root of document.querySelectorAll("[data-carousel]")) {
+      const track = root.querySelector(".ip-carousel__track");
+      const prev = root.querySelector("[data-carousel-prev]");
+      const next = root.querySelector("[data-carousel-next]");
+      if (!track || !prev || !next) continue;
+
+      const step = () => {
+        const card = track.firstElementChild;
+        if (!card) return track.clientWidth;
+        return card.offsetWidth + parseFloat(getComputedStyle(track).columnGap || "0");
+      };
+      const update = () => {
+        const max = track.scrollWidth - track.clientWidth;
+        prev.disabled = track.scrollLeft <= 2;
+        next.disabled = track.scrollLeft >= max - 2;
+      };
+
+      prev.addEventListener("click", () => track.scrollBy({ left: -step() }));
+      next.addEventListener("click", () => track.scrollBy({ left: step() }));
+
+      let ticking = false;
+      const onScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => { ticking = false; update(); });
+      };
+      track.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll, { passive: true });
+      update();
+    }
+  };
+
   /* ===== BOOT ===== */
   const boot = () => {
     watchTitles();
     reveal();
     lightbox();
     scrollspy();
+    carousels();
   };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();
