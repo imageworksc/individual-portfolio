@@ -14,7 +14,7 @@ Live: **https://imageworksc.github.io/individual-portfolio/**
 | [`option-3.html`](option-3.html) | **Showcase** — device stage, brief, facts in a row, five numbered feature rows, photography band | Casey Margenau Fine Homes & Estates |
 | [`option-4.html`](option-4.html) | **Simple** — category chips, the headline, and one full-page screenshot in a browser frame; no copy | Casey Margenau Fine Homes & Estates |
 | [`option-6.html`](option-6.html) | **Print** — a wide stage photograph of the brochure, a blue band with one large row per piece, the client palette, next-project band | Center for Vascular Medicine |
-| [`option-7.html`](option-7.html) | **Brand** — titles only: the logo on white and navy, four logo versions, business cards and envelopes on a blue band, palette swatches, the Montserrat specimen, next-project band | Spring Cove |
+| [`option-7.html`](option-7.html) | **Brand** — titles only: the logo on white and navy, four logo versions, business cards and envelopes on a blue band, palette and Montserrat specimen in one block, next-project band | Spring Cove |
 
 Every option opens with the portfolio's page wash, ends on its closing band,
 links back to the grid, and leads on to the next project.

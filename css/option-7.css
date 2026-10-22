@@ -1,7 +1,7 @@
 /* Option 7 — Brand
    For an identity, with titles only. The mark opens on white and on navy,
    then its versions, the stationery on the portfolio's blue, and the
-   palette and type as the guidelines set them. Each block is named by one
+   palette beside the type, as the guidelines set them. Each block is named by one
    eyebrow, as in option 1, and moves only as the portfolio does: the stage
    rises with the hero, blocks come up as they enter, and frames lift
    under the pointer.
@@ -11,8 +11,7 @@
      LOGOS       the four versions, each on its own ground
      DEEP        the blue band
      PAIR        the two stationery pieces, and the strip under them
-     PALETTE     the client's colours, for the swatches
-     TYPE        the Montserrat specimen
+     BRAND       the client's colours beside the Montserrat specimen
      RESPONSIVE  where the grids fold
 
    Spring Cove's colours and face are the project's, not the portfolio's, so
@@ -91,19 +90,21 @@
 .o7-strip img { width: 100%; height: auto; }
 @media (prefers-reduced-motion: reduce) { .o7-tile:has(.ip-shot__frame:hover) figcaption { transform: none; } }
 
-/* ===== PALETTE =====
-   The guidelines' three, in the shared swatch, a little taller. */
-.o7-swatches { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); }
-.o7-swatches .ip-swatch i { height: 140px; }
+/* ===== BRAND =====
+   One block, as the guidelines set it: the three colours in the shared
+   swatch on the left, the specimen card on the right, both the same
+   height. */
+.o7-brand { align-items: stretch; }
+.o7-swatches { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.o7-swatches .ip-swatch { display: flex; flex-direction: column; }
+.o7-swatches .ip-swatch i { flex: 1; min-height: 140px; }
 .o7-sw-navy { background: #0b143f; }
 .o7-sw-cerulean { background: #3588c4; }
 .o7-sw-crimson { background: #c42021; }
 
-/* ===== TYPE =====
-   The shared specimen card, set in the client's face. */
+/* the shared specimen card, set in the client's face */
 .ip-type--montserrat .ip-type__aa, .ip-type--montserrat .ip-type__weights { font-family: 'Montserrat', system-ui, sans-serif; }
-.o7-type { display: grid; grid-template-columns: auto 1fr; gap: clamp(24px, 4vw, 56px); align-items: center; }
-.o7-type .ip-type__aa { font-size: clamp(72px, 9vw, 120px); color: #0b143f; }
+.o7-type .ip-type__aa { font-size: clamp(72px, 8vw, 104px); color: #0b143f; }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1100px) {
@@ -119,7 +120,6 @@
   .o7-pair { grid-template-columns: 1fr; gap: 16px; }
   .o7-strip { margin-top: 16px; }
   .o7-swatches { gap: 12px; }
-  .o7-swatches .ip-swatch i { height: 96px; }
-  .o7-type { grid-template-columns: 1fr; gap: 8px; }
+  .o7-swatches .ip-swatch i { min-height: 96px; }
 }
 @media (prefers-reduced-motion: reduce) { .o7-hero { animation: none; } }
