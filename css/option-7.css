@@ -1,0 +1,135 @@
+/* Option 7 — Brand
+   For an identity. The mark opens the page twice over — on white and on
+   navy, with the flag's three colours run along the foot — then the
+   versions in a row, the stationery on the portfolio's blue one piece at a
+   time, and the palette and type as the guidelines set them.
+
+     STAGE       the mark on white and on navy, and the stripe under them
+     LABEL       a block's only text
+     LOGOS       the four versions, each on its own ground
+     DEEP        the blue band, its head and its type
+     ROWS        image and copy, alternating, and the strip under them
+     COLOURS     the palette, as big blocks
+     TYPE        the Montserrat specimen
+     RESPONSIVE  where the rows stack and the grids fold
+
+   Spring Cove's colours and face are the project's, not the portfolio's, so
+   they live here and not in the shared tokens. */
+
+/* ===== STAGE ===== */
+.o7-stage { position: relative; z-index: 2; padding: 8px 24px 0; }
+.o7-hero {
+  position: relative; display: grid; grid-template-columns: 1fr 1fr;
+  border-radius: var(--r-card); overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(20,60,102,.06), 0 30px 70px rgba(9,40,80,.22);
+  animation: iwRise .7s var(--ease-out) both; animation-delay: .2s;
+}
+.o7-hero__panel { display: grid; place-items: center; aspect-ratio: 1 / .78; padding: 8%; }
+.o7-hero__panel--light { background: #fff; }
+.o7-hero__panel--navy { background: #0b143f; }
+.o7-hero__panel img { width: 78%; height: auto; }
+/* the pennant's three colours, in the order the stripes run */
+.o7-hero__stripe { position: absolute; left: 0; right: 0; bottom: 0; display: grid; grid-template-columns: 2fr 1fr 2fr; height: 8px; }
+.o7-hero__stripe i:nth-child(1) { background: #3588c4; }
+.o7-hero__stripe i:nth-child(2) { background: #fff; }
+.o7-hero__stripe i:nth-child(3) { background: #c42021; }
+
+/* ===== LABEL =====
+   One small label, centred, with a note beside it. */
+.o7-label { display: flex; justify-content: center; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; margin-bottom: clamp(20px, 3vw, 32px); }
+.o7-label .ip-eyebrow { margin: 0; }
+.o7-label small { font-size: 13px; font-weight: 600; letter-spacing: .04em; color: var(--muted-2); }
+
+/* ===== LOGOS ===== */
+.o7-logos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); }
+.o7-logo {
+  display: grid; place-items: center; aspect-ratio: 1; padding: 14%;
+  border-radius: var(--r-card); box-shadow: var(--shadow-card);
+  transition: transform .28s cubic-bezier(.2,.7,.3,1), box-shadow .28s ease;
+}
+.o7-logo:hover { transform: translateY(-6px); box-shadow: var(--shadow-card-hover); }
+.o7-logo img { width: 100%; height: auto; }
+.o7-logo--white { background: #fff; box-shadow: inset 0 0 0 1px var(--line), var(--shadow-card); }
+.o7-logo--mist { background: #eef0f3; }
+.o7-logo--navy { background: #0b143f; }
+.o7-logo--cerulean { background: #3588c4; }
+.o7-logos figcaption { text-align: center; padding: 14px 0 0; font-size: var(--step-sm); font-weight: 600; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { .o7-logo:hover { transform: none; } }
+
+/* ===== DEEP =====
+   The portfolio's own blue — the closing band's gradient — with the same
+   dot grid. */
+.o7-deep { position: relative; overflow: hidden; color: #fff; background: var(--cta-band); }
+.o7-deep::before { content: ''; position: absolute; inset: 0; pointer-events: none; background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px); background-size: 24px 24px; }
+.o7-deep .iw-wrap { position: relative; }
+.o7-head { text-align: center; margin-bottom: clamp(40px, 6vw, 80px); }
+.o7-eyebrow {
+  display: inline-flex; align-items: center; gap: 12px; margin-bottom: 14px;
+  font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: rgba(226,238,252,.82);
+}
+/* the section's eyebrow sits between two crimson rules; a row's stands alone */
+.o7-head .o7-eyebrow::before, .o7-head .o7-eyebrow::after { content: ''; width: 28px; height: 3px; border-radius: 2px; background: #d8393a; }
+.o7-eyebrow b { font-weight: 800; color: #fff; }
+.o7-h2 { font-weight: 800; font-size: clamp(32px, 4.6vw, 56px); line-height: 1.08; letter-spacing: -1px; color: #fff; text-wrap: balance; }
+.o7-h3 { font-weight: 800; font-size: clamp(26px, 2.8vw, 36px); line-height: 1.15; letter-spacing: -.5px; color: #fff; text-wrap: balance; }
+.o7-row__copy p { margin-top: 16px; max-width: 46ch; font-size: var(--step-1); line-height: 1.75; color: rgba(226,238,252,.82); }
+
+/* ===== ROWS ===== */
+.o7-rows { display: grid; gap: clamp(56px, 8vw, 112px); }
+.o7-row { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(28px, 5vw, 72px); align-items: center; }
+.o7-row:nth-child(even) { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+.o7-row:nth-child(even) .o7-row__media { order: 2; }
+.o7-row__media .ip-shot__frame { aspect-ratio: 5 / 4; background: var(--navy-deep); box-shadow: 0 30px 70px rgba(0,0,0,.35); }
+.o7-row__media .ip-shot__frame img { height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2,.7,.3,1); }
+.o7-row__media .ip-shot__frame:hover { box-shadow: 0 36px 80px rgba(0,0,0,.42); }
+.o7-row__media .ip-shot__frame:hover img { transform: scale(1.04); }
+.o7-strip { margin-top: clamp(56px, 8vw, 112px); border-radius: var(--r-card); overflow: hidden; box-shadow: 0 30px 70px rgba(0,0,0,.35); }
+.o7-strip img { width: 100%; height: auto; }
+@media (prefers-reduced-motion: reduce) { .o7-row__media .ip-shot__frame:hover img { transform: none; } }
+
+/* ===== COLOURS =====
+   The guidelines' three, as big as the page allows, each carrying its own
+   values in white. */
+.o7-colors { display: grid; grid-template-columns: 2fr 1.4fr 1fr; gap: var(--gap); }
+.o7-color {
+  display: flex; flex-direction: column; justify-content: flex-end; gap: 2px;
+  min-height: 300px; padding: 26px; border-radius: var(--r-card); color: #fff; box-shadow: var(--shadow-card);
+}
+.o7-color b { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 24px; letter-spacing: -.2px; }
+.o7-color span { margin-bottom: 8px; font-size: 15px; font-weight: 700; letter-spacing: .06em; }
+.o7-color small { font-size: 13px; font-weight: 600; letter-spacing: .03em; opacity: .82; }
+.o7-color--navy { background: #0b143f; }
+.o7-color--cerulean { background: #3588c4; }
+.o7-color--crimson { background: #c42021; }
+
+/* ===== TYPE ===== */
+.o7-type {
+  display: grid; grid-template-columns: auto 1fr; gap: clamp(28px, 5vw, 72px); align-items: center;
+  padding: clamp(28px, 4vw, 48px); border-radius: var(--r-card); background: #fff; box-shadow: var(--shadow-card);
+}
+.o7-type__aa { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: clamp(96px, 13vw, 180px); line-height: 1; letter-spacing: -.03em; color: #0b143f; }
+.o7-type__name { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: clamp(26px, 2.8vw, 36px); letter-spacing: -.3px; color: #0b143f; }
+.o7-type__set { margin-top: 12px; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: clamp(15px, 1.4vw, 19px); line-height: 1.6; letter-spacing: .02em; color: var(--ink); overflow-wrap: anywhere; }
+.o7-type__weights { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 14px 28px; font-family: 'Montserrat', sans-serif; font-size: 22px; color: #0b143f; }
+.o7-type__weights small { display: block; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted-2); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1100px) {
+  .o7-row, .o7-row:nth-child(even) { grid-template-columns: 1fr; }
+  .o7-row:nth-child(even) .o7-row__media { order: 0; }
+  .o7-logos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .o7-colors { grid-template-columns: 1fr 1fr; }
+  .o7-color--navy { grid-column: 1 / -1; }
+}
+@media (max-width: 720px) {
+  .o7-stage { padding: 8px 16px 0; }
+  /* the two grounds stack, so the mark keeps its size on a phone */
+  .o7-hero { grid-template-columns: 1fr; }
+  .o7-hero__panel img { width: 62%; }
+  .o7-hero__stripe { height: 6px; }
+  .o7-logos { gap: 16px; }
+  .o7-colors { grid-template-columns: 1fr; gap: 16px; }
+  .o7-color { min-height: 180px; padding: 22px; }
+  .o7-type { grid-template-columns: 1fr; gap: 12px; }
+}
+@media (prefers-reduced-motion: reduce) { .o7-hero { animation: none; } }
