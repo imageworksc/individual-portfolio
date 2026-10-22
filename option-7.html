@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=8">
+  <link rel="stylesheet" href="css/styles.css?v=9">
   <link rel="stylesheet" href="css/option-7.css?v=5">
 </head>
 <body>
@@ -124,18 +124,51 @@
     </div>
   </section>
 
-  <!-- ===== NEXT PROJECT ===== -->
-  <section class="ip-section ip-nextproj">
+  <!-- ===== MORE BRANDING: a carousel of the portfolio's branding cards ===== -->
+  <section class="ip-section ip-section--band" aria-labelledby="more-branding">
     <div class="iw-wrap">
-      <div class="rv">
-        <span class="ip-eyebrow">Next project</span>
-        <h2 class="ip-h2">Casey Margenau Fine Homes &amp; Estates</h2>
-        <a class="ip-link" href="option-1.html">View project<svg class="ic" aria-hidden="true"><use href="#i-arrow-r"/></svg></a>
-      </div>
-      <div class="ip-browser rv rv-d1">
-        <div class="ip-browser__bar" aria-hidden="true"><i></i><i></i><i></i><span class="ip-browser__url">caseymargenau.com</span></div>
-        <img src="assets/casey/hero.jpg" width="2880" height="1800" alt="" loading="lazy">
-        <a class="ip-cover" href="option-1.html" aria-label="View the Casey Margenau project"></a>
+      <div class="ip-carousel" data-carousel>
+        <div class="ip-carousel__head rv">
+          <h2 class="ip-eyebrow" id="more-branding">More branding</h2>
+          <div class="ip-carousel__nav">
+            <button type="button" class="ip-carousel__btn" data-carousel-prev aria-label="Previous projects"><svg class="ic" aria-hidden="true"><use href="#i-arrow-l"/></svg></button>
+            <button type="button" class="ip-carousel__btn" data-carousel-next aria-label="Next projects"><svg class="ic" aria-hidden="true"><use href="#i-arrow-r"/></svg></button>
+          </div>
+        </div>
+        <ul class="ip-carousel__track rv rv-d1" tabindex="0" aria-label="Branding projects">
+          <li class="iw-card">
+            <div class="img"><img src="assets/works/img04.webp" alt="" loading="lazy"></div>
+            <div class="iw-panel"><div class="iw-panel-title">Financial brand identity</div><a class="iw-panel-cta" href="https://imageworksc.github.io/portfolio-iwc/">View project<svg class="ic" aria-hidden="true"><use href="#i-arrow-r"/></svg></a></div>
+          </li>
+          <li class="iw-card">
+            <div class="img"><img src="assets/works/img11.jpg" alt="" loading="lazy"></div>
+            <div class="iw-panel"><div class="iw-panel-title">Craft logo &amp; marks</div><a class="iw-panel-cta" href="https://imageworksc.github.io/portfolio-iwc/">View project<svg class="ic" aria-hidden="true"><use href="#i-arrow-r"/></svg></a></div>
+          </li>
+          <li class="iw-card">
+            <div class="img"><img src="assets/works/img16.png" alt="" loading="lazy"></div>
+            <div class="iw-panel"><div class="iw-panel-title">Organic packaging identity</div><a class="iw-panel-cta" href="https://imageworksc.github.io/portfolio-iwc/">View project<svg class="ic" aria-hidden="true"><use href="#i-arrow-r"/></svg></a></div>
+          </li>
+          <li class="iw-card">
+            <div class="img"><img src="assets/works/img23.jpg" alt="" loading="lazy"></div>
+            <div class="iw-panel"><div class="iw-panel-title">Publishing identity system</div><a class="iw-panel-cta" href="https://imageworksc.github.io/portfolio-iwc/">View project<svg class="ic" aria-hidden="true"><use href="#i-arrow-r"/></svg></a></div>
+          </li>
+          <li class="iw-card">
+            <div class="img"><img src="assets/works/img28.jpg" alt="" loading="lazy"></div>
+            <div class="iw-panel"><div class="iw-panel-title">Healthcare brand refresh</div><a class="iw-panel-cta" href="https://imageworksc.github.io/portfolio-iwc/">View project<svg class="ic" aria-hidden="true"><use href="#i-arrow-r"/></svg></a></div>
+          </li>
+          <li class="iw-card">
+            <div class="img"><img src="assets/works/img10.jpg" alt="" loading="lazy"></div>
+            <div class="iw-panel"><div class="iw-panel-title">Corporate collateral suite</div><a class="iw-panel-cta" href="https://imageworksc.github.io/portfolio-iwc/">View project<svg class="ic" aria-hidden="true"><use href="#i-arrow-r"/></svg></a></div>
+          </li>
+          <li class="iw-card">
+            <div class="img"><img src="assets/works/img22.webp" alt="" loading="lazy"></div>
+            <div class="iw-panel"><div class="iw-panel-title">Brand style direction</div><a class="iw-panel-cta" href="https://imageworksc.github.io/portfolio-iwc/">View project<svg class="ic" aria-hidden="true"><use href="#i-arrow-r"/></svg></a></div>
+          </li>
+          <li class="iw-card">
+            <div class="img"><img src="assets/works/img18.jpg" alt="" loading="lazy"></div>
+            <div class="iw-panel"><div class="iw-panel-title">Product launch visuals</div><a class="iw-panel-cta" href="https://imageworksc.github.io/portfolio-iwc/">View project<svg class="ic" aria-hidden="true"><use href="#i-arrow-r"/></svg></a></div>
+          </li>
+        </ul>
       </div>
     </div>
   </section>
@@ -149,6 +182,6 @@
     </div>
   </section>
 
-  <script src="js/app.js?v=9"></script>
+  <script src="js/app.js?v=10"></script>
 </body>
 </html>
