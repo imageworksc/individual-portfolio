@@ -480,7 +480,7 @@ a.ip-chip--on:hover { background: #1a5089; color: #fff; }
 /* ===== LIVE FRAMES =====
    A project's own build, running inside a browser frame so its hovers and
    scroll animations can be seen rather than described. The page inside is
-   laid out at a desktop width (or a phone's, in a narrow frame) and scaled
+   laid out at a desktop width (a tablet's or a phone's, in a narrower frame) and scaled
    down to fit; app.js sets the width, the height and the scale, which
    depend on the frame's rendered width. The whole-page frame takes no
    pointer until it is clicked — the page around it scrolls as normal —

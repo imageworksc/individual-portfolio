@@ -193,8 +193,8 @@
 
   /* ===== LIVE =====
      A project's build in a frame, laid out at the width it was designed
-     for — a desktop's, or a phone's when the frame is narrow — and scaled
-     to fit. Two kinds:
+     for — a desktop's, a tablet's, or a phone's as the frame narrows — and
+     scaled to fit. Two kinds:
 
      The stage (data-autoscroll) shows the whole page. It drifts down by
      itself while on screen and asleep, so the build's scroll animations
@@ -236,19 +236,22 @@
       const iframe = view.querySelector("iframe");
       const w = view.clientWidth;
       if (!w) return;
+      // the build at a phone's width, a tablet's, or a desktop's — whichever
+      // keeps its type closest to life size in a frame this wide
       const phone = w < 560;
-      const pageW = phone ? 390 : 1440;
+      const tablet = !phone && w < 900;
+      const pageW = phone ? 390 : tablet ? 768 : 1440;
       const scale = w / pageW;
       iframe.style.width = `${pageW}px`;
       iframe.style.transform = `scale(${scale})`;
-      let pageH = phone ? 760 : 900;
+      let pageH = phone ? 760 : tablet ? 1000 : 900;
       if (iframe.dataset.anchor) {
         const sec = sectionOf(iframe);
         if (sec) {
           pageH = sec.height;
           sec.win.scrollTo({ top: sec.top, behavior: "instant" });
         } else {
-          pageH = phone ? 760 : 720;
+          pageH = phone ? 760 : tablet ? 900 : 720;
         }
       }
       iframe.style.height = `${pageH}px`;
