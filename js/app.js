@@ -9,7 +9,8 @@
      REVEAL     sections come up as they enter the viewport
      LIGHTBOX   a gallery figure opens full size in a <dialog>
      SCROLLSPY  the sticky sidebar (option 2) tracks the section in view
-     LIVE       a project's build in a frame: fitted, woken by a click, drifting
+     LIVE       a project's build in a frame: fitted, anchored, woken by a
+                click, drifting
      BOOT
 
    Each part looks for what it needs and stands down if the page has none of
@@ -219,8 +220,27 @@
       view.style.height = `${Math.round(pageH * scale)}px`;
     };
 
+    // A frame opens on the section its data-anchor names. Not with a #hash
+    // in the src: when the build shares this page's origin, following a
+    // hash inside the frame scrolls this page too. Scrolled from here, only
+    // the frame moves — clear of the build's sticky header. Where the page
+    // inside cannot be read (opened from disk) the hash is safe, so it is
+    // used instead.
+    const toAnchor = (iframe) => {
+      const id = iframe.dataset.anchor;
+      if (!id) return;
+      try {
+        const win = iframe.contentWindow;
+        const el = win.document.getElementById(id);
+        if (el) win.scrollTo(0, el.getBoundingClientRect().top + win.scrollY - 96);
+      } catch {
+        if (!iframe.src.includes("#")) iframe.src = `${iframe.src}#${id}`;
+      }
+    };
+
     for (const frame of frames) {
       const iframe = frame.querySelector("iframe");
+      iframe.addEventListener("load", () => toAnchor(iframe));
       frame.querySelector(".ip-live__on")?.addEventListener("click", () => {
         frame.classList.add("is-live");
         iframe.tabIndex = 0;

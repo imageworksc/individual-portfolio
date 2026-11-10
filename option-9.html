@@ -56,6 +56,8 @@
   <!-- ===== LIVE: the site itself, moving =====
        The build runs inside the frame. Until it is clicked it drifts down
        the page by itself (app.js, LIVE), so its scroll animations play;
+       the section frames below open on the part of the page their
+       data-anchor names;
        a click hands it the pointer — hover, scroll, open — and leaving the
        frame hands it back. -->
   <div class="o9-stage">
@@ -81,7 +83,7 @@
           <div class="ip-browser">
             <div class="ip-browser__bar" aria-hidden="true"><i></i><i></i><i></i><span class="ip-browser__url">crownpointconstruction.com/#services</span></div>
             <div class="ip-live__view">
-              <iframe src="https://imageworksc.github.io/crown-point-homepage/#service-list" title="Crown Point Construction homepage — Services, live" loading="lazy" tabindex="-1"></iframe>
+              <iframe src="https://imageworksc.github.io/crown-point-homepage/" data-anchor="service-list" title="Crown Point Construction homepage — Services, live" loading="lazy" tabindex="-1"></iframe>
               <button type="button" class="ip-live__on"><span class="ip-live__chip">Click to try it</span></button>
             </div>
           </div><figcaption>Services</figcaption>
@@ -90,7 +92,7 @@
           <div class="ip-browser">
             <div class="ip-browser__bar" aria-hidden="true"><i></i><i></i><i></i><span class="ip-browser__url">crownpointconstruction.com/#approach</span></div>
             <div class="ip-live__view">
-              <iframe src="https://imageworksc.github.io/crown-point-homepage/#why-title" title="Crown Point Construction homepage — Approach, live" loading="lazy" tabindex="-1"></iframe>
+              <iframe src="https://imageworksc.github.io/crown-point-homepage/" data-anchor="why-title" title="Crown Point Construction homepage — Approach, live" loading="lazy" tabindex="-1"></iframe>
               <button type="button" class="ip-live__on"><span class="ip-live__chip">Click to try it</span></button>
             </div>
           </div><figcaption>Approach</figcaption>
@@ -99,7 +101,7 @@
           <div class="ip-browser">
             <div class="ip-browser__bar" aria-hidden="true"><i></i><i></i><i></i><span class="ip-browser__url">crownpointconstruction.com/#work</span></div>
             <div class="ip-live__view">
-              <iframe src="https://imageworksc.github.io/crown-point-homepage/#work" title="Crown Point Construction homepage — Recent work, live" loading="lazy" tabindex="-1"></iframe>
+              <iframe src="https://imageworksc.github.io/crown-point-homepage/" data-anchor="work" title="Crown Point Construction homepage — Recent work, live" loading="lazy" tabindex="-1"></iframe>
               <button type="button" class="ip-live__on"><span class="ip-live__chip">Click to try it</span></button>
             </div>
           </div><figcaption>Recent work</figcaption>
@@ -108,7 +110,7 @@
           <div class="ip-browser">
             <div class="ip-browser__bar" aria-hidden="true"><i></i><i></i><i></i><span class="ip-browser__url">crownpointconstruction.com/#faq</span></div>
             <div class="ip-live__view">
-              <iframe src="https://imageworksc.github.io/crown-point-homepage/#faq-title" title="Crown Point Construction homepage — FAQ, live" loading="lazy" tabindex="-1"></iframe>
+              <iframe src="https://imageworksc.github.io/crown-point-homepage/" data-anchor="faq-title" title="Crown Point Construction homepage — FAQ, live" loading="lazy" tabindex="-1"></iframe>
               <button type="button" class="ip-live__on"><span class="ip-live__chip">Click to try it</span></button>
             </div>
           </div><figcaption>FAQ</figcaption>
@@ -129,6 +131,6 @@
     </div>
   </section>
 
-  <script src="js/app.js?v=12"></script>
+  <script src="js/app.js?v=13"></script>
 </body>
 </html>
