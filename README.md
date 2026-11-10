@@ -1,6 +1,6 @@
 # Individual portfolio page — ImageWorks Creative
 
-Seven layout options for the project page that sits behind every card in the
+Eight layout options for the project page that sits behind every card in the
 [ImageWorks Creative portfolio](https://imageworksc.github.io/portfolio-iwc/),
 set in the portfolio's own type, colour and motion.
 
@@ -8,7 +8,7 @@ Live: **https://imageworksc.github.io/individual-portfolio/**
 
 | Page | Option | Project shown |
 |---|---|---|
-| [`index.html`](index.html) | The chooser — all seven side by side | — |
+| [`index.html`](index.html) | The chooser — all eight side by side | — |
 | [`option-1.html`](option-1.html) | **Visual** — images only, text kept to a minimum: headline and chips, hero in a frame, six sections whole, three phones, the photography, "More work" cards | Casey Margenau Fine Homes & Estates |
 | [`option-2.html`](option-2.html) | **Editorial split** — breadcrumb, split hero, long-scroll frame, sticky section nav with scroll tracking | Atlantic Sun Control |
 | [`option-3.html`](option-3.html) | **Showcase** — device stage, brief, facts in a row, five numbered feature rows, photography band | Casey Margenau Fine Homes & Estates |
@@ -16,6 +16,7 @@ Live: **https://imageworksc.github.io/individual-portfolio/**
 | [`option-6.html`](option-6.html) | **Print** — a wide stage photograph of the brochure, a blue band with one large row per piece, the client palette, next-project band | Center for Vascular Medicine |
 | [`option-7.html`](option-7.html) | **Brand** — titles only: the logo on white and navy, four logo versions, business cards and envelopes on a blue band, palette and Montserrat specimen in one block, the portfolio's branding cards in tilted, drifting columns as on the ImageWorks home page | Spring Cove |
 | [`option-8.html`](option-8.html) | **Simple** — option 4's layout (and its sheet): chips, headline, project label, one full-page screenshot | Crown Point Construction |
+| [`option-9.html`](option-9.html) | **Interactive** — the live build in frames: the whole homepage drifting down by itself so its scroll animations play, then services, approach, work and FAQ, each live to hover and scroll after a click | Crown Point Construction |
 
 Every option opens with the portfolio's page wash, ends on its closing band,
 links back to the grid, and leads on to the next project.
@@ -31,12 +32,14 @@ option-4.html         Option 4 — simple: chips, headline, one full-page screen
 option-6.html         Option 6 — print
 option-7.html         Option 7 — brand
 option-8.html         Option 8 — option 4's layout, for Crown Point Construction
+option-9.html         Option 9 — interactive: the live build in frames
 css/styles.css        shared: tokens, base, button, wash, chips, card, frames,
                       meta, stats, prose, gallery + lightbox, swatches,
                       next-project band, CTA, motion, responsive
 css/option-N.css      what each option lays out differently
 css/index.css         the chooser's cards
-js/app.js             reveal on scroll, the lightbox, the sticky nav's scrollspy
+js/app.js             reveal on scroll, the lightbox, the sticky nav's scrollspy,
+                      the live frames
 assets/casey/         Casey Margenau: hero, section and mobile captures, photography
 assets/asc/           Atlantic Sun Control: hero, section and mobile captures
                       (both folders hold a few spare captures the pages do not
@@ -48,7 +51,7 @@ assets/springcove/    Spring Cove: logo versions, business-card and envelope
                       mockups, the card strip
 assets/works/         portfolio images for the "More work" row and the branding
                       columns (the same files the portfolio grid shows)
-assets/options/       thumbnails of the seven options, for the chooser
+assets/options/       thumbnails of the eight options, for the chooser
 DESIGN.md             the design contract — every token, primitive and motion value
 ```
 
@@ -66,8 +69,8 @@ No build step. Open any HTML file directly, or serve the folder.
   blocks in page order. Colours that belong to a client project (the swatch
   strips) live in that option's sheet, not in the shared tokens.
 - **JavaScript** is one file in modern syntax — `const`/`let`, arrow
-  functions, template literals, optional chaining — an IIFE with four parts (title, reveal,
-  lightbox, scrollspy). It marks state with classes and attributes and lets
+  functions, template literals, optional chaining — an IIFE with five parts (title, reveal,
+  lightbox, scrollspy, live frames). It marks state with classes and attributes and lets
   the stylesheet decide what they mean; the one value it writes directly is a
   measurement, the headline size when two lines will not fit.
 

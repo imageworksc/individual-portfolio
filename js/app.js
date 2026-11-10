@@ -1,5 +1,5 @@
 /* ImageWorks Creative — Individual portfolio page
-   Four small behaviours shared by every option. Nothing here writes a style;
+   Five small behaviours shared by every option. Nothing here writes a style;
    it only marks state, and css/styles.css decides what the marks mean. The
    one exception is a measurement: the headline's size when two lines will
    not fit, which depends on the rendered text and so cannot be known ahead
@@ -9,6 +9,7 @@
      REVEAL     sections come up as they enter the viewport
      LIGHTBOX   a gallery figure opens full size in a <dialog>
      SCROLLSPY  the sticky sidebar (option 2) tracks the section in view
+     LIVE       a project's build in a frame: fitted, woken by a click, drifting
      BOOT
 
    Each part looks for what it needs and stands down if the page has none of
@@ -187,12 +188,89 @@
     update();
   };
 
+  /* ===== LIVE =====
+     A project's build in a frame. The page inside is laid out at the width
+     it was designed for — a desktop's, or a phone's when the frame is
+     narrow — and scaled to fit; the frame's height follows. A click hands
+     the iframe the pointer, leaving the frame takes it back.
+
+     A frame marked data-autoscroll drifts down the page inside by itself
+     while it is on screen and asleep, so the build's scroll animations
+     play without anyone touching it; at the foot it rests, then starts
+     again from the top. That needs the page inside to be readable, which
+     it is only when both are served from the same origin (the published
+     site); opened from disk, the frame simply sits at the top. */
+  const live = () => {
+    const frames = [...document.querySelectorAll(".ip-live")];
+    if (!frames.length) return;
+    const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const fit = (frame) => {
+      const view = frame.querySelector(".ip-live__view");
+      const iframe = view.querySelector("iframe");
+      const w = view.clientWidth;
+      const phone = w < 560;
+      const pageW = phone ? 390 : 1440;
+      const pageH = phone ? 760 : (frame.matches(".ip-live--stage") ? 900 : 760);
+      const scale = w / pageW;
+      iframe.style.width = `${pageW}px`;
+      iframe.style.height = `${pageH}px`;
+      iframe.style.transform = `scale(${scale})`;
+      view.style.height = `${Math.round(pageH * scale)}px`;
+    };
+
+    for (const frame of frames) {
+      const iframe = frame.querySelector("iframe");
+      frame.querySelector(".ip-live__on")?.addEventListener("click", () => {
+        frame.classList.add("is-live");
+        iframe.tabIndex = 0;
+        iframe.focus();
+      });
+      frame.addEventListener("mouseleave", () => {
+        frame.classList.remove("is-live");
+        iframe.tabIndex = -1;
+      });
+      fit(frame);
+    }
+    let timer = null;
+    window.addEventListener("resize", () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => frames.forEach(fit), 120);
+    }, { passive: true });
+
+    if (still || !("IntersectionObserver" in window)) return;
+    for (const frame of frames.filter((f) => f.hasAttribute("data-autoscroll"))) {
+      const iframe = frame.querySelector("iframe");
+      let onScreen = false;
+      let restUntil = 0;
+      new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; }, { threshold: 0.2 }).observe(frame);
+      const tick = (now) => {
+        requestAnimationFrame(tick);
+        if (!onScreen || frame.classList.contains("is-live") || now < restUntil) return;
+        let win;
+        try { win = iframe.contentWindow; win.document; } catch { return; }
+        if (!win) return;
+        const doc = win.document.documentElement;
+        const end = doc.scrollHeight - win.innerHeight;
+        if (end <= 0) return;
+        if (win.scrollY >= end - 1) {
+          restUntil = now + 2500;
+          setTimeout(() => win.scrollTo(0, 0), 1800);
+          return;
+        }
+        win.scrollBy(0, 1.6);
+      };
+      requestAnimationFrame(tick);
+    }
+  };
+
   /* ===== BOOT ===== */
   const boot = () => {
     watchTitles();
     reveal();
     lightbox();
     scrollspy();
+    live();
   };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();

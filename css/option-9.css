@@ -1,0 +1,33 @@
+/* Option 9 — Interactive
+   Option 4's opening, with the build itself in place of the screenshot:
+   the whole homepage drifting down in one frame, then one frame per
+   section the visitor can hover and scroll, one under another so each
+   is large enough to read. The frames are the shared
+   live frame (css/styles.css, LIVE FRAMES); this sheet only lays them out.
+
+     STAGE       the whole site, one wide frame
+     LABEL       the block's only text
+     FRAMES      the sections, one under another
+     RESPONSIVE  one column on a phone */
+
+/* ===== STAGE ===== */
+.o9-stage { padding: 8px 24px 0; }
+.o9-stage .ip-browser {
+  border: 1px solid rgba(20,60,102,.16);
+  box-shadow: 0 12px 32px rgba(9,40,80,.08);
+}
+
+/* ===== LABEL ===== */
+.o9-label { display: flex; justify-content: center; margin-bottom: clamp(20px, 3vw, 32px); }
+.o9-label .ip-eyebrow { margin: 0; }
+
+/* ===== FRAMES ===== */
+.o9-frames { display: grid; gap: clamp(40px, 5vw, 64px); }
+.o9-frames .ip-browser { box-shadow: inset 0 0 0 1px rgba(20,60,102,.06), 0 12px 32px rgba(9,40,80,.08); }
+.o9-more { display: flex; justify-content: center; margin-top: clamp(32px, 4vw, 48px); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 720px) {
+  .o9-stage { padding: 8px 16px 0; }
+  .o9-frames { gap: 32px; }
+}
