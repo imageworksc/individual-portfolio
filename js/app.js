@@ -232,7 +232,7 @@
       try {
         const win = iframe.contentWindow;
         const el = win.document.getElementById(id);
-        if (el) win.scrollTo(0, el.getBoundingClientRect().top + win.scrollY - 96);
+        if (el) win.scrollTo({ top: el.getBoundingClientRect().top + win.scrollY - 96, behavior: "instant" });
       } catch {
         if (!iframe.src.includes("#")) iframe.src = `${iframe.src}#${id}`;
       }
@@ -240,7 +240,11 @@
 
     for (const frame of frames) {
       const iframe = frame.querySelector("iframe");
-      iframe.addEventListener("load", () => toAnchor(iframe));
+      // the build settles after it loads — fonts, images, its own scroll
+      // restoration — so the jump is made again once it has
+      const anchor = () => { toAnchor(iframe); setTimeout(() => toAnchor(iframe), 600); setTimeout(() => toAnchor(iframe), 1800); };
+      iframe.addEventListener("load", anchor);
+      try { if (iframe.contentDocument?.readyState === "complete" && iframe.contentWindow.location.href !== "about:blank") anchor(); } catch { /* not readable yet */ }
       frame.querySelector(".ip-live__on")?.addEventListener("click", () => {
         frame.classList.add("is-live");
         iframe.tabIndex = 0;
@@ -275,10 +279,12 @@
         if (end <= 0) return;
         if (win.scrollY >= end - 1) {
           restUntil = now + 2500;
-          setTimeout(() => win.scrollTo(0, 0), 1800);
+          setTimeout(() => win.scrollTo({ top: 0, behavior: "instant" }), 1800);
           return;
         }
-        win.scrollBy(0, 1.6);
+        // instant: the build may ask for smooth scrolling, which would
+        // restart a glide on every frame and barely move
+        win.scrollBy({ top: 1.6, behavior: "instant" });
       };
       requestAnimationFrame(tick);
     }
