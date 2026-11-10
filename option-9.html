@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=12">
-  <link rel="stylesheet" href="css/option-9.css?v=2">
+  <link rel="stylesheet" href="css/styles.css?v=13">
+  <link rel="stylesheet" href="css/option-9.css?v=3">
 </head>
 <body>
 
@@ -56,8 +56,6 @@
   <!-- ===== LIVE: the site itself, moving =====
        The build runs inside the frame. Until it is clicked it drifts down
        the page by itself (app.js, LIVE), so its scroll animations play;
-       the section frames below open on the part of the page their
-       data-anchor names;
        a click hands it the pointer — hover, scroll, open — and leaving the
        frame hands it back. -->
   <div class="o9-stage">
@@ -74,50 +72,67 @@
     </div>
   </div>
 
-  <!-- ===== INTERACTIONS: one section of the site per frame ===== -->
-  <section class="ip-section">
+  <!-- ===== INTERACTIONS: one section of the build per slide =====
+       Each slide holds one section, still — no scrolling inside, no
+       header over it — and live to the pointer, so its hovers can be
+       tried at once. The arrows step to the next section. -->
+  <section class="ip-section o9-deep" aria-labelledby="interactions">
     <div class="iw-wrap">
-      <h2 class="o9-label rv"><span class="ip-eyebrow">Interactions</span></h2>
-      <div class="o9-frames">
-        <figure class="ip-live rv">
-          <div class="ip-browser">
-            <div class="ip-browser__bar" aria-hidden="true"><i></i><i></i><i></i><span class="ip-browser__url">crownpointconstruction.com/#services</span></div>
-            <div class="ip-live__view">
-              <iframe src="https://imageworksc.github.io/crown-point-homepage/" data-anchor="service-list" title="Crown Point Construction homepage — Services, live" loading="lazy" tabindex="-1"></iframe>
-              <button type="button" class="ip-live__on"><span class="ip-live__chip">Click to try it</span></button>
-            </div>
-          </div><figcaption>Services</figcaption>
-        </figure>
-        <figure class="ip-live rv">
-          <div class="ip-browser">
-            <div class="ip-browser__bar" aria-hidden="true"><i></i><i></i><i></i><span class="ip-browser__url">crownpointconstruction.com/#approach</span></div>
-            <div class="ip-live__view">
-              <iframe src="https://imageworksc.github.io/crown-point-homepage/" data-anchor="why-title" title="Crown Point Construction homepage — Approach, live" loading="lazy" tabindex="-1"></iframe>
-              <button type="button" class="ip-live__on"><span class="ip-live__chip">Click to try it</span></button>
-            </div>
-          </div><figcaption>Approach</figcaption>
-        </figure>
-        <figure class="ip-live rv">
-          <div class="ip-browser">
-            <div class="ip-browser__bar" aria-hidden="true"><i></i><i></i><i></i><span class="ip-browser__url">crownpointconstruction.com/#work</span></div>
-            <div class="ip-live__view">
-              <iframe src="https://imageworksc.github.io/crown-point-homepage/" data-anchor="work" title="Crown Point Construction homepage — Recent work, live" loading="lazy" tabindex="-1"></iframe>
-              <button type="button" class="ip-live__on"><span class="ip-live__chip">Click to try it</span></button>
-            </div>
-          </div><figcaption>Recent work</figcaption>
-        </figure>
-        <figure class="ip-live rv">
-          <div class="ip-browser">
-            <div class="ip-browser__bar" aria-hidden="true"><i></i><i></i><i></i><span class="ip-browser__url">crownpointconstruction.com/#faq</span></div>
-            <div class="ip-live__view">
-              <iframe src="https://imageworksc.github.io/crown-point-homepage/" data-anchor="faq-title" title="Crown Point Construction homepage — FAQ, live" loading="lazy" tabindex="-1"></iframe>
-              <button type="button" class="ip-live__on"><span class="ip-live__chip">Click to try it</span></button>
-            </div>
-          </div><figcaption>FAQ</figcaption>
-        </figure>
-      </div>
-      <div class="o9-more rv">
-        <a class="iw-btn iw-btn--navy" href="https://imageworksc.github.io/crown-point-homepage/" target="_blank" rel="noopener">Open the live site<svg class="ic" aria-hidden="true"><use href="#i-arrow-r"/></svg></a>
+      <div class="ip-carousel" data-carousel>
+        <div class="ip-carousel__head rv">
+          <h2 class="ip-eyebrow" id="interactions">Interactions</h2>
+          <div class="ip-carousel__nav">
+            <span class="ip-carousel__count" data-carousel-count aria-live="polite">1 / 4</span>
+            <button type="button" class="ip-carousel__btn" data-carousel-prev aria-label="Previous section"><svg class="ic" aria-hidden="true"><use href="#i-arrow-l"/></svg></button>
+            <button type="button" class="ip-carousel__btn" data-carousel-next aria-label="Next section"><svg class="ic" aria-hidden="true"><use href="#i-arrow-r"/></svg></button>
+          </div>
+        </div>
+        <ul class="ip-carousel__track rv rv-d1" tabindex="0" aria-label="Interactive sections">
+          <li class="ip-carousel__slide">
+            <figure class="ip-live ip-live--section">
+              <figcaption>Services</figcaption>
+              <div class="ip-browser">
+                <div class="ip-browser__bar" aria-hidden="true"><i></i><i></i><i></i><span class="ip-browser__url">crownpointconstruction.com/#services</span></div>
+                <div class="ip-live__view">
+                  <iframe src="https://imageworksc.github.io/crown-point-homepage/" data-anchor="service-list" data-hide="#site-header" title="Crown Point Construction homepage — Services section, live" loading="lazy"></iframe>
+                </div>
+              </div>
+            </figure>
+          </li>
+          <li class="ip-carousel__slide">
+            <figure class="ip-live ip-live--section">
+              <figcaption>Approach</figcaption>
+              <div class="ip-browser">
+                <div class="ip-browser__bar" aria-hidden="true"><i></i><i></i><i></i><span class="ip-browser__url">crownpointconstruction.com/#approach</span></div>
+                <div class="ip-live__view">
+                  <iframe src="https://imageworksc.github.io/crown-point-homepage/" data-anchor="why-title" data-hide="#site-header" title="Crown Point Construction homepage — Approach section, live" loading="lazy"></iframe>
+                </div>
+              </div>
+            </figure>
+          </li>
+          <li class="ip-carousel__slide">
+            <figure class="ip-live ip-live--section">
+              <figcaption>Recent work</figcaption>
+              <div class="ip-browser">
+                <div class="ip-browser__bar" aria-hidden="true"><i></i><i></i><i></i><span class="ip-browser__url">crownpointconstruction.com/#work</span></div>
+                <div class="ip-live__view">
+                  <iframe src="https://imageworksc.github.io/crown-point-homepage/" data-anchor="work" data-hide="#site-header" title="Crown Point Construction homepage — Recent work section, live" loading="lazy"></iframe>
+                </div>
+              </div>
+            </figure>
+          </li>
+          <li class="ip-carousel__slide">
+            <figure class="ip-live ip-live--section">
+              <figcaption>FAQ</figcaption>
+              <div class="ip-browser">
+                <div class="ip-browser__bar" aria-hidden="true"><i></i><i></i><i></i><span class="ip-browser__url">crownpointconstruction.com/#faq</span></div>
+                <div class="ip-live__view">
+                  <iframe src="https://imageworksc.github.io/crown-point-homepage/" data-anchor="faq-title" data-hide="#site-header" title="Crown Point Construction homepage — FAQ section, live" loading="lazy"></iframe>
+                </div>
+              </div>
+            </figure>
+          </li>
+        </ul>
       </div>
     </div>
   </section>
@@ -131,6 +146,6 @@
     </div>
   </section>
 
-  <script src="js/app.js?v=14"></script>
+  <script src="js/app.js?v=16"></script>
 </body>
 </html>

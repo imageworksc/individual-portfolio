@@ -16,7 +16,7 @@ Live: **https://imageworksc.github.io/individual-portfolio/**
 | [`option-6.html`](option-6.html) | **Print** — a wide stage photograph of the brochure, a blue band with one large row per piece, the client palette, next-project band | Center for Vascular Medicine |
 | [`option-7.html`](option-7.html) | **Brand** — titles only: the logo on white and navy, four logo versions, business cards and envelopes on a blue band, palette and Montserrat specimen in one block, the portfolio's branding cards in tilted, drifting columns as on the ImageWorks home page | Spring Cove |
 | [`option-8.html`](option-8.html) | **Simple** — option 4's layout (and its sheet): chips, headline, project label, one full-page screenshot | Crown Point Construction |
-| [`option-9.html`](option-9.html) | **Interactive** — the live build in frames: the whole homepage drifting down by itself so its scroll animations play, then services, approach, work and FAQ, each live to hover and scroll after a click | Crown Point Construction |
+| [`option-9.html`](option-9.html) | **Interactive** — the live build in frames: on white, the whole homepage drifting down by itself so its scroll animations play; on the blue band, a carousel of single sections (services, approach, work, FAQ), each held still and live to the pointer for its hovers | Crown Point Construction |
 
 Every option opens with the portfolio's page wash, ends on its closing band,
 links back to the grid, and leads on to the next project.
@@ -39,7 +39,7 @@ css/styles.css        shared: tokens, base, button, wash, chips, card, frames,
 css/option-N.css      what each option lays out differently
 css/index.css         the chooser's cards
 js/app.js             reveal on scroll, the lightbox, the sticky nav's scrollspy,
-                      the live frames
+                      the live frames, the carousel
 assets/casey/         Casey Margenau: hero, section and mobile captures, photography
 assets/asc/           Atlantic Sun Control: hero, section and mobile captures
                       (both folders hold a few spare captures the pages do not
@@ -69,8 +69,8 @@ No build step. Open any HTML file directly, or serve the folder.
   blocks in page order. Colours that belong to a client project (the swatch
   strips) live in that option's sheet, not in the shared tokens.
 - **JavaScript** is one file in modern syntax — `const`/`let`, arrow
-  functions, template literals, optional chaining — an IIFE with five parts (title, reveal,
-  lightbox, scrollspy, live frames). It marks state with classes and attributes and lets
+  functions, template literals, optional chaining — an IIFE with six parts (title, reveal,
+  lightbox, scrollspy, live frames, carousel). It marks state with classes and attributes and lets
   the stylesheet decide what they mean; the one value it writes directly is a
   measurement, the headline size when two lines will not fit.
 

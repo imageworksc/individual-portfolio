@@ -1,14 +1,15 @@
 /* Option 9 — Interactive
-   Option 4's opening, with the build itself in place of the screenshot:
-   the whole homepage drifting down in one frame, then one frame per
-   section the visitor can hover and scroll, one under another so each
-   is large enough to read. The frames are the shared
-   live frame (css/styles.css, LIVE FRAMES); this sheet only lays them out.
+   Option 4's opening, with the build itself in place of the screenshot.
+   Two parts, set apart by their ground: on white, the whole homepage
+   drifting down in one frame, so its scroll animations play; then, on the
+   portfolio's blue, a carousel of single sections, each held still and
+   live to the pointer for its hovers. The frames are the shared live
+   frame and the carousel the shared one (css/styles.css, LIVE FRAMES and
+   CAROUSEL); this sheet only lays them out and colours them for the band.
 
      STAGE       the whole site, one wide frame
-     LABEL       the block's only text
-     FRAMES      the sections, one under another
-     RESPONSIVE  one column on a phone */
+     DEEP        the blue band the sections sit on
+     RESPONSIVE  the gutter on a phone */
 
 /* ===== STAGE ===== */
 .o9-stage { padding: 8px 24px 0; }
@@ -16,18 +17,24 @@
   border: 1px solid rgba(20,60,102,.16);
   box-shadow: 0 12px 32px rgba(9,40,80,.08);
 }
+/* room under the stage before the band */
+.o9-stage + .o9-deep { margin-top: var(--section); }
 
-/* ===== LABEL ===== */
-.o9-label { display: flex; justify-content: center; margin-bottom: clamp(20px, 3vw, 32px); }
-.o9-label .ip-eyebrow { margin: 0; }
-
-/* ===== FRAMES ===== */
-.o9-frames { display: grid; gap: clamp(40px, 5vw, 64px); }
-.o9-frames .ip-browser { box-shadow: inset 0 0 0 1px rgba(20,60,102,.06), 0 12px 32px rgba(9,40,80,.08); }
-.o9-more { display: flex; justify-content: center; margin-top: clamp(32px, 4vw, 48px); }
+/* ===== DEEP =====
+   The portfolio's own blue — the closing band's gradient — with the same
+   dot grid; the carousel's label, counter and arrows turn light on it. */
+.o9-deep { position: relative; overflow: hidden; background: var(--cta-band); }
+.o9-deep::before { content: ''; position: absolute; inset: 0; pointer-events: none; background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px); background-size: 24px 24px; }
+.o9-deep .iw-wrap { position: relative; }
+.o9-deep .ip-eyebrow { color: rgba(226,238,252,.82); }
+.o9-deep .ip-carousel__count { color: rgba(226,238,252,.82); }
+.o9-deep .ip-carousel__btn { border-color: rgba(255,255,255,.35); background: rgba(255,255,255,.08); color: #fff; }
+.o9-deep .ip-carousel__btn:hover { border-color: #fff; color: #fff; }
+.o9-deep .ip-carousel__btn:disabled { border-color: rgba(255,255,255,.35); }
+.o9-deep .ip-live figcaption { color: #fff; }
+.o9-deep .ip-browser { box-shadow: 0 24px 60px rgba(0,0,0,.25); }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 720px) {
   .o9-stage { padding: 8px 16px 0; }
-  .o9-frames { gap: 32px; }
 }

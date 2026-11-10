@@ -24,6 +24,7 @@
      NEXT PROJECT  the band that leads on
      WORK          more work from the same lane, in moving columns
      LIVE FRAMES   a project's build, running in a frame
+     CAROUSEL      a row of slides that scrolls sideways
      CTA           the closing band
      MOTION        entrance and reveal
      RESPONSIVE    where something has to give */
@@ -481,13 +482,15 @@ a.ip-chip--on:hover { background: #1a5089; color: #fff; }
    scroll animations can be seen rather than described. The page inside is
    laid out at a desktop width (or a phone's, in a narrow frame) and scaled
    down to fit; app.js sets the width, the height and the scale, which
-   depend on the frame's rendered width. Until a frame is clicked, the
-   iframe takes no pointer — the page around it scrolls as normal — and a
-   chip says how to wake it; once it has the pointer the chip goes. */
+   depend on the frame's rendered width. The whole-page frame takes no
+   pointer until it is clicked — the page around it scrolls as normal —
+   and a chip says how to wake it; once it has the pointer the chip goes.
+   A section frame (--section) is still, and the pointer is its from the
+   start; its title sits above it. */
 .ip-live { margin: 0; }
 .ip-live__view { position: relative; overflow: hidden; height: 560px; background: #fff; }
 .ip-live__view iframe { position: absolute; top: 0; left: 0; width: 1440px; height: 900px; border: 0; transform-origin: 0 0; pointer-events: none; }
-.ip-live.is-live .ip-live__view iframe { pointer-events: auto; }
+.ip-live.is-live .ip-live__view iframe, .ip-live--section .ip-live__view iframe { pointer-events: auto; }
 .ip-live__on { position: absolute; inset: 0; z-index: 2; width: 100%; padding: 0; border: 0; background: transparent; cursor: pointer; }
 .ip-live.is-live .ip-live__on { display: none; }
 .ip-live__chip {
@@ -500,7 +503,38 @@ a.ip-chip--on:hover { background: #1a5089; color: #fff; }
 }
 .ip-live__on:hover .ip-live__chip { transform: translateY(-3px); background: var(--navy); }
 .ip-live figcaption { text-align: center; padding: 14px 0 0; font-size: var(--step-sm); font-weight: 600; color: var(--muted); }
+.ip-live--section figcaption { padding: 0 0 14px; text-align: left; font-size: 18px; font-weight: 700; letter-spacing: -.2px; color: var(--navy); }
 @media (prefers-reduced-motion: reduce) { .ip-live__on:hover .ip-live__chip { transform: none; } }
+
+/* ===== CAROUSEL =====
+   A row of slides that scrolls sideways and snaps one slide at a time.
+   The head carries the label, a counter and two arrows; app.js steps the
+   row by a slide, greys the arrows out at either end, keeps the counter
+   current, and sets the row to the height of the slide in view. */
+.ip-carousel__head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: clamp(20px, 3vw, 32px); }
+.ip-carousel__head .ip-eyebrow { margin: 0; }
+.ip-carousel__nav { display: flex; align-items: center; gap: 8px; }
+.ip-carousel__count { min-width: 44px; margin-right: 6px; text-align: right; font-size: var(--step-sm); font-weight: 700; letter-spacing: .04em; color: var(--muted); font-variant-numeric: tabular-nums; }
+.ip-carousel__btn {
+  display: grid; place-items: center; width: 44px; height: 44px; padding: 0;
+  border: 1.5px solid rgba(20,60,102,.22); border-radius: var(--r);
+  background: rgba(255,255,255,.66); color: var(--navy); cursor: pointer;
+  transition: transform .25s var(--ease), border-color .25s ease, color .25s ease, opacity .25s ease;
+}
+.ip-carousel__btn:hover { border-color: var(--navy); transform: translateY(-3px); }
+.ip-carousel__btn:disabled { opacity: .35; cursor: default; transform: none; }
+.ip-carousel__track {
+  display: flex; align-items: flex-start; gap: var(--gap); margin: 0; padding: 0; list-style: none;
+  overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+  transition: height .45s var(--ease-out);
+  scrollbar-width: none; -webkit-overflow-scrolling: touch;
+}
+.ip-carousel__track::-webkit-scrollbar { display: none; }
+.ip-carousel__slide { flex: 0 0 100%; min-width: 0; scroll-snap-align: start; }
+@media (prefers-reduced-motion: reduce) {
+  .ip-carousel__track { scroll-behavior: auto; transition: none; }
+  .ip-carousel__btn:hover { transform: none; }
+}
 
 /* ===== CTA (from the grid, with less room above and below) ===== */
 .iw-cta { position: relative; overflow: hidden; padding: clamp(48px, 5vw, 72px) 16px; background: var(--cta-band); color: #fff; text-align: center; }
