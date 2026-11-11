@@ -208,11 +208,21 @@
      pointer is the visitor's from the start — the section's hovers just
      work, and a wheel over it scrolls this page.
 
-     Both need the page inside to be readable, which it is only when the
-     two are served from the same origin (the published site). Opened from
-     disk the stage sits at the top, and a section frame falls back to a
-     fixed height and a #hash — safe there, since a hash in a frame of the
-     same origin would scroll this page too. */
+     Both need the page inside to be readable. A frame marked data-build
+     always is: the build's code is carried inside this page, minified, in
+     <script type="text/plain" id="build-NAME"> (tools/embed_build.py puts
+     it there), and is handed to the frame as srcdoc — a document of this
+     page's own origin, wherever the page is served. It is handed over only
+     as the frame (or the carousel it sits in) nears the screen. Inside, the
+     build is kept to itself: its #links scroll the frame rather than this
+     page, links to other sites open in a new tab, and its other links and
+     its form go nowhere.
+
+     A frame with a plain src is readable only when the build is served
+     from this page's origin. Where it is not, the stage sits at the top,
+     and a section frame falls back to a fixed height and a #hash — safe
+     there, since a hash in a frame of the same origin would scroll this
+     page too. */
   const live = () => {
     const frames = [...document.querySelectorAll(".ip-live")];
     if (!frames.length) return;
@@ -267,7 +277,7 @@
     const quiet = (iframe) => {
       const win = readable(iframe);
       if (!win) {
-        if (!iframe.src.includes("#")) iframe.src = `${iframe.src}#${iframe.dataset.anchor}`;
+        if (iframe.src && !iframe.src.includes("#")) iframe.src = `${iframe.src}#${iframe.dataset.anchor}`;
         return;
       }
       const doc = win.document;
@@ -279,8 +289,53 @@
       doc.head.appendChild(style);
     };
 
+    // keep an embedded build inside its frame: a #link scrolls the frame
+    // (a section frame, which cannot scroll, ignores it), a link to another
+    // site opens in a new tab, a link to another page of the build and the
+    // form's submit do nothing
+    const contain = (iframe) => {
+      const win = readable(iframe);
+      if (!win || win.__ipContained) return;
+      win.__ipContained = true;
+      win.document.addEventListener("click", (e) => {
+        const a = e.target.closest?.("a[href]");
+        if (!a) return;
+        const href = a.getAttribute("href");
+        if (/^(tel|mailto):/.test(href)) return;
+        e.preventDefault();
+        if (/^https?:/.test(href)) { window.open(href, "_blank", "noopener"); return; }
+        if (!href.startsWith("#") || iframe.dataset.anchor) return;
+        const el = href.length > 1 && win.document.getElementById(href.slice(1));
+        win.scrollTo({ top: el ? el.getBoundingClientRect().top + win.scrollY : 0, behavior: "smooth" });
+      }, true);
+      win.document.addEventListener("submit", (e) => e.preventDefault(), true);
+    };
+
+    // hand each embedded build to its frame as it nears the screen
+    const builds = frames.filter((f) => f.querySelector("iframe[data-build]"));
+    const load = (frame) => {
+      const iframe = frame.querySelector("iframe");
+      if (iframe.srcdoc) return;
+      const source = document.getElementById(`build-${iframe.dataset.build}`);
+      if (source) iframe.srcdoc = source.textContent.replace(/<\\\/script/gi, "</script");
+    };
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver((entries) => {
+        for (const { isIntersecting, target } of entries) {
+          if (!isIntersecting) continue;
+          io.unobserve(target);
+          const group = target.matches("[data-carousel]") ? builds.filter((f) => target.contains(f)) : [target];
+          group.forEach(load);
+        }
+      }, { rootMargin: "800px 0px" });
+      for (const target of new Set(builds.map((f) => f.closest("[data-carousel]") ?? f))) io.observe(target);
+    } else {
+      builds.forEach(load);
+    }
+
     for (const frame of frames) {
       const iframe = frame.querySelector("iframe");
+      if (iframe.dataset.build) iframe.addEventListener("load", () => contain(iframe));
       if (iframe.dataset.anchor) {
         // the build settles after it loads — fonts, images, reveals — and
         // the section grows when a visitor opens a tab or a question, so
@@ -299,7 +354,7 @@
           win?.document.addEventListener("toggle", after, true);
         };
         iframe.addEventListener("load", settle);
-        if (readable(iframe)?.document.readyState === "complete" && iframe.contentWindow.location.href !== "about:blank") settle();
+        if (readable(iframe)?.document.readyState === "complete" && !iframe.contentWindow.location.href.startsWith("about:blank")) settle();
       } else {
         frame.querySelector(".ip-live__on")?.addEventListener("click", () => {
           frame.classList.add("is-live");

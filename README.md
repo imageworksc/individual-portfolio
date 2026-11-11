@@ -16,7 +16,7 @@ Live: **https://imageworksc.github.io/individual-portfolio/**
 | [`option-6.html`](option-6.html) | **Print** — a wide stage photograph of the brochure, a blue band with one large row per piece, the client palette, next-project band | Center for Vascular Medicine |
 | [`option-7.html`](option-7.html) | **Brand** — titles only: the logo on white and navy, four logo versions, business cards and envelopes on a blue band, palette and Montserrat specimen in one block, the portfolio's branding cards in tilted, drifting columns as on the ImageWorks home page | Spring Cove |
 | [`option-8.html`](option-8.html) | **Simple** — option 4's layout (and its sheet): chips, headline, project label, one full-page screenshot | Crown Point Construction |
-| [`option-9.html`](option-9.html) | **Interactive** — the live build in frames: on white, the whole homepage drifting down by itself so its scroll animations play; on the blue band, a carousel of single sections (services, approach, work, FAQ), each held still and live to the pointer for its hovers | Crown Point Construction |
+| [`option-9.html`](option-9.html) | **Interactive** — the project's own build, embedded in the page and running in frames: on white, the whole homepage drifting down by itself so its scroll animations play; on the blue band, a carousel of single sections (services, approach, work, FAQ), each held still and live to the pointer for its hovers | Crown Point Construction |
 
 Every option opens with the portfolio's page wash, ends on its closing band,
 links back to the grid, and leads on to the next project.
@@ -46,7 +46,9 @@ assets/asc/           Atlantic Sun Control: hero, section and mobile captures
                       use yet — swap them in when adjusting an option)
 assets/cvm/           Center for Vascular Medicine: brochure and
                       business-card mockups
-assets/crownpoint/    Crown Point Construction: the full homepage capture, 1x and 2x
+assets/crownpoint/    Crown Point Construction: the full homepage capture, 1x and 2x;
+                      site/ holds the images its embedded build uses
+tools/embed_build.py  minifies a project's build and embeds it in a page (below)
 assets/springcove/    Spring Cove: logo versions, business-card and envelope
                       mockups, the card strip
 assets/works/         portfolio images for the "More work" row and the branding
@@ -97,3 +99,32 @@ Copy the option you chose, then replace:
 3. The `.ip-meta` facts, the stats, and the case-study copy.
 4. The palette swatches and the type specimen.
 5. The "Next project" band (or the "More work" cards in Option 1).
+
+## Embedding a project's build (option 9)
+
+The interactive frames run the project's real homepage, so its hovers and
+scroll animations can be seen and tried. The build is not loaded from the
+client's domain — a portfolio page usually may not read, or even frame, a
+page on another domain — but carried inside the portfolio page itself,
+minified, and handed to each frame as `srcdoc`. That makes the frames part
+of the page's own origin wherever it is served, and it never touches the
+client's site or its analytics.
+
+To do it for another project:
+
+1. Copy the build's images into `assets/<project>/site/`, keeping the
+   folders they had under the build's own `assets/`.
+2. Put the markers `<!-- BUILD:<name> -->` and `<!-- /BUILD:<name> -->`
+   before the `app.js` script in the page.
+3. Run
+   `python3 tools/embed_build.py path/to/build/index.html option-N.html <name> assets/<project>/site/`
+   — it minifies the build, points its images at the new folder and writes
+   it between the markers. Run it again whenever the build changes.
+4. Give each frame's `<iframe>` `data-build="<name>"`; a section frame also
+   takes `data-anchor` (an id inside the section to show) and `data-hide`
+   (a selector for anything to switch off, such as a sticky header).
+
+The build has to be one page with its CSS and JS inline (or loaded from
+public URLs) and its images under a relative `assets/` path. Inside the
+frame its `#` links scroll the frame, links to other sites open in a new
+tab, and its other links and its form do nothing.
