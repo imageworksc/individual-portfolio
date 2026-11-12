@@ -8,15 +8,19 @@ code is carried inside the portfolio page itself, minified, and app.js hands
 it to each frame as `srcdoc` — a frame of the page's own origin, wherever the
 page is served.
 
-    python3 tools/embed_build.py SOURCE PAGE.html NAME ASSET_DIR
+    python3 tools/embed_build.py SOURCE PAGE.html NAME ASSET_DIR [--hide SELECTORS]
 
-  SOURCE      the build: its published URL (https://…/index.html or a
-              folder URL ending in /), or a local index.html
+  SOURCE      the build: its published URL (https://…/index.html, or a
+              folder URL ending in /, fetched as it is), or a local
+              index.html
   PAGE.html   the portfolio page to embed it in; it must hold the markers
               <!-- BUILD:NAME --> and <!-- /BUILD:NAME -->
   NAME        the build's name — the frames ask for it with data-build
   ASSET_DIR   where the build's files are to live, relative to PAGE.html
               (e.g. assets/crownpoint/site/)
+  --hide      elements of the live site that have no place in a portfolio
+              frame, in every frame of the build (a cookie banner, say):
+              a CSS selector list, hidden by a style added to its <head>
 
 From a URL, the build is bundled into one page first: its own stylesheets
 and scripts are fetched and written inline (a deferred script moves to the
@@ -24,7 +28,9 @@ end of the body, where it would have run), and every image, font and video
 it uses — in the HTML, in its CSS, and named in its scripts — is downloaded
 into ASSET_DIR under the path it had on the site, and the reference pointed
 there. Stylesheets and scripts from other hosts (Google Fonts, a CDN) stay
-links. Favicons and preload hints go. From a local file, only the build's
+links, and so does a large library the site serves itself when it is
+listed in CDN (pointed at the same version on cdnjs). Favicons and preload
+hints go. From a local file, only the build's
 relative assets/ paths are pointed at ASSET_DIR (its files must already be
 there).
 
@@ -46,6 +52,12 @@ import urllib.request
 
 ASSET_EXT = r"(?:jpe?g|png|gif|webp|avif|svg|ico|mp4|webm|mov|woff2?|ttf|otf|eot|json)"
 UA = {"User-Agent": "Mozilla/5.0 (portfolio embed)"}
+
+# well-known libraries a site may serve itself, too big to carry inline: the
+# script is pointed at the same version on cdnjs instead ({v} from ?v=)
+CDN = {
+    r"/fontawesome/js/all\.min\.js": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/{v}/js/all.min.js",
+}
 
 
 # ---------- minify ----------
@@ -203,6 +215,11 @@ class Bundler:
             url = urllib.parse.urljoin(self.page_url, src.group(1))
             if not url.startswith(self.root):
                 return m.group(0)
+            for pattern, cdn in CDN.items():
+                version = re.search(r"[?&]v=([\d.]+)", url)
+                if re.search(pattern, url.split("?", 1)[0]) and version:
+                    defer = " defer" if re.search(r"\bdefer\b", tag) else ""
+                    return f'<script src="{cdn.format(v=version.group(1))}"{defer}></script>'
             code = self.js(fetch(url), url)
             module = re.search(r"""type=["']module["']""", tag)
             inline = f"<script{' type=' + chr(34) + 'module' + chr(34) if module else ''}>{code}</script>"
@@ -225,13 +242,19 @@ class Bundler:
 # ---------- embed ----------
 
 def main():
-    if len(sys.argv) != 5:
+    args = sys.argv[1:]
+    hide = None
+    if "--hide" in args:
+        i = args.index("--hide")
+        hide = args[i + 1]
+        del args[i:i + 2]
+    if len(args) != 4:
         sys.exit(__doc__)
-    source, page_path, name, asset_dir = sys.argv[1:]
+    source, page_path, name, asset_dir = args
     asset_dir = asset_dir.rstrip("/") + "/"
 
     if source.startswith(("http://", "https://")):
-        url = source if not source.endswith("/") else source + "index.html"
+        url = source   # a folder URL is fetched as it is: the server picks its index
         bundler = Bundler(url, asset_dir, os.path.dirname(os.path.abspath(page_path)))
         build = bundler.run()
         saved = [p for p in bundler.saved.values() if p]
@@ -240,6 +263,9 @@ def main():
         build = open(source, encoding="utf-8").read()
         # point the build's own images at their new home
         build = re.sub(r"""(?<=["'(\s])assets/""", asset_dir, build)
+
+    if hide:
+        build = re.sub(r"</head>", lambda _: f"<style>{hide}{{display:none!important}}</style></head>", build, count=1, flags=re.I)
 
     small = minify_html(build)
     if re.search(r"<!--", small):
