@@ -30,7 +30,8 @@ into ASSET_DIR under the path it had on the site, and the reference pointed
 there. Stylesheets and scripts from other hosts (Google Fonts, a CDN) stay
 links, and so does a large library the site serves itself when it is
 listed in CDN (pointed at the same version on cdnjs). Favicons and preload
-hints go. From a local file, only the build's
+hints go, and so does analytics (ANALYTICS), which would otherwise count
+portfolio visits in the client's reports. From a local file, only the build's
 relative assets/ paths are pointed at ASSET_DIR (its files must already be
 there).
 
@@ -53,10 +54,16 @@ import urllib.request
 ASSET_EXT = r"(?:jpe?g|png|gif|webp|avif|svg|ico|mp4|webm|mov|woff2?|ttf|otf|eot|json)"
 UA = {"User-Agent": "Mozilla/5.0 (portfolio embed)"}
 
+# analytics and tracking have no place in a portfolio frame: run there, they
+# would count portfolio visits in the client's own reports
+ANALYTICS = r"googletagmanager|google-analytics|crazyegg|hotjar|clarity\.ms|connect\.facebook|google_tag/|doubleclick"
+ANALYTICS_INLINE = r"\bgtag\(|\bdataLayer\b|\bfbq\(|_hjSettings|\bclarity\(|GoogleAnalyticsObject"
+
 # well-known libraries a site may serve itself, too big to carry inline: the
 # script is pointed at the same version on cdnjs instead ({v} from ?v=)
 CDN = {
     r"/fontawesome/js/all\.min\.js": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/{v}/js/all.min.js",
+    r"/fontawesome/js/v4-shims\.min\.js": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/{v}/js/v4-shims.min.js",
 }
 
 
@@ -136,7 +143,10 @@ class Bundler:
             return None
         rel = bare[len(self.root):]
         if rel not in self.saved:
-            path = os.path.join(self.disk_dir, rel)
+            # saved under its real name ("Group 2.png", not "Group%202.png"),
+            # referred to by its URL-encoded one
+            name = urllib.parse.unquote(rel)
+            path = os.path.join(self.disk_dir, name)
             os.makedirs(os.path.dirname(path), exist_ok=True)
             try:
                 data = fetch(bare, binary=True)
@@ -145,7 +155,7 @@ class Bundler:
                 self.saved[rel] = None
                 return None
             open(path, "wb").write(data)
-            self.saved[rel] = self.asset_dir + rel
+            self.saved[rel] = self.asset_dir + urllib.parse.quote(name)
         return self.saved[rel]
 
     def css(self, css, base):
@@ -191,6 +201,19 @@ class Bundler:
 
         # favicons, manifests and preload hints have no place in a frame
         html = re.sub(r"""<link\b[^>]*\brel=["'](?:[^"']*\s)?(?:icon|apple-touch-icon|manifest|mask-icon|preload|prefetch|modulepreload)(?:\s[^"']*)?["'][^>]*>""", "", html, flags=re.I)
+
+        # tracking scripts go, and so does their <noscript> fallback
+        def tracker(m):
+            tag, body = m.group(1), m.group(2)
+            if re.search(r"""\bsrc=["'][^"']*(?:""" + ANALYTICS + ")", tag, flags=re.I):
+                return ""
+            if not re.search(r"\bsrc=", tag) and "json" not in tag.lower() and re.search(ANALYTICS_INLINE, body):
+                return ""
+            return m.group(0)
+        html = re.sub(r"(<script\b[^>]*>)(.*?)</script>", tracker, html, flags=re.I | re.S)
+        html = re.sub(r"<noscript\b[^>]*>(?:(?!</noscript>).)*?(?:" + ANALYTICS + r").*?</noscript>", "", html, flags=re.I | re.S)
+        # the site's own code may still report a click: it reports to nothing
+        html = re.sub(r"<head\b[^>]*>", lambda m: m.group(0) + "<script>window.dataLayer=[];window.gtag=function(){};</script>", html, count=1, flags=re.I)
 
         def stylesheet(m):
             tag = m.group(0)
