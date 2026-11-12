@@ -17,6 +17,9 @@
   border: 1px solid rgba(20,60,102,.16);
   box-shadow: 0 12px 32px rgba(9,40,80,.08);
 }
+/* a project with more than one page shows each in its own frame, one
+   under the other */
+.o9-stage .ip-live + .ip-live { margin-top: clamp(32px, 4vw, 48px); }
 /* room under the stage before the band */
 .o9-stage + .o9-deep { margin-top: var(--section); }
 

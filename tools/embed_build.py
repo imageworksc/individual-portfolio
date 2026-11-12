@@ -8,16 +8,25 @@ code is carried inside the portfolio page itself, minified, and app.js hands
 it to each frame as `srcdoc` — a frame of the page's own origin, wherever the
 page is served.
 
-    python3 tools/embed_build.py BUILD.html PAGE.html NAME ASSET_DIR
+    python3 tools/embed_build.py SOURCE PAGE.html NAME ASSET_DIR
 
-  BUILD.html  the project's built index.html (one self-contained page:
-              inline CSS and JS, with images under a relative assets/ path)
+  SOURCE      the build: its published URL (https://…/index.html or a
+              folder URL ending in /), or a local index.html
   PAGE.html   the portfolio page to embed it in; it must hold the markers
               <!-- BUILD:NAME --> and <!-- /BUILD:NAME -->
   NAME        the build's name — the frames ask for it with data-build
-  ASSET_DIR   where the build's images now live, relative to PAGE.html
-              (e.g. assets/crownpoint/site/); every relative assets/ path
-              in the build is pointed there
+  ASSET_DIR   where the build's files are to live, relative to PAGE.html
+              (e.g. assets/crownpoint/site/)
+
+From a URL, the build is bundled into one page first: its own stylesheets
+and scripts are fetched and written inline (a deferred script moves to the
+end of the body, where it would have run), and every image, font and video
+it uses — in the HTML, in its CSS, and named in its scripts — is downloaded
+into ASSET_DIR under the path it had on the site, and the reference pointed
+there. Stylesheets and scripts from other hosts (Google Fonts, a CDN) stay
+links. Favicons and preload hints go. From a local file, only the build's
+relative assets/ paths are pointed at ASSET_DIR (its files must already be
+there).
 
 What the minifier does is deliberately conservative — only changes that
 cannot alter how the page renders or runs:
@@ -29,9 +38,17 @@ cannot alter how the page renders or runs:
 Then every `</script` is escaped so the build can sit inside a
 <script type="text/plain"> without closing it; app.js undoes that.
 """
+import os
 import re
 import sys
+import urllib.parse
+import urllib.request
 
+ASSET_EXT = r"(?:jpe?g|png|gif|webp|avif|svg|ico|mp4|webm|mov|woff2?|ttf|otf|eot|json)"
+UA = {"User-Agent": "Mozilla/5.0 (portfolio embed)"}
+
+
+# ---------- minify ----------
 
 def minify_css(css):
     css = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
@@ -54,7 +71,8 @@ def minify_js(js):
 
 def minify_html(html):
     html = re.sub(r"<!--(?!\[if).*?-->", "", html, flags=re.S)
-    parts = re.split(r"(<style\b[^>]*>.*?</style>|<script\b[^>]*>.*?</script>)", html, flags=re.S | re.I)
+    parts = re.split(r"(<style\b[^>]*>.*?</style>|<script\b[^>]*>.*?</script>|<textarea\b[^>]*>.*?</textarea>|<pre\b[^>]*>.*?</pre>)",
+                     html, flags=re.S | re.I)
     out = []
     for part in parts:
         m = re.match(r"(<style\b[^>]*>)(.*?)(</style>)$", part, flags=re.S | re.I)
@@ -70,19 +88,159 @@ def minify_html(html):
                 body = minify_js(body)
             out.append(m.group(1) + body + m.group(3))
             continue
+        if re.match(r"<(textarea|pre)\b", part, flags=re.I):
+            out.append(part)
+            continue
         out.append(re.sub(r"\s+", " ", part))
     return "".join(out).strip()
 
 
+# ---------- bundle (from a URL) ----------
+
+def fetch(url, binary=False):
+    with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=60) as r:
+        data = r.read()
+    return data if binary else data.decode("utf-8", errors="replace")
+
+
+class Bundler:
+    def __init__(self, page_url, asset_dir, page_dir):
+        self.page_url = page_url
+        # the site's root: the folder the page sits in
+        self.root = page_url.rsplit("/", 1)[0] + "/"
+        self.asset_dir = asset_dir
+        self.disk_dir = os.path.join(page_dir, asset_dir)
+        self.saved = {}
+
+    def local(self, ref, base):
+        """The new path for an asset the build refers to, saving it first;
+        None for anything that is not one of the site's own files."""
+        ref = ref.strip()
+        if not ref or ref.startswith(("data:", "blob:", "#", "mailto:", "tel:", "javascript:", self.asset_dir)):
+            return None
+        absolute = urllib.parse.urljoin(base, ref)
+        bare = absolute.split("#", 1)[0].split("?", 1)[0]
+        if not bare.startswith(self.root) or not re.search(r"\." + ASSET_EXT + r"$", bare, flags=re.I):
+            return None
+        rel = bare[len(self.root):]
+        if rel not in self.saved:
+            path = os.path.join(self.disk_dir, rel)
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            try:
+                data = fetch(bare, binary=True)
+            except Exception as err:  # a reference to a file the site does not have
+                print(f"  skipped {rel}: {err}")
+                self.saved[rel] = None
+                return None
+            open(path, "wb").write(data)
+            self.saved[rel] = self.asset_dir + rel
+        return self.saved[rel]
+
+    def css(self, css, base):
+        def url(m):
+            new = self.local(m.group(2), base)
+            return f"url({m.group(1)}{new}{m.group(1)})" if new else m.group(0)
+        css = re.sub(r"""url\(\s*(['"]?)([^'")]+)\1\s*\)""", url, css)
+        # an @import of the site's own sheet is written in place
+        def imp(m):
+            href = urllib.parse.urljoin(base, m.group(2))
+            if not href.startswith(self.root):
+                return m.group(0)
+            return self.css(fetch(href), href)
+        return re.sub(r"""@import\s+(?:url\()?\s*(['"])([^'"]+)\1\s*\)?\s*;""", imp, css)
+
+    def js(self, js, base):
+        # a path to one of the site's files written as a string in a script
+        def string(m):
+            new = self.local(m.group(2), base)
+            return f"{m.group(1)}{new}{m.group(1)}" if new else m.group(0)
+        return re.sub(r"""(['"`])([^'"`\s]+\.""" + ASSET_EXT + r"""(?:\?[^'"`\s]*)?)\1""", string, js, flags=re.I)
+
+    def attrs(self, tag):
+        def one(m):
+            name, quote, value = m.group(1), m.group(2), m.group(3)
+            if name.lower() in ("srcset", "data-srcset", "imagesrcset"):
+                pieces = []
+                for item in value.split(","):
+                    bits = item.strip().split()
+                    if bits:
+                        new = self.local(bits[0], self.page_url)
+                        pieces.append(" ".join([new or bits[0]] + bits[1:]))
+                return f"{name}={quote}{', '.join(pieces)}{quote}"
+            if name.lower() == "style":
+                return f"{name}={quote}{self.css(value, self.page_url)}{quote}"
+            new = self.local(value, self.page_url)
+            return f"{name}={quote}{new}{quote}" if new else m.group(0)
+        return re.sub(r"""\b(src|href|srcset|data-src|data-srcset|data-bg|poster|imagesrcset|style|content)=(["'])(.*?)\2""", one, tag, flags=re.I | re.S)
+
+    def run(self):
+        html = fetch(self.page_url)
+        tail = []
+
+        # favicons, manifests and preload hints have no place in a frame
+        html = re.sub(r"""<link\b[^>]*\brel=["'](?:[^"']*\s)?(?:icon|apple-touch-icon|manifest|mask-icon|preload|prefetch|modulepreload)(?:\s[^"']*)?["'][^>]*>""", "", html, flags=re.I)
+
+        def stylesheet(m):
+            tag = m.group(0)
+            href = re.search(r"""href=["']([^"']+)["']""", tag)
+            if not href:
+                return tag
+            url = urllib.parse.urljoin(self.page_url, href.group(1))
+            if not url.startswith(self.root):
+                return tag
+            media = re.search(r"""media=["']([^"']+)["']""", tag)
+            css = self.css(fetch(url), url)
+            return f"<style{f' media={chr(34)}{media.group(1)}{chr(34)}' if media else ''}>{css}</style>"
+        html = re.sub(r"""<link\b[^>]*\brel=["']stylesheet["'][^>]*>""", stylesheet, html, flags=re.I)
+
+        def script(m):
+            tag, body = m.group(1), m.group(2)
+            src = re.search(r"""\bsrc=["']([^"']+)["']""", tag)
+            if not src:
+                if "ld+json" in tag:
+                    return m.group(0)
+                return tag + self.js(body, self.page_url) + "</script>"
+            url = urllib.parse.urljoin(self.page_url, src.group(1))
+            if not url.startswith(self.root):
+                return m.group(0)
+            code = self.js(fetch(url), url)
+            module = re.search(r"""type=["']module["']""", tag)
+            inline = f"<script{' type=' + chr(34) + 'module' + chr(34) if module else ''}>{code}</script>"
+            if re.search(r"\bdefer\b", tag) and not module:
+                tail.append(inline)   # where a deferred script would have run
+                return ""
+            return inline
+        html = re.sub(r"(<script\b[^>]*>)(.*?)</script>", script, html, flags=re.I | re.S)
+
+        # the site's own images, videos and fonts named in the markup
+        html = re.sub(r"<(?:img|source|video|audio|link|div|section|figure|picture|a|span|header|meta|image|use)\b[^>]*>",
+                      lambda m: self.attrs(m.group(0)), html, flags=re.I)
+        html = re.sub(r"(<style\b[^>]*>)(.*?)(</style>)",
+                      lambda m: m.group(1) + self.css(m.group(2), self.page_url) + m.group(3), html, flags=re.I | re.S)
+        if tail:
+            html = re.sub(r"</body>", lambda _: "".join(tail) + "</body>", html, count=1, flags=re.I)
+        return html
+
+
+# ---------- embed ----------
+
 def main():
     if len(sys.argv) != 5:
         sys.exit(__doc__)
-    build_path, page_path, name, asset_dir = sys.argv[1:]
+    source, page_path, name, asset_dir = sys.argv[1:]
     asset_dir = asset_dir.rstrip("/") + "/"
 
-    build = open(build_path, encoding="utf-8").read()
-    # point the build's own images at their new home
-    build = re.sub(r"""(?<=["'(\s])assets/""", asset_dir, build)
+    if source.startswith(("http://", "https://")):
+        url = source if not source.endswith("/") else source + "index.html"
+        bundler = Bundler(url, asset_dir, os.path.dirname(os.path.abspath(page_path)))
+        build = bundler.run()
+        saved = [p for p in bundler.saved.values() if p]
+        print(f"{name}: bundled {url}, {len(saved)} files saved under {asset_dir}")
+    else:
+        build = open(source, encoding="utf-8").read()
+        # point the build's own images at their new home
+        build = re.sub(r"""(?<=["'(\s])assets/""", asset_dir, build)
+
     small = minify_html(build)
     if re.search(r"<!--", small):
         sys.exit("the minified build still holds '<!--', which would upset the <script> it sits in")

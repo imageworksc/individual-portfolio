@@ -232,12 +232,19 @@
       try { return iframe.contentWindow.document.documentElement ? iframe.contentWindow : null; } catch { return null; }
     };
 
+    // data-anchor names the section to show: an id inside it, or a CSS
+    // selector for it; the frame shows the <section> that holds the match
+    const sectionEl = (doc, anchor) => {
+      let el = doc.getElementById(anchor);
+      if (!el) { try { el = doc.querySelector(anchor); } catch { el = null; } }
+      return el ? el.closest("section") ?? el : null;
+    };
+
     // the section a frame shows, with its top and height inside the build
     const sectionOf = (iframe) => {
       const win = readable(iframe);
-      const el = win?.document.getElementById(iframe.dataset.anchor);
-      if (!el) return null;
-      const sec = el.closest("section") ?? el;
+      const sec = win && sectionEl(win.document, iframe.dataset.anchor);
+      if (!sec) return null;
       return { win, top: sec.getBoundingClientRect().top + win.scrollY, height: sec.offsetHeight };
     };
 
@@ -344,8 +351,10 @@
           quiet(iframe);
           fit(frame);
           const win = readable(iframe);
-          const sec = win?.document.getElementById(iframe.dataset.anchor)?.closest("section");
-          if (sec && "ResizeObserver" in win) new win.ResizeObserver(() => fit(frame)).observe(sec);
+          const sec = win && sectionEl(win.document, iframe.dataset.anchor);
+          // fitted on the next frame, not inside the observer: the fit
+          // resizes the frame, which can resize a section set in vh
+          if (sec && "ResizeObserver" in win) new win.ResizeObserver(() => requestAnimationFrame(() => fit(frame))).observe(sec);
           setTimeout(() => fit(frame), 600);
           setTimeout(() => fit(frame), 1800);
           // and after anything the visitor opens, once its transition is done

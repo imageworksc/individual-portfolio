@@ -17,6 +17,10 @@ Live: **https://imageworksc.github.io/individual-portfolio/**
 | [`option-7.html`](option-7.html) | **Brand** — titles only: the logo on white and navy, four logo versions, business cards and envelopes on a blue band, palette and Montserrat specimen in one block, the portfolio's branding cards in tilted, drifting columns as on the ImageWorks home page | Spring Cove |
 | [`option-8.html`](option-8.html) | **Simple** — option 4's layout (and its sheet): chips, headline, project label, one full-page screenshot | Crown Point Construction |
 | [`option-9.html`](option-9.html) | **Interactive** — the project's own build, embedded in the page and running in frames: on white, the whole homepage drifting down by itself so its scroll animations play; on the blue band, a carousel of single sections (services, approach, work, FAQ), each held still and live to the pointer for its hovers | Crown Point Construction |
+| [`atlantic-sun-control.html`](atlantic-sun-control.html) | **Interactive** — option 9's page | Atlantic Sun Control |
+| [`silk-vision.html`](silk-vision.html) | **Interactive** — option 9's page | Silk Vision |
+| [`casey-margenau.html`](casey-margenau.html) | **Interactive** — option 9's page | Casey Margenau |
+| [`mason-dixon.html`](mason-dixon.html) | **Interactive** — option 9's page | Mason Dixon |
 
 Every option opens with the portfolio's page wash, ends on its closing band,
 links back to the grid, and leads on to the next project.
@@ -33,6 +37,8 @@ option-6.html         Option 6 — print
 option-7.html         Option 7 — brand
 option-8.html         Option 8 — option 4's layout, for Crown Point Construction
 option-9.html         Option 9 — interactive: the live build in frames
+atlantic-sun-control.html, silk-vision.html, casey-margenau.html, mason-dixon.html
+                      option 9's page for each of those projects
 css/styles.css        shared: tokens, base, button, wash, chips, card, frames,
                       meta, stats, prose, gallery + lightbox, swatches,
                       next-project band, CTA, motion, responsive
@@ -121,10 +127,15 @@ To do it for another project:
    — it minifies the build, points its images at the new folder and writes
    it between the markers. Run it again whenever the build changes.
 4. Give each frame's `<iframe>` `data-build="<name>"`; a section frame also
-   takes `data-anchor` (an id inside the section to show) and `data-hide`
+   takes `data-anchor` (an id inside the section to show, or a CSS selector
+   for it) and `data-hide`
    (a selector for anything to switch off, such as a sticky header).
 
-The build has to be one page with its CSS and JS inline (or loaded from
-public URLs) and its images under a relative `assets/` path. Inside the
+Given the build's published URL instead of a file, the script bundles it
+first: the site's own stylesheets and scripts are written inline, and every
+image, font and video it uses is downloaded into `assets/<project>/site/`
+and the references pointed there. A page given a local file has to be one
+page with its CSS and JS inline and its images under a relative `assets/`
+path. Inside the
 frame its `#` links scroll the frame, links to other sites open in a new
 tab, and its other links and its form do nothing.
