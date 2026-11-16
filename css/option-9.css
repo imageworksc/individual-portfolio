@@ -1,14 +1,11 @@
 /* Option 9 — Interactive
-   Option 4's opening, with the build itself in place of the screenshot.
-   Two parts, set apart by their ground: on white, the whole homepage
-   drifting down in one frame, so its scroll animations play; then, on the
-   portfolio's blue, a carousel of single sections, each held still and
-   live to the pointer for its hovers. The frames are the shared live
-   frame and the carousel the shared one (css/styles.css, LIVE FRAMES and
-   CAROUSEL); this sheet only lays them out and colours them for the band.
+   Option 4's opening, with the build itself in place of the screenshot:
+   on white, the whole homepage drifting down in one frame, so its scroll
+   animations play; a click hands the visitor the pointer, so its hovers,
+   menus and links can be tried right there. The frame is the shared live
+   frame (css/styles.css, LIVE FRAMES); this sheet only lays it out.
 
      STAGE       the whole site, one wide frame
-     DEEP        the blue band the sections sit on
      RESPONSIVE  the gutter on a phone */
 
 /* ===== STAGE ===== */
@@ -20,22 +17,8 @@
 /* a project with more than one page shows each in its own frame, one
    under the other */
 .o9-stage .ip-live + .ip-live { margin-top: clamp(32px, 4vw, 48px); }
-/* room under the stage before the band */
-.o9-stage + .o9-deep { margin-top: var(--section); }
-
-/* ===== DEEP =====
-   The portfolio's own blue — the closing band's gradient — with the same
-   dot grid; the carousel's label, counter and arrows turn light on it. */
-.o9-deep { position: relative; overflow: hidden; background: var(--cta-band); }
-.o9-deep::before { content: ''; position: absolute; inset: 0; pointer-events: none; background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px); background-size: 24px 24px; }
-.o9-deep .iw-wrap { position: relative; }
-.o9-deep .ip-eyebrow { color: rgba(226,238,252,.82); }
-.o9-deep .ip-carousel__count { color: rgba(226,238,252,.82); }
-.o9-deep .ip-carousel__btn { border-color: rgba(255,255,255,.35); background: rgba(255,255,255,.08); color: #fff; }
-.o9-deep .ip-carousel__btn:hover { border-color: #fff; color: #fff; }
-.o9-deep .ip-carousel__btn:disabled { border-color: rgba(255,255,255,.35); }
-.o9-deep .ip-live figcaption { color: #fff; }
-.o9-deep .ip-browser { box-shadow: 0 24px 60px rgba(0,0,0,.25); }
+/* room under the stage before the closing band */
+.o9-stage + .iw-cta { margin-top: var(--section); }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 720px) {
