@@ -3,15 +3,17 @@
 Interactive project pages for the
 [ImageWorks Creative portfolio](https://imageworksc.github.io/portfolio-iwc/),
 set in the portfolio's own type, colour and motion. Each page carries the
-project's own build: on white, the whole homepage drifting down by itself so
-its scroll animations play; on the blue band, a carousel of single sections,
-each held still and live to the pointer for its hovers.
+project's own build: the whole homepage drifting down by itself so its scroll
+animations play, and live to the pointer after a click, so its hovers, menus
+and links can be tried.
 
-Live: **https://imageworksc.github.io/individual-portfolio/**
+The pages are listed on the main portfolio's grid
+(`portfolio-iwc/js/app.js`, `projects`); this site has no list of its own,
+and its root address sends a visitor on to the portfolio. A page lives at
+`https://imageworksc.github.io/individual-portfolio/<page>.html`.
 
 | Page | Project |
 |---|---|
-| [`index.html`](index.html) | The list of pages |
 | [`option-9.html`](option-9.html) | Crown Point Construction |
 | [`atlantic-sun-control.html`](atlantic-sun-control.html) | Atlantic Sun Control |
 | [`silk-vision.html`](silk-vision.html) | Silk Vision (Ziplyft and entropion subpages) |
@@ -28,16 +30,14 @@ links back to the grid, and leads on to the next project, in the order above.
 ## Files
 
 ```
-index.html            the list of pages
+index.html            sends the root address on to the main portfolio
 *.html                one page per project (the table above)
 css/styles.css        shared: tokens, base, button, wash, chips, card, frames,
                       live frames, carousel, CTA, motion, responsive
-css/option-9.css      the project pages' layout: the stage and the blue band
-css/index.css         the list's cards
+css/option-9.css      the project pages' layout: the stage
 js/app.js             reveal on scroll, the live frames, the carousel
 assets/<project>/site/  the images, fonts and video each embedded build uses
 assets/silkvision/    the same, for Silk Vision's two subpages
-assets/options/       thumbnails of the pages, for the list
 tools/embed_build.py  bundles a project's build and embeds it in a page (below)
 DESIGN.md             the design contract — every token, primitive and motion value
 ```
@@ -79,8 +79,9 @@ rebuilds.
 
 Copy one of the project pages, then replace `<title>`, `<meta
 name="description">`, the `<h1>`, the project label, the browser-bar
-addresses, the carousel slides and the next-project link, and embed the new
-build (below).
+addresses and the next-project link, and embed the new build (below). Then
+add the project to `projects` in the main portfolio's `js/app.js`, with a
+4:3 screenshot of its homepage in `assets/works/`, so it shows on the grid.
 
 ## Embedding a project's build
 
